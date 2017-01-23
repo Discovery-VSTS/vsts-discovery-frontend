@@ -1,0 +1,48 @@
+    {
+        "manifestVersion": 1,
+        "id": "vsts-discovery-extension",
+        "version": "0.1.0",
+        "name": "Descovery extension",
+        "description": "A Visual Studio Services extension for the Discovery phase",
+        "publisher": "yichen-lu",
+        "targets": [
+            {
+                "id": "Microsoft.VisualStudio.Services"
+                }
+            ],
+        "icons": {
+            "default": "images/ucl_logo.png"
+         },
+        "contributions": [
+            {
+                "id": "yichen-lu.Discovery",
+                "type": "ms.vss-web.hub",
+                "description": "Adds a 'Discovery' hub to the Work hub group.",
+                "targets": [
+                    "ms.vss-work-web.work-hub-group"
+                    ],
+                "properties": {
+                    "name": "Discovery",
+                    "order": 99,
+                    "uri": "discovery.html"
+                }
+            }
+        ],
+        "scopes": [
+            "vso.work"
+        ],
+        "files": [
+            {
+                "path": "discovery.html", "addressable": true
+            },
+            {
+                "path": "scripts", "addressable": true
+            },
+            {
+                "path": "sdk/scripts", "addressable": true
+            },
+            {
+                "path": "images/logo.png", "addressable": true
+            }
+        ]
+    }
