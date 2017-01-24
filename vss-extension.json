@@ -1,48 +1,55 @@
     {
         "manifestVersion": 1,
         "id": "vsts-discovery-extension",
-        "version": "0.1.0",
+        "version": "0.1.1",
         "name": "Descovery extension",
         "description": "A Visual Studio Services extension for the Discovery phase",
         "publisher": "yichen-lu",
-        "targets": [
-            {
-                "id": "Microsoft.VisualStudio.Services"
-                }
-            ],
+        "targets": [{
+            "id": "Microsoft.VisualStudio.Services"
+        }],
         "icons": {
             "default": "images/ucl_logo.png"
-         },
-        "contributions": [
-            {
-                "id": "yichen-lu.Discovery",
-                "type": "ms.vss-web.hub",
-                "description": "Adds a 'Discovery' hub to the Work hub group.",
-                "targets": [
-                    "ms.vss-work-web.work-hub-group"
-                    ],
-                "properties": {
-                    "name": "Discovery",
-                    "order": 99,
-                    "uri": "discovery.html"
-                }
+        },
+        "contributions": [{
+            "id": "yichen-lu.Discovery",
+            "type": "ms.vss-web.hub",
+            "description": "Adds a 'Discovery' hub to the Work hub group.",
+            "targets": [
+                "ms.vss-work-web.work-hub-group"
+            ],
+            "properties": {
+                "name": "Discovery",
+                "order": 99,
+                "uri": "discovery.html"
             }
-        ],
+        }],
         "scopes": [
             "vso.work"
         ],
-        "files": [
-            {
-                "path": "discovery.html", "addressable": true
+        "files": [{
+                "path": "discovery.html",
+                "addressable": true
             },
             {
-                "path": "scripts", "addressable": true
+                "path": "js",
+                "addressable": true
             },
             {
-                "path": "sdk/scripts", "addressable": true
+                "path": "css",
+                "addressable": true
             },
             {
-                "path": "images/logo.png", "addressable": true
+                "path": "bower_components",
+                "addressable": true
+            },
+            {
+                "path": "sdk/scripts",
+                "addressable": true
+            },
+            {
+                "path": "images/ucl_logo.png",
+                "addressable": true
             }
         ]
     }
