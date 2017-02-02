@@ -103,3 +103,7 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+div#charts-container {
+  padding-top: 30px;
+}
