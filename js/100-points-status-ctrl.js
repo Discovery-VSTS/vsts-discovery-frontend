@@ -3,7 +3,41 @@
 // Author: Yichen Lu
 // Create Date: 01-Feb-2017
 // Update Date: 01-Feb-2017
+
+
+rawData = {
+    groupID: "12345",
+    data: {
+        "Red": 12,
+        "Blue": 20,
+        "Yellow": 15,
+        "Green": 35,
+        "Purple": 13,
+        "Orange": 5
+    }
+};
+
+
+function getData(rawData) {
+    chartLabels = [];
+    dataSet = [];
+    content = rawData.data;
+    $.each(content, function(key, val) {
+        chartLabels.push(key);
+        dataSet.push(val);
+    });
+
+    return {chartLabels: chartLabels, dataSet: dataSet}
+}
+
+
+// chartLabels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
+// dataSet = [12, 19, 10, 5, 2, 3]
 function load100PtStatus() {
+
+    chartLabels = getData(rawData).chartLabels;
+    dataSet = getData(rawData).dataSet;
+
     $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
         if (status == "success") {
             var ctx = $("#myChart");
@@ -11,10 +45,10 @@ function load100PtStatus() {
             var myChart = new Chart(ctx2, {
             type: 'bar',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: chartLabels,
                 datasets: [{
                     label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    data: dataSet,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -78,3 +112,4 @@ function load100PtStatus() {
         }
     });
 }
+

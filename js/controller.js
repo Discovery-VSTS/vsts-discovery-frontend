@@ -6,6 +6,11 @@
 
 jQuery(document).ready(function() {
     $($('#navbar ul').children().get(0)).addClass('active');
+    // activate status component when page loaded by default
+    removeActiveClassInMenuItems();
+    $('#status').addClass('active');
+    load100PtStatus();
+
 });
 
 $('#status').click(function(event) {
