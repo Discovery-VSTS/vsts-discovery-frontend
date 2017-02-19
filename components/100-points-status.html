@@ -1,21 +1,14 @@
 <form action="" class="form-inline" id="status-selector-form">
     <div class="form-group">
         <label for="status-week">Week</label>
-        <select class="form-control" id="status-week">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-        </select>
+        <input type='text' class="form-control" id='weekdatepicker' />
     </div>
-    <div class="form-group">
-        <label for="status-op">Week</label>
-        <select class="form-control" id="status-op">
-            <option>Points Given</option>
-            <option>Points Earned</option>
-        </select>
-    </div>
+    <script>
+        $(function () {
+            $('#weekdatepicker').datetimepicker();
+        });
+    </script>
+
 </form>
 <div class="row" id="charts-container">
     <div class="row">

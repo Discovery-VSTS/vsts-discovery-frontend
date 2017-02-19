@@ -18,25 +18,103 @@ rawData = {
 };
 
 
-function getData(rawData) {
+function getWeeklyDistribution() {
     chartLabels = [];
-    dataSet = [];
-    content = rawData.data;
-    $.each(content, function(key, val) {
-        chartLabels.push(key);
-        dataSet.push(val);
+    labelVal = [];
+    $.ajax({
+        url: 'http://127.0.0.1:8000/points/distribution/'+'2017-02-18',
+        type: 'GET',
+        dataType: 'json',
+    })
+    .done(function(data) {
+        console.log("success");
+        var rData = readData(data);
+        chartLabels = rData.chartLabels;
+        labelVal = rData.labelVal;
+        console.log(chartLabels);
+        console.log(labelVal);
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
     });
 
-    return {chartLabels: chartLabels, dataSet: dataSet}
+    return {chartLabels: chartLabels, labelVal: labelVal}
+
+}
+
+// {
+//     "given_points": [
+//         {
+//             "to_member": "bar@gmail.com",
+//             "points": 35,
+//             "from_member": "foo@gmail.com",
+//             "week": "2017-02-18"
+//         },
+//         {
+//             "to_member": "foo@gmail.com",
+//             "points": 15,
+//             "from_member": "bar@gmail.com",
+//             "week": "2017-02-18"
+//         },
+//         {
+//             "to_member": "yoo@gmail.com",
+//             "points": 50,
+//             "from_member": "bar@gmail.com",
+//             "week": "2017-02-18"
+//         },
+//         {
+//             "to_member": "bar@gmail.com",
+//             "points": 35,
+//             "from_member": "yoo@gmail.com",
+//             "week": "2017-02-18"
+//         },
+//         {
+//             "to_member": "foo@gmail.com",
+//             "points": 15,
+//             "from_member": "yoo@gmail.com",
+//             "week": "2017-02-18"
+//         },
+//         {
+//             "to_member": "yoo@gmail.com",
+//             "points": 50,
+//             "from_member": "foo@gmail.com",
+//             "week": "2017-02-18"
+//         }
+//     ],
+//     "week": "2017-02-18",
+//     "is_final": false
+// }
+
+function readData(rawData) {
+    chartLabels = [];
+    labelVal = [];
+    content = rawData.given_points;
+    $.each(content, function(index, obj) {
+        $.each(obj, function(key, val) {
+            if (key == "to_member") {
+                chartLabels.push(val);
+                console.log(val)
+            }
+            if (key == "points") {
+                labelVal.push(val);
+            }
+        });
+    });
+
+    return {chartLabels: chartLabels, labelVal: labelVal}
 }
 
 
 // chartLabels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
-// dataSet = [12, 19, 10, 5, 2, 3]
+// labelVal = [12, 19, 10, 5, 2, 3]
 function load100PtStatus() {
 
-    chartLabels = getData(rawData).chartLabels;
-    dataSet = getData(rawData).dataSet;
+    var chartLabels = readData(rawData).chartLabels;
+    var labelVal = readData(rawData).labelVal;
+
 
     $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
         if (status == "success") {
@@ -48,7 +126,7 @@ function load100PtStatus() {
                 labels: chartLabels,
                 datasets: [{
                     label: '# of Votes',
-                    data: dataSet,
+                    data: labelVal,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -79,22 +157,28 @@ function load100PtStatus() {
                 }
             });
 
-
-            var data = {
-                labels: [
-                    "Red",
-                    "Blue",
-                    "Yellow"
-                ],
+            var pieData = getWeeklyDistribution();
+            var pieLabels = [];
+            pieLabels = pieData.chartLabels;;
+            var pieVal = pieData.labelVal;
+            console.log(pieLabels);
+            var pieDataConf = {
+                labels: pieData.chartLabels,
                 datasets: [
                     {
-                        data: [300, 50, 100],
+                        data: pieData.labelVal,
                         backgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56",
                             "#FF6384",
                             "#36A2EB",
                             "#FFCE56"
                         ],
                         hoverBackgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56",
                             "#FF6384",
                             "#36A2EB",
                             "#FFCE56"
@@ -104,7 +188,7 @@ function load100PtStatus() {
 
             var myPieChart = new Chart(ctx,{
                 type: 'pie',
-                data: data,
+                data: pieDataConf,
                 options: {
                     responsive: false
                 }
