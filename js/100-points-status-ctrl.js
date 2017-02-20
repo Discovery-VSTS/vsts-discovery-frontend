@@ -4,7 +4,7 @@
 // Create Date: 01-Feb-2017
 // Update Date: 20-Feb-2017
 
-var randomColors = function() {
+function randomColors() {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
