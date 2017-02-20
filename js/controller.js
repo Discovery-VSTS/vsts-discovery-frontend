@@ -9,6 +9,7 @@ jQuery(document).ready(function() {
     // activate status component when page loaded by default
     removeActiveClassInMenuItems();
     $('#status').addClass('active');
+    // $('#navbar').find('li').first().addClass('active')
     load100PtStatus();
 
 });
