@@ -61,10 +61,10 @@ function load100PtStatus() {
                     responsive: false
                 }
             });
-            console.log(pieDataConf);
-            console.log(thisWeekPieChart);
-
             getWeeklyDistribution(now);
+
+            //fill members into dropdown list
+            getMembers();
         }
 
     });
@@ -73,7 +73,7 @@ function load100PtStatus() {
 // get data for pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
-        url: 'http://127.0.0.1:8000/points/distribution/'+date,
+        url: 'http://127.0.0.1:8000/v1/points/distribution/'+date,
         type: 'GET',
         dataType: 'json',
     })
@@ -129,33 +129,68 @@ function getWeeklyDistribution(date) {
 
 }
 
-// function getHistoryDistribution(startDate, endDate) {
-//     $.ajax({
-//         url: 'http://127.0.0.1:8000/points/distribution/history',
-//         type: 'GET',
-//         dataType: 'json',
-//     })
-//     .done(function(data) {
-//         console.log("success");
-//         var chartLabels = [];
-//         var labelVal = [];
-//         // read data
-//         $.each(data, function(index, val) {
-//             if (index == "week") {
-//                 chartLabels.push()
-//             }
-//             $.each(array/object, function(index, val) {
-//                  /* iterate through array or object */
-//             });
-//         });
-//     })
-//     .fail(function() {
-//         console.log("error");
-//     })
-//     .always(function() {
-//         console.log("complete");
-//     });
-// }
+function getMembers() {
+    $.ajax({
+        url: 'http://127.0.0.1:8000/v1/members',
+        type: 'GET',
+        dataType: 'json'
+    })
+    .done(function(data) {
+        console.log("success");
+        // append items into list
+        $.each(data, function(index, val) {
+            $.each(val, function(dtype, val) {
+                console.log(dtype)
+                if (dtype == "name") {
+                    console.log(val);
+                    $('#memListItems').append('<li><a href="#" id="mli-'+index+'">'+val+'</a></li>');
+                }
+                if (dtype == "email") {
+                    $('#mli-'+index).attr('mem-email', val);
+                }
+            });
+        });
+        // bind onclick event
+        $('#memListItems').on('click', 'a', function(event) {
+            event.preventDefault();
+            getHistoryDistribution($(this).attr("mem-email"));
+        });
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    });
+
+}
+function getHistoryDistribution(email) {
+    $.ajax({
+        url: 'http://127.0.0.1:8000/v1/points/distribution/history',
+        type: 'GET',
+        dataType: 'json',
+    })
+    .done(function(data) {
+        console.log("success");
+        var chartLabels = [];
+        var labelVal = [];
+        // read data
+        $.each(data, function(index, val) {
+            if (index == "week") {
+                chartLabels.push()
+            }
+            $.each(array/object, function(index, val) {
+                 /* iterate through array or object */
+            });
+        });
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    });
+}
 
 
 

@@ -35,3 +35,7 @@ function removeActiveClassInMenuItems() {
 VSS.getAppToken().then(function(token){
     console.log(token);
 });
+
+VSS.getWebContext().then(function (IExtensionContext) {
+    console.log(IExtensionContext);
+});
