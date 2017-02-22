@@ -6,6 +6,12 @@
 
 jQuery(document).ready(function() {
     $($('#navbar ul').children().get(0)).addClass('active');
+    // activate status component when page loaded by default
+    removeActiveClassInMenuItems();
+    $('#status').addClass('active');
+    // $('#navbar').find('li').first().addClass('active')
+    load100PtStatus();
+
 });
 
 $('#status').click(function(event) {
@@ -25,3 +31,7 @@ $('#assign').click(function(event) {
 function removeActiveClassInMenuItems() {
     $("#100-points-menu li").removeClass('active');
 }
+
+VSS.getAppToken().then(function(token){
+    console.log(token);
+});

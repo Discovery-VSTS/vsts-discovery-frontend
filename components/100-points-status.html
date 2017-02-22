@@ -1,29 +1,37 @@
-<form action="" class="form-inline" id="status-selector-form">
-    <div class="form-group">
-        <label for="status-week">Week</label>
-        <select class="form-control" id="status-week">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="status-op">Week</label>
-        <select class="form-control" id="status-op">
-            <option>Points Given</option>
-            <option>Points Earned</option>
-        </select>
-    </div>
-</form>
 <div class="row" id="charts-container">
-    <div class="row">
-        <div class="col-sm-6">
-            <canvas id="myChart" ></canvas>
-        </div>
-        <div class="col-sm-6">
-            <canvas id="myChart2" ></canvas>
-        </div>
+    <div class="col-sm-6">
+        <form action="" class="form-inline" id="status-selector-form">
+            <div class="form-group">
+                <label for="status-week">Week</label>
+                <input type='text' class="form-control" id='weekdatepicker' />
+                <span class="add-on"><i class="icon-remove"></i></span>
+                <span class="add-on"><i class="icon-th"></i></span>
+            </div>
+            <script>
+                $(function () {
+                    $('#weekdatepicker').datetimepicker({
+                        format:"dd/M/yyyy",
+                        weekStart: 1,
+                        startView: "month",
+                        minView: "month",
+                        maxView: "month",
+                        todayBtn: "linked",
+                        todayHighlight: true
+                    });
+
+                    $('#weekdatepicker').datetimepicker()
+                    .on('changeDate', function(ev){
+                        console.log("date changed")
+                        var selectedDate = moment(ev.date.valueOf()).format("YYYY-MM-DD");
+                        getWeeklyDistribution(selectedDate);
+                    });
+                });
+            </script>
+        </form>
+        <canvas id="pieChart" ></canvas>
+    </div>
+    <div class="col-sm-6">
+        <canvas id="lineChart" ></canvas>
     </div>
 </div>
+
