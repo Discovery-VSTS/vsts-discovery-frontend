@@ -25,10 +25,52 @@ function randomColorSet(labels) {
     return colorSet;
 }
 
+var chartSelector;
+var thisWeekPieChart;
 var colorSet;
 var chartLabels;
 var labelVal;
-// pie chart
+var pieDataConf;
+
+function load100PtStatus() {
+    $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
+        if (status == "success") {
+            console.log("start ajax");
+            var now = moment().format("YYYY-MM-DD");
+
+            // set up pie chart
+            chartSelector = $("#pieChart");
+            if (colorSet===undefined) {
+                colorSet = randomColorSet(chartLabels);
+            }
+
+            pieDataConf = {
+                labels: chartLabels,
+                datasets: [
+                    {
+                        data: labelVal,
+                        backgroundColor: colorSet,
+                        hoverBackgroundColor: colorSet
+                    }]
+            };
+
+            thisWeekPieChart = new Chart(chartSelector,{
+                type: 'pie',
+                data: pieDataConf,
+                options: {
+                    responsive: false
+                }
+            });
+            console.log(pieDataConf);
+            console.log(thisWeekPieChart);
+
+            getWeeklyDistribution(now);
+        }
+
+    });
+}
+
+// get data for pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
         url: 'http://127.0.0.1:8000/points/distribution/'+date,
@@ -52,9 +94,34 @@ function getWeeklyDistribution(date) {
             });
         });
 
+        // distory current chart and reinitialize a new one with new data
+        thisWeekPieChart.destroy();
+        if (colorSet===undefined) {
+            colorSet = randomColorSet(chartLabels);
+        }
+
+        pieDataConf = {
+            labels: chartLabels,
+            datasets: [
+                {
+                    data: labelVal,
+                    backgroundColor: colorSet,
+                    hoverBackgroundColor: colorSet
+                }]
+        };
+        thisWeekPieChart = new Chart(chartSelector,{
+            type: 'pie',
+            data: pieDataConf,
+            options: {
+                responsive: false
+            }
+        });
     })
-    .fail(function() {
+    .fail(function(obj, textStatus, errorThrown) {
         console.log("error");
+        // remove current chart and display error message
+        thisWeekPieChart.destroy();
+        alert(errorThrown);
     })
     .always(function() {
         console.log("complete");
@@ -89,39 +156,8 @@ function getWeeklyDistribution(date) {
 //         console.log("complete");
 //     });
 // }
-var ctx;
-function load100PtStatus() {
-    $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
-        if (status == "success") {
-            console.log("start ajax");
-            var now = moment().format("YYYY-MM-DD");
-            getWeeklyDistribution(now);
-            // set up pie chart
-            ctx = $("#myChart");
-            if (colorSet===undefined) {
-                colorSet = randomColorSet(chartLabels);
-            }
-            var pieDataConf = {
-                labels: chartLabels,
-                datasets: [
-                    {
-                        data: labelVal,
-                        backgroundColor: colorSet,
-                        hoverBackgroundColor: colorSet
-                    }]
-            };
 
-            var myPieChart = new Chart(ctx,{
-                type: 'pie',
-                data: pieDataConf,
-                options: {
-                    responsive: false
-                }
-            });
-        }
 
-    });
-}
 
 
 
