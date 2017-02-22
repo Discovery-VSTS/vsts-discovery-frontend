@@ -13,13 +13,21 @@ function randomColors() {
 
 function randomColorSet(labels) {
     var colorSet = [];
-    for (var i = labels.length - 1; i >= 0; i--) {
-        colorSet.push(randomColors());
+    if (labels===undefined) {
+        for (var i = 10; i >= 0; i--) {
+            colorSet.push(randomColors());
+        }
+    }else{
+        for (var i = labels.length - 1; i >= 0; i--) {
+            colorSet.push(randomColors());
+        }
     }
     return colorSet;
 }
 
 var colorSet;
+var chartLabels;
+var labelVal;
 // pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
@@ -42,29 +50,6 @@ function getWeeklyDistribution(date) {
                     labelVal.push(val);
                 }
             });
-        });
-
-        // set up pie chart
-        var ctx = $("#myChart");
-        if (colorSet===undefined) {
-            colorSet = randomColorSet(chartLabels);
-        }
-        var pieDataConf = {
-            labels: chartLabels,
-            datasets: [
-                {
-                    data: labelVal,
-                    backgroundColor: colorSet,
-                    hoverBackgroundColor: colorSet
-                }]
-        };
-
-        var myPieChart = new Chart(ctx,{
-            type: 'pie',
-            data: pieDataConf,
-            options: {
-                responsive: false
-            }
         });
 
     })
@@ -104,14 +89,37 @@ function getWeeklyDistribution(date) {
 //         console.log("complete");
 //     });
 // }
-
+var ctx;
 function load100PtStatus() {
     $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
         if (status == "success") {
             console.log("start ajax");
             var now = moment().format("YYYY-MM-DD");
             getWeeklyDistribution(now);
+            // set up pie chart
+            ctx = $("#myChart");
+            if (colorSet===undefined) {
+                colorSet = randomColorSet(chartLabels);
+            }
+            var pieDataConf = {
+                labels: chartLabels,
+                datasets: [
+                    {
+                        data: labelVal,
+                        backgroundColor: colorSet,
+                        hoverBackgroundColor: colorSet
+                    }]
+            };
+
+            var myPieChart = new Chart(ctx,{
+                type: 'pie',
+                data: pieDataConf,
+                options: {
+                    responsive: false
+                }
+            });
         }
+
     });
 }
 
