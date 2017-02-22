@@ -8,7 +8,7 @@
             $('#weekdatepicker').datetimepicker({
                 format:"DD/MM/YYYY"
             });
-            $('#weekdatepicker').on("dp.change", function(event) {
+            $('#weekdatepicker').on("dp.hide", function(event) {
                 console.log("date changed")
                 var selectedDate = moment($(this).data()).format("YYYY-MM-DD");
                 getWeeklyDistribution(selectedDate);
