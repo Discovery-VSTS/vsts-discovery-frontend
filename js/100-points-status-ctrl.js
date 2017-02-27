@@ -73,7 +73,7 @@ function load100PtStatus() {
 // get data for pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
-        url: 'http://138.68.147.100:8000/v1/points/distribution/'+date,
+        url: 'https://138.68.147.100:8000/v1/points/distribution/'+date,
         type: 'GET',
         dataType: 'json',
     })
@@ -144,7 +144,7 @@ function getMembers() {
                 if (dtype == "name") {
                     console.log(val);
                     $('#memListItems').append('<li><a href="#" id="mli-'+index+'">'+val+'</a></li>');
-                }
+                }   
                 if (dtype == "email") {
                     $('#mli-'+index).attr('mem-email', val);
                 }
@@ -166,7 +166,7 @@ function getMembers() {
 }
 function getHistoryDistribution(email) {
     $.ajax({
-        url: 'http://138.68.147.100:8000/v1/member/history/'+email,
+        url: 'httpS://138.68.147.100:8000/v1/member/history/'+email,
         type: 'GET',
         dataType: 'json'
     })
@@ -179,7 +179,7 @@ function getHistoryDistribution(email) {
             if (index == "week") {
                 chartLabels.push()
             }
-            $.each(array/object, function(index, val) {
+            $.each(val, function(index, val) {
                  /* iterate through array or object */
             });
         });
@@ -193,6 +193,4 @@ function getHistoryDistribution(email) {
 }
 
 
-
-
-
+console.log(vssWebContext);

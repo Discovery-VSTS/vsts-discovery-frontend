@@ -32,10 +32,5 @@ function removeActiveClassInMenuItems() {
     $("#100-points-menu li").removeClass('active');
 }
 
-VSS.getAppToken().then(function(token){
-    console.log(token);
-});
+var vssWebContext = VSS.getWebContext()
 
-VSS.getWebContext().then(function (IExtensionContext) {
-    console.log(IExtensionContext);
-});
