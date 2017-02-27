@@ -30,3 +30,12 @@ $("#user_list_div input").each(function(index, val) {
     // })
     console.log(index + ": " + $(val).val());
 });
+
+$('#submitButton').click(function(event) {
+    $("#user_list_div input").each(function(index, val) {
+        // $.each(function(index, val){
+        //     console.log(index + ": " + $(this).text());    
+        // })
+        console.log(index + ": " + $(val).val()+$(val).attr("email"));
+    });
+});
