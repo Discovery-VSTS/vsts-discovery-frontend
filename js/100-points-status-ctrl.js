@@ -73,7 +73,7 @@ function load100PtStatus() {
 // get data for pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
-        url: 'http://127.0.0.1:8000/v1/points/distribution/'+date,
+        url: 'http://138.68.147.100:8000/v1/points/distribution/'+date,
         type: 'GET',
         dataType: 'json',
     })
@@ -131,7 +131,7 @@ function getWeeklyDistribution(date) {
 
 function getMembers() {
     $.ajax({
-        url: 'http://127.0.0.1:8000/v1/members',
+        url: 'http://138.68.147.100:8000/v1/members',
         type: 'GET',
         dataType: 'json'
     })
@@ -166,9 +166,9 @@ function getMembers() {
 }
 function getHistoryDistribution(email) {
     $.ajax({
-        url: 'http://127.0.0.1:8000/v1/points/distribution/history',
+        url: 'http://138.68.147.100:8000/v1/member/history/'+email,
         type: 'GET',
-        dataType: 'json',
+        dataType: 'json'
     })
     .done(function(data) {
         console.log("success");
