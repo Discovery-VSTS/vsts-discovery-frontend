@@ -6,31 +6,27 @@ function getMembers() {
     return JSON.parse(xhr.responseText);
 }
 
-var obj = [
-    {
-        "name": "Jason",
-        "email": "jason@jason.com"
-    },
-    {
-        "name": "krinal",
-        "email": "krinal@krinal.com"
-    },
-    {
-        "name": "yichen",
-        "email": "yichen@yichen.com"
-    }
-]
+var obj = getMembers();
 
 var user_list = $("#user_list>div");
 
 obj.forEach(function (user, index) {
 
-    user_list.append("<div>" +
+    user_list.append("<div id='user_list_div'>" +
         "<h1>" + user.name + "</h1>" +
-        "<input type='text' id='user_" + index + "'/>" +
+        "<input type='text' id='user_" + index + "' email = "+user.email+" />" +
         "</div>");
 });
 
-$("input[type='text']").each(function (input) {
-    $(input).val();
+console.log(user_list)
+
+$("#user_list_div input").on("click", function(){
+    console.log($(this).attr("email"));
+})
+
+$("#user_list_div input").each(function(index, val) {
+    // $.each(function(index, val){
+    //     console.log(index + ": " + $(this).text());    
+    // })
+    console.log(index + ": " + $(val).val());
 });
