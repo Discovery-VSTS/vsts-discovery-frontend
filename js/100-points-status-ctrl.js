@@ -65,6 +65,9 @@ function teamWeekPieChartConfig() {
 }
 
 function memHistoryLineChartConfig() {
+    if (selectedMemberName === undefined) {
+        selectedMemberName = "";
+    }
     memHistoryChartConfig = {
         labels: memHistoryChartLabels,
         datasets: [
