@@ -32,6 +32,13 @@ var chartLabels;
 var labelVal;
 var pieDataConf;
 
+var lineChartSelector;
+var memHistoryChart;
+var memHistoryChartConfig;
+var memHistoryChartOptions;
+var memHistoryChartLabels;
+var memHistoryChartData;
+
 function load100PtStatus() {
     $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
         if (status == "success") {
@@ -65,6 +72,51 @@ function load100PtStatus() {
 
             //fill members into dropdown list
             getMembers();
+            // configure line chart
+            lineChartSelector = $('#lineChart');
+
+            memHistoryChartConfig = {
+                labels: memHistoryChartLabels,
+                datasets: [
+                    {
+                        label: "Member Points History",
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(75,192,192,0.4)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderCapStyle: 'butt',
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: "rgba(75,192,192,1)",
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10,
+                        data: memHistoryChartData,
+                        spanGaps: false,
+                    }
+                ]
+            };
+
+            memHistoryChartOptions = {
+                scales: {
+                    xAxes: [{
+                        type: 'linear',
+                        position: 'bottom'
+                    }]
+                }
+            };
+
+            memHistoryChart = new Chart(lineChartSelector, {
+                type: 'line',
+                data: memHistoryChartConfig,
+                options: memHistoryChartOptions
+            });
         }
 
     });
@@ -142,7 +194,7 @@ function getMembers() {
             $.each(val, function(dtype, val) {
                 console.log(dtype)
                 if (dtype == "name") {
-                    console.log(val);
+                    // console.log(val);
                     $('#memListItems').append('<li><a href="#" id="mli-'+index+'">'+val+'</a></li>');
                 }   
                 if (dtype == "email") {
@@ -164,6 +216,7 @@ function getMembers() {
     });
 
 }
+
 function getHistoryDistribution(email) {
     $.ajax({
         url: 'http://127.0.0.1:8000/v1/member/history/'+email,
@@ -172,16 +225,65 @@ function getHistoryDistribution(email) {
     })
     .done(function(data) {
         console.log("success");
-        var chartLabels = [];
-        var labelVal = [];
+        var memHistoryChartLabels = [];
+        var memHistoryChartData = [];
         // read data
         $.each(data, function(index, val) {
-            if (index == "week") {
-                chartLabels.push()
-            }
             $.each(val, function(index, val) {
-                 /* iterate through array or object */
+                if (index == "week") {
+                    memHistoryChartLabels.push(val);
+                }
+                if (index == "points") {
+                    memHistoryChartData.push(val);
+                }
+                
             });
+        });
+
+        console.log(memHistoryChartLabels);
+        console.log(memHistoryChartData);
+
+        memHistoryChartConfig = {
+            labels: memHistoryChartLabels,
+            datasets: [
+                {
+                    label: "Member Points History",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: memHistoryChartData,
+                    spanGaps: false,
+                }
+            ]
+        };
+
+        memHistoryChartOptions = {
+            // scales: {
+            //     xAxes: [{
+            //         type: 'linear',
+            //         position: 'bottom'
+            //     }]
+            // }
+        };
+
+        memHistoryChart = new Chart(lineChartSelector, {
+            type: 'line',
+            data: memHistoryChartConfig,
+            options: memHistoryChartOptions
         });
     })
     .fail(function() {
