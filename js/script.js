@@ -58,13 +58,12 @@ function updatePoints() {
     xhr.send(JSON.stringify({
         "given_points": [
             {
-                "to_member": "hello@hello.com",
-                "points": 1,
+                "to_member": "jason@jason.com",
+                "points": 100,
                 "from_member": "jason@jason.com",
-                "week": "2017-02-20"
+                "week": "2017-02-27"
             }
         ],
-        "week": "2017-02-20"
+        "week": "2017-02-27"
     }));
-    console.log(xhr.status);
 }
