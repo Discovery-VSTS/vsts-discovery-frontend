@@ -14,5 +14,5 @@ function lastDayOfWeek() {
 
 //Return date formatted
 function displayFirstAndLastDate() {
-    return firstDayOfWeek() + " - " + lastDayOfWeek();
+    return firstDayOfWeek() + " to " + lastDayOfWeek();
 }

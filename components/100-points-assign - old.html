@@ -33,16 +33,34 @@
                             document.getElementById("date").innerHTML = displayFirstAndLastDate();
                         </script>
                     </p>
+
+                    <div class="btn-group">
+
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+       Assign to:
+      <span class = "caret"></span>
+   </button>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">names</a></li>
+                            <li><a href="#">names</a></li>
+                            <li><a href="#">names</a></li>
+                        </ul>
+                    </div>
+                    <input type="text">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary">Submit</button>
+                    </div>
                 </div>
                 <div class="col-md-8">
                     <button class="btn btn-primary pull-right" type="button">
-  Available Points <span id="pointValue" class="badge">100</span>
+  Available Points <span class="badge">16</span>
 </button>
                 </div>
             </div>
             <div class="row">
-                <h3>Allocation</h3>
-                <p>Points to be allocated below</p>
+                <h3>Points Given</h3>
+                <p>Points allocated across current team members</p>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -50,14 +68,33 @@
                             <th>Points</th>
                         </tr>
                     </thead>
-                    <tbody id="user_list">
-<!--                     generate fields -->
+                    <tbody>
+                        <tr>
+                            <td>Jason</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>Ricard</td>
+                            <td>19</td>
+                        </tr>
+                        <tr>
+                            <td>Yichen</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <td>Krinal</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>Minh-Long</td>
+                            <td>10</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <div class="row">
-                <button type="button" id="submitButton" class="btn btn-info btn-lg btn-block">Submit Points</button>
-                <button type="button" id="validateButton" class="btn btn-primary btn-lg btn-block">Validate Week</button>
+                <button type="button" class="btn btn-info btn-lg btn-block">Save Changes</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block">Submit Provisional</button>
             </div>
         </div>
     </div>
