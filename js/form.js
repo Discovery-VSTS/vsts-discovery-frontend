@@ -1,6 +1,11 @@
+serverURL = "http://127.0.0.1:8000"         //testing URL
+//serverURL = "https://138.68.147.100:8000"   //live URL
+
+var currentUser = "jason@jason.com";   //testing currentUser
+
 function getMembers() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://127.0.0.1:8000/v1/members/", false);
+    xhr.open("GET", serverURL + "/v1/members/", false);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
     return JSON.parse(xhr.responseText);
@@ -51,18 +56,28 @@ $('#submitButton').click(function (event) {
     xhr.onreadystatechange = function () {
         if (this.readyState !== 4) return;
         if (this.status === 404) { // 404 means the distro doesn't exist so we POST it
-			var jsonString = createJSON();
-            sendPoints("POST", jsonString);
-            alert("points distro created");
+         var jsonString = createJSON();
+     sendPoints("POST", jsonString);
+     alert("points distro created");
         } else if (this.status == 200) { // 200 means the distro exists so PUT updates
-            var jsonString = createJSONUPDATE();
-            sendPoints("PUT", jsonString);
-            alert("points updated");
+            // previous working code
+            // var jsonString = createJSONUPDATE();
+            // sendPoints("PUT", jsonString);
+            // alert("points updated");
+            if (hasSent()) {
+                var jsonString = createJSONUPDATE();
+                sendPoints("PUT", jsonString);
+                alert("points updated");
+            } else {
+                var jsonString = createJSON();
+                sendPoints("POST", jsonString);
+                alert("points distro created");
+            }
         } else {
         	alert("something has gone terribly wrong: error " + this.status); // something else
         }
     };
-    xhr.open('GET', 'http://127.0.0.1:8000/v1/points/distribution/2017-02-27/', true);
+    xhr.open('GET', serverURL + '/v1/points/distribution/2017-02-27/', true);
     xhr.send();
     //end of test
 });
@@ -86,7 +101,7 @@ function createJSON() {
         } else {
             item["points"] = parseInt(points);
         }
-        item["from_member"] = "jason@jason.com";
+        item["from_member"] = currentUser;
         item["week"] = firstdayofweek;
 
         jsonObj.push(item);
@@ -114,7 +129,7 @@ function createJSONUPDATE() {
         } else {
             item["points"] = parseInt(points);
         }
-        item["from_member"] = "jason@jason.com";
+        item["from_member"] = currentUser;
         item["week"] = firstdayofweek;
 
         jsonObj.push(item);
@@ -147,7 +162,7 @@ function createJSONUPDATE() {
 //req POST for initial distribution or PUT to update
 function sendPoints(REQ, jsonString) {
     var xhr = new XMLHttpRequest();
-    xhr.open(REQ, "http://127.0.0.1:8000/v1/points/distribution/send/");
+    xhr.open(REQ, serverURL + "/v1/points/distribution/send/");
     xhr.setRequestHeader("Content-Type", "application/json");
     var json = {
         "given_points": jsonString,
@@ -172,38 +187,46 @@ function sendPoints(REQ, jsonString) {
 
 function validatePoints() {
     var xhr = new XMLHttpRequest();
-    xhr.open(REQ, "http://127.0.0.1:8000/v1/points/distribution/validate/");
+    xhr.open("PUT", serverURL + "/v1/points/distribution/validate/");
     xhr.setRequestHeader("Content-Type", "application/json");
     var json = {
         "week": firstdayofweek
     }
-    //console.log(JSON.stringify(json));
-    xhr.send(JSON.stringify(json));
+     console.log(JSON.stringify(json));
+    //xhr.send(JSON.stringify(json));
 }
 
 function getPointsForWeek() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://127.0.0.1:8000/v1/points/distribution/" + firstdayofweek + "/", false);
+    xhr.open("GET", serverURL + "/v1/points/distribution/" + firstdayofweek + "/", false);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
     console.log(xhr.status);
     return JSON.parse(xhr.responseText);
 }
 
-var array = getPointsForWeek();
+// function hasSent() {
+// 	var array = getPointsForWeek();
+//     for (var i = 0; i < array.given_points.length; i++) {
+//         console.log(array.given_points[i].from_member);
+//         if (array.given_points[i].from_member == currentUser) {
+//             return true;
+//             break;
+//         }
+//         return false;
+//     }
+// }
 
 function hasSent() {
-	//var array = getPointsForWeek();
-	console.log(array);
-	var index = console.log(array.given_points.length);
-	var count = 0;
-	for (var count; count < index; count++) {
-		console.log(array.given_points[count].from_member);
-	}
+    var array = getPointsForWeek();
+    for (var i = 0; i < array.given_points.length; i++) {
+        if (array.given_points[i].from_member == currentUser) {
+            return true;
+            break;
+        }
+    }
+    return false;
 }
-
-hasSent();
-
 
 	////duplicate??
 	// function sendPoints(jsonString) {
