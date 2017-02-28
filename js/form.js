@@ -144,7 +144,7 @@ function createJSONUPDATE() {
 // }
 
 
-//req POST for initial distribution or PUT to update :)
+//req POST for initial distribution or PUT to update
 function sendPoints(REQ, jsonString) {
     var xhr = new XMLHttpRequest();
     xhr.open(REQ, "http://127.0.0.1:8000/v1/points/distribution/send/");
@@ -190,8 +190,20 @@ function getPointsForWeek() {
     return JSON.parse(xhr.responseText);
 }
 
-var newArray = getPointsForWeek();
-console.log(newArray.is_final); // then display points instead of input boxes
+var array = getPointsForWeek();
+
+function hasSent() {
+	//var array = getPointsForWeek();
+	console.log(array);
+	var index = console.log(array.given_points.length);
+	var count = 0;
+	for (var count; count < index; count++) {
+		console.log(array.given_points[count].from_member);
+	}
+}
+
+hasSent();
+
 
 	////duplicate??
 	// function sendPoints(jsonString) {
