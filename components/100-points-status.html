@@ -12,6 +12,7 @@
                     $('#weekdatepicker').datetimepicker({
                         format:"dd/M/yyyy",
                         weekStart: 1,
+                        daysOfWeekDisabled: [0,2,3,4,5,6],
                         startView: "month",
                         minView: "month",
                         maxView: "month",
@@ -31,6 +32,15 @@
         <canvas id="pieChart" ></canvas>
     </div>
     <div class="col-sm-6">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="membersList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Member
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="membersList" id="memListItems">
+
+            </ul>
+        </div>
         <canvas id="lineChart" ></canvas>
     </div>
 </div>
