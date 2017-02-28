@@ -6,6 +6,10 @@ function getMembers() {
     return JSON.parse(xhr.responseText);
 }
 
+var firstdayofweek = firstDayOfWeek();
+
+console.log(firstdayofweek);
+
 var obj = getMembers();
 
 var user_list = $("#user_list>div");
@@ -14,7 +18,7 @@ obj.forEach(function (user, index) {
 
     user_list.append("<div id='user_list_div'>" +
         "<h1>" + user.name + "</h1>" +
-        "<input type='text' id='user_" + index + "' email = " + user.email + " />" +
+        "<input type='number' min='0' max='100' id='user_" + index + "' email = " + user.email + " />" +
         "</div>");
 });
 
@@ -24,20 +28,20 @@ $("#user_list_div input").on("click", function () {
     console.log($(this).attr("email"));
 })
 
-$("#user_list_div input").each(function (index, val) {
-    // $.each(function(index, val){
-    //     console.log(index + ": " + $(this).text());    
-    // })
-    console.log(index + ": " + $(val).val());
-});
+// $("#user_list_div input").each(function (index, val) {
+//     // $.each(function(index, val){
+//     //     console.log(index + ": " + $(this).text());    
+//     // })
+//     console.log(index + ": " + $(val).val());
+// });
 
 $('#submitButton').click(function (event) {
-    $("#user_list_div input").each(function (index, val) {
-        // $.each(function(index, val){
-        //     console.log(index + ": " + $(this).text());    
-        // })
-        //console.log(index + ": " + $(val).val()+$(val).attr("email"));
-    });
+    // $("#user_list_div input").each(function (index, val) {
+    //     $.each(function(index, val){
+    //         console.log(index + ": " + $(this).text());    
+    //     })
+    //     console.log(index + ": " + $(val).val()+$(val).attr("email"));
+    // });
     //old code before status check
     //var jsonString = createJSON();
     //sendPoints(jsonString);
@@ -45,15 +49,17 @@ $('#submitButton').click(function (event) {
     //start of test
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
-        if (this.readyState !== 4) return; // not ready yet
-        if (this.status === 404) { // HTTP 200 OK
-            var jsonString = createJSON();
-            sendPoints(jsonString);
+        if (this.readyState !== 4) return;
+        if (this.status === 404) { // 404 means the distro doesn't exist so we POST it
+			var jsonString = createJSON();
+            sendPoints("POST", jsonString);
             alert("points distro created");
-        } else {
+        } else if (this.status == 200) { // 200 means the distro exists so PUT updates
             var jsonString = createJSONUPDATE();
-            updatePoints(jsonString);
+            sendPoints("PUT", jsonString);
             alert("points updated");
+        } else {
+        	alert("something has gone terribly wrong: error " + this.status); // something else
         }
     };
     xhr.open('GET', 'http://127.0.0.1:8000/v1/points/distribution/2017-02-27/', true);
@@ -61,6 +67,11 @@ $('#submitButton').click(function (event) {
     //end of test
 });
 
+$('#validateButton').click(function (event) {
+	validatePoints();
+});
+
+//WILL CLEAR UP
 function createJSON() {
     jsonObj = [];
     $("#user_list_div input").each(function () {
@@ -76,7 +87,7 @@ function createJSON() {
             item["points"] = parseInt(points);
         }
         item["from_member"] = "jason@jason.com";
-        item["week"] = "2017-02-27";
+        item["week"] = firstdayofweek;
 
         jsonObj.push(item);
     });
@@ -84,6 +95,7 @@ function createJSON() {
     return jsonObj;
 }
 
+//MUST CLEAN UP AS createJSON()
 function createJSONUPDATE() {
     jsonObj = [];
     $("#user_list_div input").each(function () {
@@ -103,7 +115,7 @@ function createJSONUPDATE() {
             item["points"] = parseInt(points);
         }
         item["from_member"] = "jason@jason.com";
-        item["week"] = "2017-02-27";
+        item["week"] = firstdayofweek;
 
         jsonObj.push(item);
     });
@@ -132,32 +144,54 @@ function createJSONUPDATE() {
 // }
 
 
-
-function sendPoints(jsonString) {
+//req POST for initial distribution or PUT to update :)
+function sendPoints(REQ, jsonString) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://127.0.0.1:8000/v1/points/distribution/send/");
+    xhr.open(REQ, "http://127.0.0.1:8000/v1/points/distribution/send/");
     xhr.setRequestHeader("Content-Type", "application/json");
     var json = {
         "given_points": jsonString,
-        "week": "2017-02-27"
+        "week": firstdayofweek
     }
     //console.log(JSON.stringify(json));
     xhr.send(JSON.stringify(json));
-    console.log(xhr.statusText);
 }
 
-function updatePoints(jsonString) {
+// function updatePoints(jsonString) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.open("PUT", "http://127.0.0.1:8000/v1/points/distribution/send/");
+//     xhr.setRequestHeader("Content-Type", "application/json");
+//     var json = {
+//         "given_points": jsonString,
+//         "week": firstdayofweek
+//     }
+//     //console.log(JSON.stringify(json));
+//     xhr.send(JSON.stringify(json));
+//     console.log(xhr.statusText);
+// }
+
+function validatePoints() {
     var xhr = new XMLHttpRequest();
-    xhr.open("PUT", "http://127.0.0.1:8000/v1/points/distribution/send/");
+    xhr.open(REQ, "http://127.0.0.1:8000/v1/points/distribution/validate/");
     xhr.setRequestHeader("Content-Type", "application/json");
     var json = {
-        "given_points": jsonString,
-        "week": "2017-02-27"
+        "week": firstdayofweek
     }
     //console.log(JSON.stringify(json));
     xhr.send(JSON.stringify(json));
-    console.log(xhr.statusText);
 }
+
+function getPointsForWeek() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://127.0.0.1:8000/v1/points/distribution/" + firstdayofweek + "/", false);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+    console.log(xhr.status);
+    return JSON.parse(xhr.responseText);
+}
+
+var newArray = getPointsForWeek();
+console.log(newArray.is_final); // then display points instead of input boxes
 
 	////duplicate??
 	// function sendPoints(jsonString) {

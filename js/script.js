@@ -1,8 +1,9 @@
 function getMembers() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://127.0.0.1:8000/v1/members/", false);
+    xhr.open("GET", "https://138.68.147.100:8000/v1/members/", false);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
+    console.log(xhr.status);
     return JSON.parse(xhr.responseText);
 }
 
