@@ -1,8 +1,8 @@
-//serverURL = "http://127.0.0.1:8000"         //testing URL
+// serverURL = "http://127.0.0.1:8000"         //testing URL
 serverURL = "https://138.68.147.100:8000"   //live URL
 
-//var currentUser = "krinal@krinal.com";        //testing currentUser
-var currentUser = vssWebContext.user.email //live
+var currentUser = "ucabyyl@ucl.ac.uk";        //testing currentUser
+// var currentUser = vssWebContext.user.email //live
 
 function getMembers() {
     var xhr = new XMLHttpRequest();
