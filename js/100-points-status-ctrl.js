@@ -4,8 +4,8 @@
 // Create Date: 01-Feb-2017
 // Update Date: 20-Feb-2017
 
-var liveUrl = "https://138.68.147.100:8000/"
-var localhost = "http://127.0.0.1:8000/"
+var endpoint = "https://138.68.147.100:8000/" // live
+// var endpoint = "http://127.0.0.1:8000/" // dev
 
 function randomColors() {
     var r = Math.floor(Math.random() * 255);
@@ -59,7 +59,7 @@ function teamWeekPieChartConfig() {
         type: 'pie',
         data: pieDataConf,
         options: {
-            responsive: false
+
         }
     });
 }
@@ -97,7 +97,7 @@ function memHistoryLineChartConfig() {
     };
 
     memHistoryChartOptions = {
-        
+
     };
 
     memHistoryChart = new Chart(lineChartSelector, {
@@ -125,7 +125,7 @@ function load100PtStatus() {
             getWeeklyDistribution(now);
 
             //fill members into dropdown list
-            getMembers();
+            fillMembersDropdown();
             // configure line chart
             lineChartSelector = $('#lineChart');
             // configure member history line chart
@@ -140,9 +140,17 @@ function load100PtStatus() {
 // get data for pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
-        url: localhost+'v1/points/distribution/'+date,
+        url: endpoint+'v1/points/distribution/'+date,
         type: 'GET',
         dataType: 'json',
+        xhrFields: {
+            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+            // This can be used to set the 'withCredentials' property.
+            // Set the value to 'true' if you'd like to pass cookies to the server.
+            // If this is enabled, your server must respond with the header
+            // 'Access-Control-Allow-Credentials: true'.
+            withCredentials: false
+        },
     })
     .done(function(data) {
         console.log("success");
@@ -181,11 +189,19 @@ function getWeeklyDistribution(date) {
 
 }
 
-function getMembers() {
+function fillMembersDropdown() {
     $.ajax({
-        url: localhost+'v1/members',
+        url: endpoint+'v1/members',
         type: 'GET',
-        dataType: 'json'
+        dataType: 'json',
+        xhrFields: {
+            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+            // This can be used to set the 'withCredentials' property.
+            // Set the value to 'true' if you'd like to pass cookies to the server.
+            // If this is enabled, your server must respond with the header
+            // 'Access-Control-Allow-Credentials: true'.
+            withCredentials: false
+        },
     })
     .done(function(data) {
         console.log("success");
@@ -196,7 +212,7 @@ function getMembers() {
                 if (dtype == "name") {
                     // console.log(val);
                     $('#memListItems').append('<li><a href="#" id="mli-'+index+'">'+val+'</a></li>');
-                }   
+                }
                 if (dtype == "email") {
                     $('#mli-'+index).attr('mem-email', val);
                 }
@@ -220,9 +236,17 @@ function getMembers() {
 
 function getHistoryDistribution(email) {
     $.ajax({
-        url: localhost+'v1/member/history/'+email,
+        url: endpoint+'v1/member/history/'+email,
         type: 'GET',
-        dataType: 'json'
+        dataType: 'json',
+        xhrFields: {
+            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+            // This can be used to set the 'withCredentials' property.
+            // Set the value to 'true' if you'd like to pass cookies to the server.
+            // If this is enabled, your server must respond with the header
+            // 'Access-Control-Allow-Credentials: true'.
+            withCredentials: false
+        },
     })
     .done(function(data) {
         console.log("success");
@@ -237,7 +261,7 @@ function getHistoryDistribution(email) {
                 if (index == "points") {
                     memHistoryChartData.push(val);
                 }
-                
+
             });
         });
 
@@ -248,7 +272,7 @@ function getHistoryDistribution(email) {
         memHistoryChart.destroy();
 
         memHistoryLineChartConfig();
-        // 
+        //
     })
     .fail(function() {
         console.log("error");
