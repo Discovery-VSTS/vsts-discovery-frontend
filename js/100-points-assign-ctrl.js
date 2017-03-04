@@ -9,7 +9,7 @@ function load100PtAssign() {
     $('#100-points-components').load("components/100-points-assign.html", function(response, status, xhr) {
         if (status == "success") {
             displayFirstAndLastDate();
-            
+
             generateUserTableRows();
         }
     });
@@ -51,23 +51,6 @@ function getMembers() {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
     return JSON.parse(xhr.responseText);
-
-    // $.ajax({
-    //     url: serverURL+'/v1/members/',
-    //     type: 'GET',
-    //     dataType: 'application/json'
-    // })
-    // .done(function(data) {
-    //     console.log("success");
-    //     return data;
-    // })
-    // .fail(function() {
-    //     console.log("error");
-    // })
-    // .always(function() {
-    //     console.log("complete");
-    // });
-    
 }
 
 
