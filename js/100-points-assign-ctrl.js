@@ -12,7 +12,7 @@ function load100PtAssign() {
 
             generateUserTableRows();
 
-            // event bindings
+            // event bindings for dynamically generated contents
             $('#submitButton').click(function(event) {
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function() {
