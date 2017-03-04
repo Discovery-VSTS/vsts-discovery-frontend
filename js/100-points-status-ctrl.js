@@ -153,7 +153,7 @@ function getWeeklyDistribution(date) {
         },
     })
     .done(function(data) {
-        console.log("success");
+        // console.log("success");
         $('#lbl_week_data_status').text("");
         chartLabels = [];
         labelVal = [];
@@ -205,11 +205,11 @@ function fillMembersDropdown() {
         },
     })
     .done(function(data) {
-        console.log("success");
+        // console.log("success");
         // append items into list
         $.each(data, function(index, val) {
             $.each(val, function(dtype, val) {
-                console.log(dtype)
+                // console.log(dtype)
                 if (dtype == "name") {
                     // console.log(val);
                     $('#memListItems').append('<li><a href="#" id="mli-'+index+'">'+val+'</a></li>');
@@ -250,7 +250,7 @@ function getHistoryDistribution(email) {
         },
     })
     .done(function(data) {
-        console.log("success");
+        // console.log("success");
         memHistoryChartLabels = [];
         memHistoryChartData = [];
         // read data

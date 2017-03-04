@@ -4,33 +4,41 @@
 // Create Date: 31-Jan-2017
 // Update Date: 01-Feb-2017
 
-jQuery(document).ready(function() {
-    $($('#navbar ul').children().get(0)).addClass('active');
-    // activate status component when page loaded by default
-    removeActiveClassInMenuItems();
-    $('#status').addClass('active');
-    // $('#navbar').find('li').first().addClass('active')
-    load100PtStatus();
 
+jQuery(document).ready(function() {
+    // activate 100pt-status component when page loaded by default
+    load100PtStatus();
 });
 
-$('#status').click(function(event) {
+
+function bindTopNavClickEvents() {
+    $('#navbar a').click(function (e) {
+      e.preventDefault()
+      $(this).tab('show')
+    })
+}
+
+
+$('#100pt-status').click(function(event) {
     event.preventDefault();
     removeActiveClassInMenuItems();
     $(this).addClass('active');
     load100PtStatus();
 });
 
-$('#assign').click(function(event) {
+
+$('#100pt-assign').click(function(event) {
     event.preventDefault();
     removeActiveClassInMenuItems();
     $(this).addClass('active');
     load100PtAssign();
 });
 
+
 function removeActiveClassInMenuItems() {
     $("#100-points-menu li").removeClass('active');
 }
+
 
 var vssWebContext = VSS.getWebContext()
 

@@ -35,11 +35,11 @@
                 <!--<a class="navbar-brand" href="#">Descovery</a>-->
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-left">
-                    <li><a href="#">100 Points</a></li>
-                    <li><a href="#">Code Tracker</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Settings</a></li>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#100-points-module" aria-controls="100-points-module" role="tab" data-toggle="tab">100 Points</a></li>
+                    <li role="presentation"><a href="#codetracker-module" aria-controls="codetracker-module" role="tab" data-toggle="tab">Code Tracker</a></li>
+                    <!-- <li><a href="#">Profile</a></li>
+                    <li><a href="#">Settings</a></li> -->
                 </ul>
                 <form class="navbar-form navbar-right">
                     <input type="text" class="form-control" placeholder="Search...">
@@ -47,12 +47,13 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-fluid tab-content" id="module-area">
+        <!-- START: 100 points module -->
+        <div role="tabpanel" class="row tab-pane active" id="100-points-module">
             <div class="col-sm-3 col-md-2 sidebar" id="100-points-menu">
                 <ul class="nav nav-sidebar">
-                    <li id="status"><a href="/components/100-points-status.html">Status</span></a></li>
-                    <li id="assign"><a href="/components/100-points-assign.html">Assign Points</a></li>
+                    <li id="100pt-status" class="active"><a href="/components/100-points-status.html">Status</span></a></li>
+                    <li id="100pt-assign"><a href="/components/100-points-assign.html">Assign Points</a></li>
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -65,8 +66,27 @@
                 </div>
             </div>
         </div>
+        <!-- END: 100 points module -->
 
+        <!-- START: code tracker module -->
+        <div role="tabpanel" class="row tab-pane" id="codetracker-module">
+            <div class="col-sm-3 col-md-2 sidebar" id="codetracker-menu">
+                <ul class="nav nav-sidebar">
+                    <li id="codetracker-status">Status</li>
+                    <li id="codetracker-setting">Setting</li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="row" id="codetracker-components">
+                <!-- components loaded here -->
+                <!-- *** -->
 
+                <!-- *** -->
+                <!-- components part end -->
+                </div>
+            </div>
+        </div>
+        <!-- END: code tracker module -->
     </div>
     <!--end of container-->
 
