@@ -107,3 +107,20 @@ body {
 div#charts-container {
   padding-top: 30px;
 }
+
+/*padding hacks*/
+
+.padding-0 {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+.padding-sm {
+   padding: 2px !important;
+   margin: 2px !important;
+}
+
+.padding-md {
+   padding: 5px !important;
+   margin: 5px !important;
+}

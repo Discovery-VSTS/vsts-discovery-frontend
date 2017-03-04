@@ -4,8 +4,8 @@
 // Create Date: 01-Feb-2017
 // Update Date: 20-Feb-2017
 
-var endpoint = "https://138.68.147.100:8000/" // live
-// var endpoint = "http://127.0.0.1:8000/" // dev
+// var endpoint = "https://138.68.147.100:8000/" // live
+var endpoint = "http://127.0.0.1:8000/" // dev
 
 function randomColors() {
     var r = Math.floor(Math.random() * 255);
@@ -154,6 +154,7 @@ function getWeeklyDistribution(date) {
     })
     .done(function(data) {
         console.log("success");
+        $('#lbl_week_data_status').text("");
         chartLabels = [];
         labelVal = [];
         // read data
@@ -181,7 +182,7 @@ function getWeeklyDistribution(date) {
         console.log("error");
         // remove current chart and display error message
         thisWeekPieChart.destroy();
-        alert(errorThrown);
+        $('#lbl_week_data_status').text(errorThrown);
     })
     .always(function() {
         console.log("complete");

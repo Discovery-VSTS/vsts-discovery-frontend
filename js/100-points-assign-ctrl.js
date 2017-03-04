@@ -1,8 +1,49 @@
-// serverURL = "http://127.0.0.1:8000"         //testing URL
-serverURL = "https://138.68.147.100:8000"   //live URL
+serverURL = "http://127.0.0.1:8000" //testing URL
+    // serverURL = "https://138.68.147.100:8000"   //live URL
 
-var currentUser = "ucabyyl@ucl.ac.uk";        //testing currentUser
+var currentUser = "ucabyyl@ucl.ac.uk"; //testing currentUser
 // var currentUser = vssWebContext.user.email //live
+
+
+function load100PtAssign() {
+    $('#100-points-components').load("components/100-points-assign.html", function(response, status, xhr) {
+        if (status == "success") {
+            displayFirstAndLastDate();
+            
+            generateUserTableRows();
+        }
+    });
+}
+
+function generateUserTableRows() {
+    var firstdayofweek = firstDayOfWeek();
+
+    var obj = getMembers();
+
+    var user_list = $("#user_list");
+
+    $.each(obj, function(index, user) {
+        user_list.append("<tr id='user_list_div'>" +
+            "<td>" + user.name + "</td>" +
+            "<td> <input class='points-field' type='number' min='0' max='100' id='user_" + index + "' email = " + user.email + " />" +
+            "<td>" + "</tr>");
+    });
+
+    $('input.points-field').change(function(event) {
+        var usedPoints = 0;
+        $('.points-field').each(function(index, el) {
+            var fieldPoint;
+            if ($(el).val() == "") {
+                fieldPoint = 0;
+            } else {
+                fieldPoint = parseInt($(el).val());
+            }
+            usedPoints += fieldPoint;
+            console.log(usedPoints)
+        });
+        $('#pointValue').text(100 - usedPoints);
+    });
+}
 
 function getMembers() {
     var xhr = new XMLHttpRequest();
@@ -10,34 +51,37 @@ function getMembers() {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send();
     return JSON.parse(xhr.responseText);
+
+    // $.ajax({
+    //     url: serverURL+'/v1/members/',
+    //     type: 'GET',
+    //     dataType: 'application/json'
+    // })
+    // .done(function(data) {
+    //     console.log("success");
+    //     return data;
+    // })
+    // .fail(function() {
+    //     console.log("error");
+    // })
+    // .always(function() {
+    //     console.log("complete");
+    // });
+    
 }
 
-//generate user list
-var firstdayofweek = firstDayOfWeek();
 
-var obj = getMembers();
 
-var user_list = $("#user_list");
-
-obj.forEach(function (user, index) {
-
-    user_list.append("<tr id='user_list_div'>" +
-        "<td>" + user.name + "</td>" +
-        "<td> <input class='points-field' type='number' min='0' max='100' id='user_" + index + "' email = " + user.email + " />" +
-        "<td>" + "</tr>");
-});
-//ended user list generation
-
-$('#submitButton').click(function (event) {
+$('#submitButton').click(function(event) {
     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
         if (this.readyState !== 4) return;
         if (this.status === 404) { // 404 means the distro doesn't exist so we POST it
             var jsonString = createJSON();
             sendPoints("POST", jsonString);
             alert("points distro created");
         } else if (this.status == 200) { // 200 means the distro exists so PUT updates
-        	if (hasSent()) {
+            if (hasSent()) {
                 var jsonString = createJSONUPDATE();
                 sendPoints("PUT", jsonString);
                 alert("points updated");
@@ -54,14 +98,14 @@ $('#submitButton').click(function (event) {
     xhr.send();
 });
 
-$('#validateButton').click(function (event) {
-	validatePoints();
-	alert("not all members gave points to colleagues");
+$('#validateButton').click(function(event) {
+    validatePoints();
+    alert("not all members gave points to colleagues");
 });
 
 function createJSON() {
     jsonObj = [];
-    $("#user_list_div input").each(function () {
+    $("#user_list_div input").each(function() {
 
         var id = $(this).attr("email");
         var points = $(this).val();
@@ -83,7 +127,7 @@ function createJSON() {
 
 function createJSONUPDATE() {
     jsonObj = [];
-    $("#user_list_div input").each(function () {
+    $("#user_list_div input").each(function() {
 
         var id = $(this).attr("email");
         var points = $(this).val();
@@ -165,20 +209,7 @@ function lastDayOfWeek() {
 
 //Return date formatted
 function displayFirstAndLastDate() {
-    return firstDayOfWeek() + " to " + lastDayOfWeek();
+    var firstDay = firstDayOfWeek();
+    var lastDay = lastDayOfWeek();
+    $('#assign-date-range').text("Week: "+firstDay +" to "+ lastDay);
 }
-
-$('input.points-field').change(function(event) {
-    var usedPoints = 0;
-    $('.points-field').each(function(index, el) {
-        var fieldPoint;
-        if ($(el).val()=="") {
-            fieldPoint = 0;
-        }else{
-            fieldPoint = parseInt($(el).val());
-        }
-        usedPoints += fieldPoint;
-        console.log(usedPoints)
-    });
-    $('#pointValue').text(100-usedPoints);
-});
