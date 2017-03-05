@@ -6,7 +6,7 @@
 
 // var endpoint = "https://138.68.147.100:8000/" // live
 var endpoint = "http://127.0.0.1:8000/" // dev
-
+console.log(currentAccountID);
 function randomColors() {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
@@ -283,5 +283,3 @@ function getHistoryDistribution(email) {
     });
 }
 
-
-console.log(vssWebContext);

@@ -4,6 +4,17 @@
 // Create Date: 31-Jan-2017
 // Update Date: 01-Feb-2017
 
+// Global variables retrieved from VSS SDK
+var vssWebContext = VSS.getWebContext();
+console.log(vssWebContext);
+var currentAccount = vssWebContext.account;
+console.log(currentAccount);
+var currentUser = vssWebContext.user;
+console.log(currentUser);
+var currentAccountID = currentAccount.id;
+console.log("Current Account ID: "+currentAccountID);
+var currentUserEmail = currentUser.email;
+console.log("Current User's Email: "+currentUserEmail);
 
 jQuery(document).ready(function() {
     // activate 100pt-status component when page loaded by default
@@ -18,10 +29,10 @@ function bindTopNavClickEvents() {
     })
 }
 
-
+// component menu items controls
 $('#100pt-status').click(function(event) {
     event.preventDefault();
-    removeActiveClassInMenuItems();
+    $("#100-points-menu li").removeClass('active');
     $(this).addClass('active');
     load100PtStatus();
 });
@@ -29,16 +40,25 @@ $('#100pt-status').click(function(event) {
 
 $('#100pt-assign').click(function(event) {
     event.preventDefault();
-    removeActiveClassInMenuItems();
+    $("#100-points-menu li").removeClass('active');
     $(this).addClass('active');
     load100PtAssign();
 });
 
+$('#codetracker-status').click(function(event) {
+    event.preventDefault();
+    $("#codetracker-menu li").removeClass('active');
+    $(this).addClass('active');
 
-function removeActiveClassInMenuItems() {
-    $("#100-points-menu li").removeClass('active');
-}
+});
 
 
-var vssWebContext = VSS.getWebContext()
+$('#codetracker-setting').click(function(event) {
+    event.preventDefault();
+    $("#codetracker-menu li").removeClass('active');
+    $(this).addClass('active');
+
+});
+
+
 
