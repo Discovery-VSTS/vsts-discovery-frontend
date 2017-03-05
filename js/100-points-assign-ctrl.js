@@ -12,6 +12,8 @@ function load100PtAssign() {
 
             generateUserTableRows();
 
+            generateAssignStatusTable();
+
             // event bindings for dynamically generated contents
             $('#submitButton').click(function(event) {
                 var xhr = new XMLHttpRequest();
@@ -47,8 +49,10 @@ function load100PtAssign() {
     });
 }
 
+//var firstdayofweek = firstDayOfWeek();
+var firstdayofweek = "2017-02-27"
+
 function generateUserTableRows() {
-    var firstdayofweek = firstDayOfWeek();
 
     var obj = getMembers();
 
@@ -194,4 +198,65 @@ function displayFirstAndLastDate() {
     var firstDay = firstDayOfWeek();
     var lastDay = lastDayOfWeek();
     $('#assign-date-range').text("Week: "+firstDay +" to "+ lastDay);
+}
+
+//assign status
+function getJSON() {
+    var data = updateJSONForTable();
+    
+    var result = [['From/To']];
+
+    data.forEach(function (row, col) {
+        return function (a) {
+            if (!(a.to_member in row)) {
+                row[a.to_member] = result.push([a.to_member]) - 1;
+            }
+            if (!(a.from_member in col)) {
+                col[a.from_member] = result[0].push(a.from_member) - 1;
+            }
+            result[row[a.to_member]][col[a.from_member]] = a.points;
+        };
+    }(Object.create(null), (Object.create(null))));
+
+    return result;
+}
+
+var members = getMembers();
+
+function updateJSONForTable() {
+    var pointsWeek = getPointsForWeek();
+
+    var newPoints = pointsWeek.given_points;
+
+    //replace email with name
+    jQuery.each(newPoints, function(index, val) {
+        for (var i = members.length - 1; i >= 0; i--) {
+            if(newPoints[index].from_member == members[i].email) {
+                newPoints[index].from_member = members[i].name;
+            }
+        }
+        for (var i = members.length - 1; i >= 0; i--) {
+            if(newPoints[index].to_member == members[i].email) {
+                newPoints[index].to_member = members[i].name;
+            }
+        }
+    });
+
+    //delete the week value
+    jQuery.each(newPoints, function(index, val) {
+        delete newPoints[index].week;
+    });
+
+    return newPoints;
+}
+
+function generateAssignStatusTable() {
+    var assignStatusJSON = getJSON();
+    var assignStatusHead = assignStatusJSON[0];
+    jQuery.each(assignStatusHead, function(index, val) {
+        $('#assignStatusTableHead').append('<th>' + assignStatusHead[index] + '</th>');
+    });
+    var assignStatusBody = assignStatusJSON.slice(1);
+    console.log(assignStatusBody);
+    console.log(assignStatusBody[0][1]);
 }
