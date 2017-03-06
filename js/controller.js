@@ -4,18 +4,6 @@
 // Create Date: 31-Jan-2017
 // Update Date: 01-Feb-2017
 
-// Global variables retrieved from VSS SDK
-var vssWebContext = VSS.getWebContext();
-console.log(vssWebContext);
-var currentAccount = vssWebContext.account;
-console.log(currentAccount);
-var currentUser = vssWebContext.user;
-console.log(currentUser);
-var currentAccountID = currentAccount.id;
-console.log("Current Account ID: "+currentAccountID);
-var currentUserEmail = currentUser.email;
-console.log("Current User's Email: "+currentUserEmail);
-
 jQuery(document).ready(function() {
     // activate 100pt-status component when page loaded by default
     load100PtStatus();
@@ -61,4 +49,14 @@ $('#codetracker-setting').click(function(event) {
 });
 
 
-
+// Global variables retrieved from VSS SDK
+var vssWebContext = VSS.getWebContext();
+console.log(vssWebContext);
+var currentAccount = vssWebContext.account;
+console.log(currentAccount);
+var currentUser = vssWebContext.user;
+console.log(currentUser);
+var currentAccountID = currentAccount.id;
+console.log("Current Account ID: "+currentAccountID);
+var currentUserEmail = currentUser.email;
+console.log("Current User's Email: "+currentUserEmail);
