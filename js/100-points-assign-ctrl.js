@@ -1,7 +1,7 @@
 serverURL = "http://127.0.0.1:8000" //testing URL
     // serverURL = "https://138.68.147.100:8000"   //live URL
 
-var currentUser = "yichen@yichen.com"; //testing currentUser
+var currentUser = "jason@jason.com"; //testing currentUser
 // var currentUser = vssWebContext.user.email //live
 
 
@@ -256,8 +256,24 @@ function generateAssignStatusTable() {
     jQuery.each(assignStatusJSON, function(index, val) {
     	console.log(assignStatusJSON[index]);
     });
+    jQuery.each(assignStatusJSON, function(index, val) {
+        $('#assignStatusTableHead').append('<th>' + assignStatusJSON[index][0] + '</th>'); 
+    });
+    // $('#assignStatusTableBody').append("<tr><td>"+assignStatusJSON[0][1]+"</td><td>"+assignStatusJSON[1][1]+"</td>"+"<td>"+assignStatusJSON[2][1]+"</td><td>"+assignStatusJSON[3][1]+"</td>");
+    // $('#assignStatusTableBody').append("<tr><td>"+assignStatusJSON[0][2]+"</td><td>"+assignStatusJSON[1][2]+"</td>"+"<td>"+assignStatusJSON[2][2]+"</td><td>"+assignStatusJSON[3][2]+"</td>");
+    // $('#assignStatusTableBody').append("<tr><td>"+assignStatusJSON[0][3]+"</td><td>"+assignStatusJSON[1][3]+"</td>"+"<td>"+assignStatusJSON[2][3]+"</td><td>"+assignStatusJSON[3][3]+"</td>");
+    //for (var i = 1; i < assignStatusJSON.length; i++) {
+        //$('#assignStatusTableBody').append('<tr id="tableRow_'+i+'"></tr>');
+        for (var i = 1; i < assignStatusJSON.length; i++) {
+            $('#assignStatusTableBody').append('<tr id="tableRow_'+i+'"></tr>');
+            jQuery.each(assignStatusJSON, function(index, val) {
+                $('#tableRow_'+i).append('<td>'+assignStatusJSON[index][i]+'</td>');
+            });
+        }
+    //}
 }
 
+//working
 // function generateAssignStatusTable() {
 //     var assignStatusJSON = getJSON();
 //     var assignStatusHead = assignStatusJSON[0];
