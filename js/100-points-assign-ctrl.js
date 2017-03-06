@@ -1,7 +1,7 @@
 serverURL = "http://127.0.0.1:8000" //testing URL
     // serverURL = "https://138.68.147.100:8000"   //live URL
 
-var currentUser = "ucabyyl@ucl.ac.uk"; //testing currentUser
+var currentUser = "yichen@yichen.com"; //testing currentUser
 // var currentUser = vssWebContext.user.email //live
 
 
@@ -37,7 +37,7 @@ function load100PtAssign() {
                         alert("something has gone terribly wrong: error " + this.status); // something else
                     }
                 };
-                xhr.open('GET', serverURL + '/v1/points/distribution/2017-02-27/', true);
+                xhr.open('GET', serverURL + '/v1/points/distribution/2017-03-06/', true);
                 xhr.send();
             });
 
@@ -50,7 +50,7 @@ function load100PtAssign() {
 }
 
 //var firstdayofweek = firstDayOfWeek();
-var firstdayofweek = "2017-02-27"
+var firstdayofweek = "2017-03-06"
 
 function generateUserTableRows() {
 
@@ -252,11 +252,24 @@ function updateJSONForTable() {
 
 function generateAssignStatusTable() {
     var assignStatusJSON = getJSON();
-    var assignStatusHead = assignStatusJSON[0];
-    jQuery.each(assignStatusHead, function(index, val) {
-        $('#assignStatusTableHead').append('<th>' + assignStatusHead[index] + '</th>');
+    console.log(assignStatusJSON);
+    jQuery.each(assignStatusJSON, function(index, val) {
+    	console.log(assignStatusJSON[index]);
     });
-    var assignStatusBody = assignStatusJSON.slice(1);
-    console.log(assignStatusBody);
-    console.log(assignStatusBody[0][1]);
 }
+
+// function generateAssignStatusTable() {
+//     var assignStatusJSON = getJSON();
+//     var assignStatusHead = assignStatusJSON[0];
+//     jQuery.each(assignStatusHead, function(index, val) {
+//         $('#assignStatusTableHead').append('<th>' + assignStatusHead[index] + '</th>');
+//     });
+//     var assignStatusBody = assignStatusJSON.slice(1);
+//     jQuery.each(assignStatusBody, function(index, val) {
+//     	console.log(assignStatusBody[index]);
+//     	$('#assignStatusTableBody').append('<tr id="assignStatusBodyId_'+index+'"></tr>');
+//     	jQuery.each(assignStatusBody[index], function(col, val) {
+//     		$('#assignStatusBodyId_'+index).append('<td>'+val+'</td>');
+//     	});
+//     });
+// }
