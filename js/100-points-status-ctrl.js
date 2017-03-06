@@ -2,7 +2,7 @@
 // JavaScript functions for controlling 100 points status component
 // Author: Yichen Lu
 // Create Date: 01-Feb-2017
-// Update Date: 20-Feb-2017
+// Update Date: 7-Mar-2017
 
 // var endpoint = "https://138.68.147.100:8000/" // live
 var endpoint = "http://127.0.0.1:8000/" // dev
@@ -43,6 +43,36 @@ var memHistoryChartLabels;
 var memHistoryChartData;
 var selectedMemberEmail;
 var selectedMemberName;
+
+function load100PtStatus() {
+    $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
+        if (status == "success") {
+            console.log("start ajax");
+            var now = moment().format("YYYY-MM-DD");
+
+            // set up pie chart
+            chartSelector = $("#pieChart");
+            if (colorSet===undefined) {
+                colorSet = randomColorSet(chartLabels);
+            }
+
+            // configure team weekly distribution pie chart
+            teamWeekPieChartConfig();
+            // display current week's distribution in pie chart
+            getWeeklyDistribution(now);
+
+            //fill members into dropdown list
+            fillMembersDropdown();
+            // configure line chart
+            lineChartSelector = $('#lineChart');
+            // configure member history line chart
+            memHistoryLineChartConfig();
+            // display current member data in line chart
+            // code needed.....
+        }
+
+    });
+}
 
 function teamWeekPieChartConfig() {
     pieDataConf = {
@@ -104,36 +134,6 @@ function memHistoryLineChartConfig() {
         type: 'line',
         data: memHistoryChartConfig,
         options: memHistoryChartOptions
-    });
-}
-
-function load100PtStatus() {
-    $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
-        if (status == "success") {
-            console.log("start ajax");
-            var now = moment().format("YYYY-MM-DD");
-
-            // set up pie chart
-            chartSelector = $("#pieChart");
-            if (colorSet===undefined) {
-                colorSet = randomColorSet(chartLabels);
-            }
-
-            // configure team weekly distribution pie chart
-            teamWeekPieChartConfig();
-            // display current week's distribution in pie chart
-            getWeeklyDistribution(now);
-
-            //fill members into dropdown list
-            fillMembersDropdown();
-            // configure line chart
-            lineChartSelector = $('#lineChart');
-            // configure member history line chart
-            memHistoryLineChartConfig();
-            // display current member data in line chart
-            // code needed.....
-        }
-
     });
 }
 

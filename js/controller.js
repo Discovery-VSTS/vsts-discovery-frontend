@@ -37,7 +37,7 @@ $('#codetracker-status').click(function(event) {
     event.preventDefault();
     $("#codetracker-menu li").removeClass('active');
     $(this).addClass('active');
-
+    loadCodetrackerStatus();
 });
 
 
