@@ -30,6 +30,8 @@ function randomColourSet(labels) {
     return colorSet;
 }
 
+var teamMembersObj;
+
 var chartSelector;
 var thisWeekPieChart;
 var colorSet;
@@ -161,6 +163,16 @@ function memHistoryLineChartConfig() {
     });
 }
 
+function getNameByEmail(teamMembersObj, email) {
+    var memName = "Unknown"
+    $.each(teamMembersObj, function(index, obj) {
+        if (obj.email == email) {
+            memName = obj.name;
+        }
+    });
+    return memName;
+}
+
 // get data for pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
@@ -177,16 +189,19 @@ function getWeeklyDistribution(date) {
         },
     })
     .done(function(data) {
-        // console.log("success");
+        console.log("get weekly distribution successfully");
+        // clear label text
         $('#lbl_week_data_status').text("");
         chartLabels = [];
         labelVal = [];
         // read data
         var content = data.given_points;
+        console.log("team members: ")
+        // console.log(teamMembersObj)
         $.each(content, function(index, obj) {
             $.each(obj, function(key, val) {
                 if (key == "to_member") {
-                    chartLabels.push(val);
+                    chartLabels.push(getNameByEmail(teamMembersObj, val));
                 }
                 if (key == "points") {
                     labelVal.push(val);
@@ -234,7 +249,8 @@ function fillMembersDropdown() {
         },
     })
     .done(function(data) {
-        // console.log("success");
+        console.log("get team members success");
+        teamMembersObj = data;
         // append items into list
         $.each(data, function(index, val) {
             $.each(val, function(dtype, val) {
