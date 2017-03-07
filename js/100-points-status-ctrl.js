@@ -6,7 +6,9 @@
 
 // var endpoint = "https://138.68.147.100:8000/" // live
 var endpoint = "http://127.0.0.1:8000/" // dev
+// testing global variable for instance ID-->REMOVE in deployment
 console.log(currentAccountID);
+
 function randomColors() {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
@@ -14,13 +16,13 @@ function randomColors() {
     return "rgba(" + r + "," + g + "," + b + ", 0.4)";
 }
 
-function randomColorSet(labels) {
+function randomColourSet(labels) {
     var colorSet = [];
-    if (labels===undefined) {
+    if (labels===undefined) { // don't know how many colours needed
         for (var i = 10; i >= 0; i--) {
             colorSet.push(randomColors());
         }
-    }else{
+    }else{ // known how many colours needed
         for (var i = labels.length - 1; i >= 0; i--) {
             colorSet.push(randomColors());
         }
@@ -44,6 +46,57 @@ var memHistoryChartData;
 var selectedMemberEmail;
 var selectedMemberName;
 
+function load100PtStatus() {
+    $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
+        if (status == "success") {
+            console.log("start ajax");
+            var today = moment().format("YYYY-MM-DD");
+
+            $('#weekdatepicker').datetimepicker({
+                format:"dd/M/yyyy",
+                weekStart: 1,
+                daysOfWeekDisabled: [0,2,3,4,5,6],
+                startView: "month",
+                minView: "month",
+                maxView: "month",
+                todayBtn: "linked",
+                todayHighlight: true
+            });
+
+            $('#weekdatepicker').datetimepicker()
+            .on('changeDate', function(ev){
+                console.log("date changed")
+                var selectedDate = moment(ev.date.valueOf()).format("YYYY-MM-DD");
+                getWeeklyDistribution(selectedDate);
+            });
+
+            $('#weekdatepicker').val(today);
+
+            if (colorSet===undefined) {
+                colorSet = randomColourSet(chartLabels);
+            }
+
+            // set up pie chart
+            chartSelector = $("#pieChart");
+            // configure team weekly distribution pie chart
+            teamWeekPieChartConfig();
+            // display current week's distribution in pie chart
+            getWeeklyDistribution(today);
+
+            //fill members into dropdown list
+            fillMembersDropdown();
+
+            // configure line chart
+            lineChartSelector = $('#lineChart');
+            // configure member history line chart
+            memHistoryLineChartConfig();
+            // display current member data in line chart
+            // code needed.....
+        }
+
+    });
+}
+
 function teamWeekPieChartConfig() {
     pieDataConf = {
         labels: chartLabels,
@@ -51,7 +104,8 @@ function teamWeekPieChartConfig() {
             {
                 data: labelVal,
                 backgroundColor: colorSet,
-                hoverBackgroundColor: colorSet
+                hoverBackgroundColor: colorSet,
+                fill: false
             }]
     };
 
@@ -107,36 +161,6 @@ function memHistoryLineChartConfig() {
     });
 }
 
-function load100PtStatus() {
-    $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
-        if (status == "success") {
-            console.log("start ajax");
-            var now = moment().format("YYYY-MM-DD");
-
-            // set up pie chart
-            chartSelector = $("#pieChart");
-            if (colorSet===undefined) {
-                colorSet = randomColorSet(chartLabels);
-            }
-
-            // configure team weekly distribution pie chart
-            teamWeekPieChartConfig();
-            // display current week's distribution in pie chart
-            getWeeklyDistribution(now);
-
-            //fill members into dropdown list
-            fillMembersDropdown();
-            // configure line chart
-            lineChartSelector = $('#lineChart');
-            // configure member history line chart
-            memHistoryLineChartConfig();
-            // display current member data in line chart
-            // code needed.....
-        }
-
-    });
-}
-
 // get data for pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
@@ -172,17 +196,22 @@ function getWeeklyDistribution(date) {
 
         // distory current chart and reinitialize a new one with new data
         thisWeekPieChart.destroy();
+        // setup colours
         if (colorSet===undefined) {
-            colorSet = randomColorSet(chartLabels);
+            colorSet = randomColourSet(chartLabels);
         }
-
+        // fill in data
         teamWeekPieChartConfig()
     })
     .fail(function(obj, textStatus, errorThrown) {
-        console.log("error");
+        console.log("get weekly distribution error");
         // remove current chart and display error message
         thisWeekPieChart.destroy();
         $('#lbl_week_data_status').text(errorThrown);
+        // display empty chart
+        chartLabels = ['Unknown'];
+        labelVal = ['100'];
+        teamWeekPieChartConfig()
     })
     .always(function() {
         console.log("complete");
