@@ -70,7 +70,7 @@ function load100PtStatus() {
                 getWeeklyDistribution(selectedDate);
             });
 
-            $('#weekdatepicker').val(today);
+            $('#weekdatepicker').val(moment(today).format("DD/MMM/YYYY"));
 
             if (colorSet===undefined) {
                 colorSet = randomColourSet(chartLabels);
