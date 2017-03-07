@@ -1,7 +1,7 @@
 serverURL = "http://127.0.0.1:8000" //testing URL
     // serverURL = "https://138.68.147.100:8000"   //live URL
 
-var currentUser = "ucabyyl@ucl.ac.uk"; //testing currentUser
+var currentUser = "jason@jason.com"; //testing currentUser
 // var currentUser = vssWebContext.user.email //live
 
 
@@ -11,6 +11,8 @@ function load100PtAssign() {
             displayFirstAndLastDate();
 
             generateUserTableRows();
+
+            generateAssignStatusTable();
 
             // event bindings for dynamically generated contents
             $('#submitButton').click(function(event) {
@@ -35,7 +37,7 @@ function load100PtAssign() {
                         alert("something has gone terribly wrong: error " + this.status); // something else
                     }
                 };
-                xhr.open('GET', serverURL + '/v1/points/distribution/2017-02-27/', true);
+                xhr.open('GET', serverURL + '/v1/points/distribution/2017-03-06/', true);
                 xhr.send();
             });
 
@@ -47,8 +49,10 @@ function load100PtAssign() {
     });
 }
 
+//var firstdayofweek = firstDayOfWeek();
+var firstdayofweek = "2017-03-06"
+
 function generateUserTableRows() {
-    var firstdayofweek = firstDayOfWeek();
 
     var obj = getMembers();
 
@@ -195,3 +199,93 @@ function displayFirstAndLastDate() {
     var lastDay = lastDayOfWeek();
     $('#assign-date-range').text("Week: "+firstDay +" to "+ lastDay);
 }
+
+//assign status
+function getJSON() {
+    var data = updateJSONForTable();
+    
+    var result = [['From/To']];
+
+    data.forEach(function (row, col) {
+        return function (a) {
+            if (!(a.to_member in row)) {
+                row[a.to_member] = result.push([a.to_member]) - 1;
+            }
+            if (!(a.from_member in col)) {
+                col[a.from_member] = result[0].push(a.from_member) - 1;
+            }
+            result[row[a.to_member]][col[a.from_member]] = a.points;
+        };
+    }(Object.create(null), (Object.create(null))));
+
+    return result;
+}
+
+var members = getMembers();
+
+function updateJSONForTable() {
+    var pointsWeek = getPointsForWeek();
+
+    var newPoints = pointsWeek.given_points;
+
+    //replace email with name
+    jQuery.each(newPoints, function(index, val) {
+        for (var i = members.length - 1; i >= 0; i--) {
+            if(newPoints[index].from_member == members[i].email) {
+                newPoints[index].from_member = members[i].name;
+            }
+        }
+        for (var i = members.length - 1; i >= 0; i--) {
+            if(newPoints[index].to_member == members[i].email) {
+                newPoints[index].to_member = members[i].name;
+            }
+        }
+    });
+
+    //delete the week value
+    jQuery.each(newPoints, function(index, val) {
+        delete newPoints[index].week;
+    });
+
+    return newPoints;
+}
+
+function generateAssignStatusTable() {
+    var assignStatusJSON = getJSON();
+    console.log(assignStatusJSON);
+    jQuery.each(assignStatusJSON, function(index, val) {
+    	console.log(assignStatusJSON[index]);
+    });
+    jQuery.each(assignStatusJSON, function(index, val) {
+        $('#assignStatusTableHead').append('<th>' + assignStatusJSON[index][0] + '</th>'); 
+    });
+    // $('#assignStatusTableBody').append("<tr><td>"+assignStatusJSON[0][1]+"</td><td>"+assignStatusJSON[1][1]+"</td>"+"<td>"+assignStatusJSON[2][1]+"</td><td>"+assignStatusJSON[3][1]+"</td>");
+    // $('#assignStatusTableBody').append("<tr><td>"+assignStatusJSON[0][2]+"</td><td>"+assignStatusJSON[1][2]+"</td>"+"<td>"+assignStatusJSON[2][2]+"</td><td>"+assignStatusJSON[3][2]+"</td>");
+    // $('#assignStatusTableBody').append("<tr><td>"+assignStatusJSON[0][3]+"</td><td>"+assignStatusJSON[1][3]+"</td>"+"<td>"+assignStatusJSON[2][3]+"</td><td>"+assignStatusJSON[3][3]+"</td>");
+    //for (var i = 1; i < assignStatusJSON.length; i++) {
+        //$('#assignStatusTableBody').append('<tr id="tableRow_'+i+'"></tr>');
+        for (var i = 1; i < assignStatusJSON.length; i++) {
+            $('#assignStatusTableBody').append('<tr id="tableRow_'+i+'"></tr>');
+            jQuery.each(assignStatusJSON, function(index, val) {
+                $('#tableRow_'+i).append('<td>'+assignStatusJSON[index][i]+'</td>');
+            });
+        }
+    //}
+}
+
+//working
+// function generateAssignStatusTable() {
+//     var assignStatusJSON = getJSON();
+//     var assignStatusHead = assignStatusJSON[0];
+//     jQuery.each(assignStatusHead, function(index, val) {
+//         $('#assignStatusTableHead').append('<th>' + assignStatusHead[index] + '</th>');
+//     });
+//     var assignStatusBody = assignStatusJSON.slice(1);
+//     jQuery.each(assignStatusBody, function(index, val) {
+//     	console.log(assignStatusBody[index]);
+//     	$('#assignStatusTableBody').append('<tr id="assignStatusBodyId_'+index+'"></tr>');
+//     	jQuery.each(assignStatusBody[index], function(col, val) {
+//     		$('#assignStatusBodyId_'+index).append('<td>'+val+'</td>');
+//     	});
+//     });
+// }
