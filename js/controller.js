@@ -56,11 +56,17 @@ $('#100pt-assign').click(function(event) {
 // Global variables retrieved from VSS SDK
 var vssWebContext = VSS.getWebContext();
 console.log(vssWebContext);
+
 var currentAccount = vssWebContext.account;
 console.log(currentAccount);
 var currentUser = vssWebContext.user;
 console.log(currentUser);
+
 var currentInstanceID = currentAccount.id;
 console.log("Current Account ID: "+currentInstanceID);
+
+var currentInstanceName = currentAccount.name;
+console.log("Current Account Name: "+currentInstanceName);
+
 var currentUserEmail = currentUser.email;
 console.log("Current User's Email: "+currentUserEmail);
