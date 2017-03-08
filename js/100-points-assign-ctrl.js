@@ -14,32 +14,34 @@ function load100PtAssign() {
 
             generateAssignStatusTable();
 
+            submitButton();
+
             // event bindings for dynamically generated contents
-            $('#submitButton').click(function(event) {
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
-                    if (this.readyState !== 4) return;
-                    if (this.status === 404) { // 404 means the distro doesn't exist so we POST it
-                        var jsonString = createJSON();
-                        sendPoints("POST", jsonString);
-                        alert("points distro created");
-                    } else if (this.status == 200) { // 200 means the distro exists so PUT updates
-                        if (hasSent()) {
-                            var jsonString = createJSONUPDATE();
-                            sendPoints("PUT", jsonString);
-                            alert("points updated");
-                        } else {
-                            var jsonString = createJSON();
-                            sendPoints("POST", jsonString);
-                            alert("points distro created");
-                        }
-                    } else {
-                        alert("something has gone terribly wrong: error " + this.status); // something else
-                    }
-                };
-                xhr.open('GET', serverURL + '/v1/points/distribution/2017-03-06/', true);
-                xhr.send();
-            });
+            // $('#submitButton').click(function(event) {
+            //     var xhr = new XMLHttpRequest();
+            //     xhr.onreadystatechange = function() {
+            //         if (this.readyState !== 4) return;
+            //         if (this.status === 404) { // 404 means the distro doesn't exist so we POST it
+            //             var jsonString = createJSON();
+            //             sendPoints("POST", jsonString);
+            //             alert("points distro created");
+            //         } else if (this.status == 200) { // 200 means the distro exists so PUT updates
+            //             if (hasSent()) {
+            //                 var jsonString = createJSONUPDATE();
+            //                 sendPoints("PUT", jsonString);
+            //                 alert("points updated");
+            //             } else {
+            //                 var jsonString = createJSON();
+            //                 sendPoints("POST", jsonString);
+            //                 alert("points distro created");
+            //             }
+            //         } else {
+            //             alert("something has gone terribly wrong: error " + this.status); // something else
+            //         }
+            //     };
+            //     xhr.open('GET', serverURL + '/v1/points/distribution/2017-03-06/', true);
+            //     xhr.send();
+            // });
 
             $('#validateButton').click(function(event) {
                 validatePoints();
@@ -79,6 +81,34 @@ function generateUserTableRows() {
         });
         $('#pointValue').text(100 - usedPoints);
     });
+}
+
+function submitButton() {
+	            $('#submitButton').click(function(event) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (this.readyState !== 4) return;
+                    if (this.status === 404) { // 404 means the distro doesn't exist so we POST it
+                        var jsonString = createJSON();
+                        sendPoints("POST", jsonString);
+                        alert("points distro created");
+                    } else if (this.status == 200) { // 200 means the distro exists so PUT updates
+                        if (hasSent()) {
+                            var jsonString = createJSONUPDATE();
+                            sendPoints("PUT", jsonString);
+                            alert("points updated");
+                        } else {
+                            var jsonString = createJSON();
+                            sendPoints("POST", jsonString);
+                            alert("points distro created");
+                        }
+                    } else {
+                        alert("something has gone terribly wrong: error " + this.status); // something else
+                    }
+                };
+                xhr.open('GET', serverURL + '/v1/points/distribution/2017-03-06/', true);
+                xhr.send();
+            });
 }
 
 function getMembers() {
