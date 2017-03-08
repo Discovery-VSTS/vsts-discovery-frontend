@@ -23,6 +23,7 @@ body {
  */
 .navbar-fixed-top {
   border: 0;
+  background: #fff;
 }
 
 /*
@@ -123,4 +124,9 @@ div#charts-container {
 .padding-md {
    padding: 5px !important;
    margin: 5px !important;
+}
+
+.padding-lg {
+   padding: 10px !important;
+   margin: 10px !important;
 }

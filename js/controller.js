@@ -8,6 +8,7 @@ jQuery(document).ready(function() {
     // activate 100pt-status component when page loaded by default
     load100PtStatus();
     loadSetting();
+    loadCodetrackerStatus();
 });
 
 
@@ -34,20 +35,20 @@ $('#100pt-assign').click(function(event) {
     load100PtAssign();
 });
 
-$('#codetracker-status').click(function(event) {
-    event.preventDefault();
-    $("#codetracker-menu li").removeClass('active');
-    $(this).addClass('active');
-    loadCodetrackerStatus();
-});
+// $('#codetracker-status').click(function(event) {
+//     event.preventDefault();
+//     $("#codetracker-menu li").removeClass('active');
+//     $(this).addClass('active');
+//     loadCodetrackerStatus();
+// });
 
 
-$('#codetracker-setting').click(function(event) {
-    event.preventDefault();
-    $("#codetracker-menu li").removeClass('active');
-    $(this).addClass('active');
-    loadCodetrackerStatus();
-});
+// $('#codetracker-setting').click(function(event) {
+//     event.preventDefault();
+//     $("#codetracker-menu li").removeClass('active');
+//     $(this).addClass('active');
+//     loadCodetrackerStatus();
+// });
 
 
 
