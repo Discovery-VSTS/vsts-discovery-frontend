@@ -5,38 +5,52 @@
 // Update Date: 7-Mar-2017
 
 // var endpoint = "https://138.68.147.100:8000/" // live
-var endpoint = "http://127.0.0.1:8000/" // dev
+var endpoint = "http://127.0.0.1:8000"; // dev
+// var endpoint = "http://192.168.3.13:8080"; // dev
+
+currentInstanceName = "vsts-discovery"; // dev
+var repoName = "discovery-frontend";
 
 
 var addChartSelector;
 var addChartConfigObj;
-var addChartLabels;
-var addChartData;
+var addChartLabels = [];
+var addChartData = [];
 var addChartOptions;
 var addChart;
 
 var testCovChartSelector;
 var testCovChartConfigObj;
-var testCovChartLabels;
-var testCovChartData;
+var testCovChartLabels = [];
+var testCovChartData = [];
 var testCovChartOptions;
 var testCovChart;
 
 var delChartSelector;
 var delChartConfigObj;
-var delChartLabels;
-var delChartData;
+var delChartLabels = [];
+var delChartData = [];
 var delChartOptions;
 var delChart;
 
 var gpaChartSelector;
 var gpaChartConfigObj;
-var gpaChartLabels;
-var gpaChartData;
+var gpaChartLabels = [];
+var gpaChartData = [];
 var gpaChartOptions;
 var gpaChart;
 
 var colorSet;
+
+// generate colours with low and high opacity
+function randomTwoColour() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    var lo = "rgba(" + r + "," + g + "," + b + ",0.4)";
+    var ho = "rgba(" + r + "," + g + "," + b + ",1)"
+    return {low: lo, high: ho};
+}
 
 function loadCodetrackerStatus() {
     $('#codetracker-components').load("components/codetracker-status.html", function(response, status, xhr){
@@ -47,9 +61,8 @@ function loadCodetrackerStatus() {
             delChartSelector = $("#delChart");
             gpaChartSelector = $("#gpaChart");
 
-            if (colorSet===undefined) {
-                colorSet = randomColorSet(chartLabels);
-            }
+            // get data from backend
+            getCommitStats(repoName);
 
             // configuration functions for each chart
             addChartConfig();
@@ -64,25 +77,30 @@ function loadCodetrackerStatus() {
 
 
 function addChartConfig() {
+	// generage random colours
+	var colourPair = randomTwoColour();
+	var lowColour = colourPair.low;
+	var highColour = colourPair.high;
+
 	addChartConfigObj = {
 	    labels: addChartLabels,
 	    datasets: [
 	        {
-	            label: "History of points earned by "+selectedMemberName,
+	            label: "Line of code added over time",
 	            data: addChartData,
 	            fill: false,
 	            lineTension: 0.1,
-	            backgroundColor: "rgba(75,192,192,0.4)",
-	            borderColor: "rgba(75,192,192,1)",
+	            backgroundColor: lowColour,
+	            borderColor: highColour,
 	            borderCapStyle: 'butt',
 	            borderDash: [],
 	            borderDashOffset: 0.0,
 	            borderJoinStyle: 'miter',
-	            pointBorderColor: "rgba(75,192,192,1)",
+	            pointBorderColor: highColour,
 	            pointBackgroundColor: "#fff",
 	            pointBorderWidth: 1,
 	            pointHoverRadius: 5,
-	            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+	            pointHoverBackgroundColor: highColour,
 	            pointHoverBorderColor: "rgba(220,220,220,1)",
 	            pointHoverBorderWidth: 2,
 	            pointRadius: 1,
@@ -98,12 +116,17 @@ function addChartConfig() {
 
 	addChart = new Chart(addChartSelector, {
 	    type: 'line',
-	    data: addChartConfig,
+	    data: addChartConfigObj,
 	    options: addChartOptions
 	});
 }
 
 function testCovChartConfig() {
+	// generage random colours
+	var colourPair = randomTwoColour();
+	var lowColour = colourPair.low;
+	var highColour = colourPair.high;
+
 	testCovChartConfigObj = {
 	    labels: testCovChartLabels,
 	    datasets: [
@@ -112,17 +135,17 @@ function testCovChartConfig() {
 	            data: testCovChartData,
 	            fill: false,
 	            lineTension: 0.1,
-	            backgroundColor: "rgba(75,192,192,0.4)",
-	            borderColor: "rgba(75,192,192,1)",
+	            backgroundColor: lowColour,
+	            borderColor: highColour,
 	            borderCapStyle: 'butt',
 	            borderDash: [],
 	            borderDashOffset: 0.0,
 	            borderJoinStyle: 'miter',
-	            pointBorderColor: "rgba(75,192,192,1)",
+	            pointBorderColor: highColour,
 	            pointBackgroundColor: "#fff",
 	            pointBorderWidth: 1,
 	            pointHoverRadius: 5,
-	            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+	            pointHoverBackgroundColor: highColour,
 	            pointHoverBorderColor: "rgba(220,220,220,1)",
 	            pointHoverBorderWidth: 2,
 	            pointRadius: 1,
@@ -138,31 +161,36 @@ function testCovChartConfig() {
 
 	testCovChart = new Chart(testCovChartSelector, {
 	    type: 'line',
-	    data: testCovChartConfig,
+	    data: testCovChartConfigObj,
 	    options: testCovChartOptions
 	});
 }
 
 function delChartConfig() {
+	// generage random colours
+	var colourPair = randomTwoColour();
+	var lowColour = colourPair.low;
+	var highColour = colourPair.high;
+
 	delChartConfigObj = {
 	    labels: delChartLabels,
 	    datasets: [
 	        {
-	            label: "History of points earned by "+selectedMemberName,
+	            label: "Line of code deleted over time",
 	            data: delChartData,
 	            fill: false,
 	            lineTension: 0.1,
-	            backgroundColor: "rgba(75,192,192,0.4)",
-	            borderColor: "rgba(75,192,192,1)",
+	            backgroundColor: lowColour,
+	            borderColor: highColour,
 	            borderCapStyle: 'butt',
 	            borderDash: [],
 	            borderDashOffset: 0.0,
 	            borderJoinStyle: 'miter',
-	            pointBorderColor: "rgba(75,192,192,1)",
+	            pointBorderColor: highColour,
 	            pointBackgroundColor: "#fff",
 	            pointBorderWidth: 1,
 	            pointHoverRadius: 5,
-	            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+	            pointHoverBackgroundColor: highColour,
 	            pointHoverBorderColor: "rgba(220,220,220,1)",
 	            pointHoverBorderWidth: 2,
 	            pointRadius: 1,
@@ -178,7 +206,7 @@ function delChartConfig() {
 
 	delChart = new Chart(delChartSelector, {
 	    type: 'line',
-	    data: delChartConfig,
+	    data: delChartConfigObj,
 	    options: delChartOptions
 	});
 }
@@ -218,7 +246,44 @@ function gpaChartConfig() {
 
 	gpaChart = new Chart(gpaChartSelector, {
 	    type: 'line',
-	    data: gpaChartConfig,
+	    data: gpaChartConfigObj,
 	    options: gpaChartOptions
 	});
+}
+
+function getCommitStats(repoName) {
+	$.ajax({
+		url: endpoint+'/repo-stats/commit-stats/',
+		type: 'GET',
+		dataType: 'json',
+		data: {
+			instance_name: currentInstanceName,
+			repo_name: repoName
+		},
+	})
+	.done(function(data) {
+		console.log("commit stats success");
+		console.log(data);
+		$.each(data, function(epoch, obj) {
+			var convertDate = moment(epoch*1000).format("DD/MMM/YYYY");
+			var labelItem = convertDate;
+			addChartLabels.push(labelItem);
+			delChartLabels.push(labelItem);
+			var addLoc = 0;
+			var delLoc = 0;
+			$.each(obj, function(index, obj) {
+				addLoc += obj.commit.changes.add;
+				delLoc += obj.commit.changes.delete;
+			});
+			addChartData.push(addLoc);
+			delChartData.push(delLoc);		
+		});
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+	
 }

@@ -9,22 +9,22 @@ var endpoint = "http://127.0.0.1:8000/" // dev
 // testing global variable for instance ID-->REMOVE in deployment
 console.log(currentAccountID);
 
-function randomColors() {
+function randomColour(opacity) {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
-    return "rgba(" + r + "," + g + "," + b + ", 0.4)";
+    return "rgba(" + r + "," + g + "," + b + ", "+opacity+")";
 }
 
 function randomColourSet(labels) {
     var colorSet = [];
     if (labels===undefined) { // don't know how many colours needed
         for (var i = 10; i >= 0; i--) {
-            colorSet.push(randomColors());
+            colorSet.push(randomColour(0.4));
         }
     }else{ // known how many colours needed
         for (var i = labels.length - 1; i >= 0; i--) {
-            colorSet.push(randomColors());
+            colorSet.push(randomColour(0.4));
         }
     }
     return colorSet;
