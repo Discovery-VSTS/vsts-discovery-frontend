@@ -285,5 +285,27 @@ function getCommitStats(repoName) {
 	.always(function() {
 		console.log("complete");
 	});
+}
+
+
+function getTestCoverage(repoName) {
+	$.ajax({
+		url: endpoint+'/code-score/test_coverage',
+		type: 'GET',
+		dataType: 'json',
+		data: {
+			github_user: ,
+			repo_name: repoName
+		},
+	})
+	.done(function() {
+		console.log("success");
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
 	
 }
