@@ -6,7 +6,6 @@
 
 // var endpoint = "https://138.68.147.100:8000/" // live
 var endpoint = "http://127.0.0.1:8000"; // dev
-// var endpoint = "http://192.168.3.13:8080"; // dev
 
 currentInstanceName = "vsts-discovery"; // dev
 var repoName = "discovery-frontend";
@@ -288,24 +287,24 @@ function getCommitStats(repoName) {
 }
 
 
-function getTestCoverage(repoName) {
-	$.ajax({
-		url: endpoint+'/code-score/test_coverage',
-		type: 'GET',
-		dataType: 'json',
-		data: {
-			github_user: ,
-			repo_name: repoName
-		},
-	})
-	.done(function() {
-		console.log("success");
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
-	});
+// function getTestCoverage(repoName) {
+// 	$.ajax({
+// 		url: endpoint+'/code-score/test_coverage',
+// 		type: 'GET',
+// 		dataType: 'json',
+// 		data: {
+// 			github_user: ,
+// 			repo_name: repoName
+// 		},
+// 	})
+// 	.done(function() {
+// 		console.log("success");
+// 	})
+// 	.fail(function() {
+// 		console.log("error");
+// 	})
+// 	.always(function() {
+// 		console.log("complete");
+// 	});
 	
-}
+// }
