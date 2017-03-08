@@ -39,7 +39,7 @@ var gpaChart;
 var colorSet;
 
 function loadCodetrackerStatus() {
-    $('#codetracker-status').load("components/100-points-status.html", function(response, status, xhr){
+    $('#codetracker-components').load("components/codetracker-status.html", function(response, status, xhr){
         if (status == "success") {
             // set up all charts
             addChartSelector = $("#addChart");
