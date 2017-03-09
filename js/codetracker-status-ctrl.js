@@ -296,13 +296,7 @@ function getTestCoverage(repoName) {
 		data: {
 			github_user: "minhlongdo",
 			github_repo: repoName
-		},
-		beforeSend: function (xhr) {
-    		xhr.setRequestHeader ("Authorization", "ba1e93d7594edba0c85f81aba71264cd9c11a01d");
-		},
-		headers: {
-		    "Authorization": "ba1e93d7594edba0c85f81aba71264cd9c11a01d"
-		},
+		}
 	})
 	.done(function(data) {
 		console.log("test coverage success");
