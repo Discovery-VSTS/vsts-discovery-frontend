@@ -60,9 +60,16 @@ function loadCodetrackerStatus() {
             delChartSelector = $("#delChart");
             gpaChartSelector = $("#gpaChart");
 
+
+            $('#btn_testcov').click(function(event) {
+            	console.log($('#github_user'))
+            	getTestCoverage($('#github_repo').val());
+            });
+
+
             // get data from backend
             getCommitStats(repoName);
-            getTestCoverage("codemetric");
+            // getTestCoverage("codemetric");
 
             // configuration functions for each chart
             addChartConfig();
@@ -294,9 +301,14 @@ function getTestCoverage(repoName) {
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			github_user: "minhlongdo",
+			github_user: $('#github_user').val(),
 			github_repo: repoName
-		}
+		},
+		headers: { 
+        "Authorization": "Basic "+$('#github_key').val(),
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type':'text/plain'
+    	},
 	})
 	.done(function(data) {
 		console.log("test coverage success");
