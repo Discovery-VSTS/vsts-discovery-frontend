@@ -5,7 +5,7 @@
 // Update Date: 7-Mar-2017
 
 // var endpoint = "https://138.68.147.100:8000/" // live
-var endpoint = "http://127.0.0.1:8000"; // dev
+// var endpoint = "http://127.0.0.1:8000"; // dev
 
 currentInstanceName = "vsts-discovery"; // dev
 var repoName = "discovery-frontend";
@@ -62,6 +62,7 @@ function loadCodetrackerStatus() {
 
             // get data from backend
             getCommitStats(repoName);
+            getTestCoverage("codemetric");
 
             // configuration functions for each chart
             addChartConfig();
@@ -275,7 +276,7 @@ function getCommitStats(repoName) {
 				delLoc += obj.commit.changes.delete;
 			});
 			addChartData.push(addLoc);
-			delChartData.push(delLoc);		
+			delChartData.push(delLoc);
 		});
 	})
 	.fail(function() {
@@ -287,24 +288,31 @@ function getCommitStats(repoName) {
 }
 
 
-// function getTestCoverage(repoName) {
-// 	$.ajax({
-// 		url: endpoint+'/code-score/test_coverage',
-// 		type: 'GET',
-// 		dataType: 'json',
-// 		data: {
-// 			github_user: ,
-// 			repo_name: repoName
-// 		},
-// 	})
-// 	.done(function() {
-// 		console.log("success");
-// 	})
-// 	.fail(function() {
-// 		console.log("error");
-// 	})
-// 	.always(function() {
-// 		console.log("complete");
-// 	});
-	
-// }
+function getTestCoverage(repoName) {
+	$.ajax({
+		url: endpoint+'/code-score/test_coverage',
+		type: 'GET',
+		dataType: 'json',
+		data: {
+			github_user: "minhlongdo",
+			github_repo: repoName
+		},
+		beforeSend: function (xhr) {
+    		xhr.setRequestHeader ("Authorization", "ba1e93d7594edba0c85f81aba71264cd9c11a01d");
+		},
+		headers: {
+		    "Authorization": "ba1e93d7594edba0c85f81aba71264cd9c11a01d"
+		},
+	})
+	.done(function(data) {
+		console.log("test coverage success");
+		console.log(data)
+	})
+	.fail(function() {
+		console.log("test coverage error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+
+}

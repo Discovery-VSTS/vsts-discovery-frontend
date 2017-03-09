@@ -5,7 +5,7 @@
 // Update Date: 7-Mar-2017
 
 // var endpoint = "https://138.68.147.100:8000/" // live
-var endpoint = "http://127.0.0.1:8000/" // dev
+var endpoint = "http://127.0.0.1:8000" // dev
 // testing global variable for instance ID-->REMOVE in deployment
 console.log(currentAccountID);
 
@@ -164,7 +164,7 @@ function memHistoryLineChartConfig() {
 // get data for pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
-        url: endpoint+'v1/points/distribution/'+date,
+        url: endpoint+'/v1/points/distribution/'+date,
         type: 'GET',
         dataType: 'json',
         xhrFields: {
@@ -221,7 +221,7 @@ function getWeeklyDistribution(date) {
 
 function fillMembersDropdown() {
     $.ajax({
-        url: endpoint+'v1/members',
+        url: endpoint+'/v1/members',
         type: 'GET',
         dataType: 'json',
         xhrFields: {
@@ -266,7 +266,7 @@ function fillMembersDropdown() {
 
 function getHistoryDistribution(email) {
     $.ajax({
-        url: endpoint+'v1/member/history/'+email,
+        url: endpoint+'/v1/member/history/'+email,
         type: 'GET',
         dataType: 'json',
         xhrFields: {
