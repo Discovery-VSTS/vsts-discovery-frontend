@@ -2,7 +2,7 @@
 // JavaScript functions for controlling 100 points status component
 // Author: Yichen Lu
 // Create Date: 01-Feb-2017
-// Update Date: 20-Feb-2017
+// Update Date: 7-Mar-2017
 
 // var endpoint = "https://138.68.147.100:8000/" // live
 var endpoint = "http://127.0.0.1:8000/" // dev
