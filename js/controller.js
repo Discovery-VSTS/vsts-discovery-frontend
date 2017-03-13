@@ -57,8 +57,13 @@ var vssWebContext = VSS.getWebContext();
 console.log(vssWebContext);
 var currentAccount = vssWebContext.account;
 console.log(currentAccount);
+var currentAccountName = currentAccount.name
+console.log(currentAccountName)
 var currentUser = vssWebContext.user;
 console.log(currentUser);
+
+var currentInstanceName = currentAccount.name
+console.log("Current Account Name: "+currentInstanceName)
 var currentInstanceID = currentAccount.id;
 console.log("Current Account ID: "+currentInstanceID);
 var currentUserEmail = currentUser.email;

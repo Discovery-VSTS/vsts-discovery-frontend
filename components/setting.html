@@ -1,19 +1,19 @@
 <h2>API Integration</h2>
 <hr/>
 <div class="form-group">
-    <label>GitHub Token</label>
+    <label>GitHub Token</label><span id="statusGitHubToken" hidden="true" title="Submitted">&nbsp;<i class="fa fa-check-circle fa-1" aria-hidden="true"></i></span>
     <input id="githubTokenID" type="text" class="form-control">
 </div>
 <div class="form-group">
-    <label>Slack Token</label>
+    <label>Slack Token</label><span id="statusSlackToken" hidden="true" title="Submitted">&nbsp;<i class="fa fa-check-circle fa-1" aria-hidden="true"></i></span>
     <input id="slackTokenID" type="text" class="form-control">
 </div>
 <div class="form-group">
-    <label>Slack Channel</label>
+    <label>Slack Channel</label><span id="statusSlackChannel" hidden="true" title="Submitted">&nbsp;<i class="fa fa-check-circle fa-1" aria-hidden="true"></i></span>
     <input id="slackChannelID" type="text" class="form-control">
 </div>
 <div class="form-group">
-    <label>VSTS Access Token</label>
+    <label>VSTS Access Token</label><span id="statusVSTSAccessToken" hidden="true" title="Submitted">&nbsp;<i class="fa fa-check-circle fa-1" aria-hidden="true"></i></span>
     <input id="vstsToken" type="text" class="form-control">
 </div>
 <div>
@@ -22,4 +22,12 @@
 <div>
     <p id="settingsResponseText"></p>
 </div>
-<hr/>
+<!-- <hr/> -->
+<!-- <h4>Token Status</h4>
+<div id="currentTokenStatus">
+    <p>GitHub Token <i class="fa fa-check-circle fa-1" aria-hidden="true" title="Submitted"></i></p>
+    <p>Slack Token <i class="fa fa-check-circle fa-1" aria-hidden="true" title="Submitted"></i></p>
+    <p>Slack Channel <i class="fa fa-check-circle fa-1" aria-hidden="true" title="Submitted"></i></p>
+    <p>VSTS Access Token <i class="fa fa-check-circle fa-1" aria-hidden="true" title="Submitted"></i></p>
+</div>
+ -->
