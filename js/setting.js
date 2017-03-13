@@ -44,7 +44,8 @@ function createTokenJSON() {
 		"github_token": github_token,
 		"slack_token": slack_token,
 		"vsts_token": vsts_token,
-		"slack_channel": slack_channel
+		"slack_channel": slack_channel,
+        "user_email": currentUserEmail
 	};
 	return JSON.stringify(json);
 }
