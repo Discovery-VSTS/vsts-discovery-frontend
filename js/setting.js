@@ -7,13 +7,12 @@ function loadSetting() {
 }
 
 //TO BE UPDATED WITH LIVE SERVER URL
-settingsServerUrl = "http://127.0.0.1:7000";
-
+// settingsServerUrl = "http://127.0.0.1:7000";
+settingsServerUrl = "https://discovery-settingmanagement.azurewebsites.net";
 //MUST UPDATE WITH INSTANCE ID FROM VSTS
-var instance_id = "cqefcef";
+// var instance_id = "f352ef29-9321-4588-85ba-e35ca23db41f";
+var instance_id = currentInstanceID;
 
-//MUST UPDATE WITH TOKEN ID FROM VSTS
-var vsts_token = "testtoken";
 
 function tokenSubmitButton() {
 	var xhr = new XMLHttpRequest();
@@ -39,6 +38,7 @@ function createTokenJSON() {
 	var github_token = $('#githubTokenID').val();
 	var slack_token = $('#slackTokenID').val();
 	var slack_channel = $('#slackChannelID').val();
+    var vsts_token = $('#vstsToken').val();
 	var json = {
 		"instance_id": instance_id,
 		"github_token": github_token,
