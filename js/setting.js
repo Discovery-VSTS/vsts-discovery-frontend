@@ -6,13 +6,13 @@ settingsServerUrl = "https://discovery-settingmanagement.azurewebsites.net";
 // var user_email = "yichen@gmail.com"; //dev
 var user_email = currentUserEmail;
 var instance_id = currentInstanceName;
-// var getStatus;
 
 function loadSetting() {
     $('#setting-components').load('components/setting.html',function(response, status, xhr){
         getTokens();
         $('#tokenSubmitButton').click(function(event) {
             tokenSubmitButton();
+            getTokens();
         });
     });
 }
@@ -23,13 +23,6 @@ function tokenSubmitButton() {
     var slack_token = $('#slackTokenID').val();
     var slack_channel = $('#slackChannelID').val();
     var vsts_token = $('#vstsToken').val();
-
-    // var reqType;
-    // if (getStatus=="404") {
-    //     reqType = 'POST'
-    // }else{
-    //     reqType = 'PUT'
-    // }
 
     $.ajax({
         url: settingsServerUrl+"/v1/tokenstorage/",
@@ -46,19 +39,18 @@ function tokenSubmitButton() {
     })
     .done(function(data) {
         $('#settingsResponseText').html("Submit success");
+        $('#settingsResponseText').css('color', '#279929');
         console.log("POST success");
         console.log(data);
     })
     .fail(function(obj, textStatus, errorThrown) {
         $('#settingsResponseText').html(errorThrown);
+        $('#settingsResponseText').css('color', '#E42331');
         console.log("error");
     })
     .always(function() {
         console.log("complete");
     });
-
-    getTokens();
-
 }
 
 
@@ -77,15 +69,23 @@ function getTokens() {
         console.log("GET Tokens success");
         if (data.github_token!="") {
             $('#statusGitHubToken').show();
+        }else{
+            $('#statusGitHubToken').hide();
         }
         if (data.slack_token!="") {
             $('#statusSlackToken').show();
+        }else{
+            $('#statusSlackToken').hide();
         }
         if (data.slack_channel!="") {
             $('#statusSlackChannel').show();
+        }else{
+            $('#statusSlackChannel').hide();
         }
         if (data.vsts_token!="") {
             $('#statusVSTSAccessToken').show();
+        }else{
+            $('#statusVSTSAccessToken').hide();
         }
         console.log(data.vsts_token)
     })
