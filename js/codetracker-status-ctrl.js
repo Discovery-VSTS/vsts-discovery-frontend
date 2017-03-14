@@ -4,7 +4,7 @@
 // Create Date: 7-Mar-2017
 // Update Date: 7-Mar-2017
 
-// var endpoint = "https://138.68.147.100:8000/" // live
+var endpoint = "http://discovery-codemetrics.azurewebsites.net" // live
 // var endpoint = "http://127.0.0.1:8000"; // dev
 
 currentInstanceName = "vsts-discovery"; // dev
@@ -304,7 +304,7 @@ function getTestCoverage(repoName) {
 			github_user: $('#github_user').val(),
 			github_repo: repoName
 		},
-		headers: { 
+		headers: {
         "Authorization": "Basic "+$('#github_key').val(),
         'Access-Control-Allow-Origin': '*',
         'Content-Type':'text/plain'
