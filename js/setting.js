@@ -2,10 +2,10 @@
 // settingsServerUrl = "http://127.0.0.1:7000";
 settingsServerUrl = "https://discovery-settingmanagement.azurewebsites.net";
 //MUST UPDATE WITH INSTANCE ID FROM VSTS
-var instance_id = "vsts-discovery";
-var user_email = "yichen@gmail.com"
-// var user_email = currentUserEmail;
-// var instance_id = currentInstanceName;
+// var instance_id = "vsts-discovery"; //dev
+// var user_email = "yichen@gmail.com"; //dev
+var user_email = currentUserEmail;
+var instance_id = currentInstanceName;
 // var getStatus;
 
 function loadSetting() {
