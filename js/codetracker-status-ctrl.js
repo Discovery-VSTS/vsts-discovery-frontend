@@ -4,8 +4,8 @@
 // Create Date: 7-Mar-2017
 // Update Date: 7-Mar-2017
 
-var endpoint = "http://discovery-codemetrics.azurewebsites.net" // live
-// var endpoint = "http://127.0.0.1:8000"; // dev
+var codeMetricEndpoint = "https://discovery-codemetrics.azurewebsites.net" // live
+// var codeMetricEndpoint = "http://127.0.0.1:8000"; // dev
 
 currentInstanceName = "vsts-discovery"; // dev
 currentUserEmail = "ucabyyl@ucl.ac.uk"; //dev
@@ -261,7 +261,7 @@ function gpaChartConfig() {
 
 function getCommitStats(repoName) {
 	$.ajax({
-		url: endpoint+'/repo-stats/commit-stats/',
+		url: codeMetricEndpoint+'/repo-stats/commit-stats/',
 		type: 'GET',
 		dataType: 'json',
 		data: {
@@ -299,7 +299,7 @@ function getCommitStats(repoName) {
 
 function getTestCoverage(userName, repoName) {
 	$.ajax({
-		url: endpoint+'/code-score/test_coverage',
+		url: codeMetricEndpoint+'/code-score/test_coverage',
 		type: 'GET',
 		dataType: 'json',
 		data: {
@@ -335,7 +335,7 @@ function getTestCoverage(userName, repoName) {
 
 function getGPA(userName, repoName) {
 	$.ajax({
-		url: endpoint+'/code-score/gpa',
+		url: codeMetricEndpoint+'/code-score/gpa',
 		type: 'GET',
 		dataType: 'json',
 		data: {
