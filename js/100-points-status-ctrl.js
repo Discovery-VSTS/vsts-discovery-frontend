@@ -4,10 +4,8 @@
 // Create Date: 01-Feb-2017
 // Update Date: 7-Mar-2017
 
-// var endpoint = "https://138.68.147.100:8000/" // live
-var endpoint = "http://127.0.0.1:8000" // dev
-// testing global variable for instance ID-->REMOVE in deployment
-console.log(currentAccountID);
+var endpoint = "https://discovery-100p.azurewebsites.net/" // live
+// var endpoint = "http://127.0.0.1:8000/" // dev
 
 function randomColour(opacity) {
     var r = Math.floor(Math.random() * 255);
@@ -29,6 +27,8 @@ function randomColourSet(labels) {
     }
     return colorSet;
 }
+
+var teamMembersObj;
 
 var chartSelector;
 var thisWeekPieChart;
@@ -161,32 +161,45 @@ function memHistoryLineChartConfig() {
     });
 }
 
+function getNameByEmail(teamMembersObj, email) {
+    var memName = "Unknown"
+    $.each(teamMembersObj, function(index, obj) {
+        if (obj.email == email) {
+            memName = obj.name;
+        }
+    });
+    return memName;
+}
+
 // get data for pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
         url: endpoint+'/v1/points/distribution/'+date,
         type: 'GET',
         dataType: 'json',
-        xhrFields: {
-            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-            // This can be used to set the 'withCredentials' property.
-            // Set the value to 'true' if you'd like to pass cookies to the server.
-            // If this is enabled, your server must respond with the header
-            // 'Access-Control-Allow-Credentials: true'.
-            withCredentials: false
-        },
+        // xhrFields: {
+        //     // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+        //     // This can be used to set the 'withCredentials' property.
+        //     // Set the value to 'true' if you'd like to pass cookies to the server.
+        //     // If this is enabled, your server must respond with the header
+        //     // 'Access-Control-Allow-Credentials: true'.
+        //     withCredentials: false
+        // },
     })
     .done(function(data) {
-        // console.log("success");
+        console.log("get weekly distribution successfully");
+        // clear label text
         $('#lbl_week_data_status').text("");
         chartLabels = [];
         labelVal = [];
         // read data
         var content = data.given_points;
+        console.log("team members: ")
+        // console.log(teamMembersObj)
         $.each(content, function(index, obj) {
             $.each(obj, function(key, val) {
                 if (key == "to_member") {
-                    chartLabels.push(val);
+                    chartLabels.push(getNameByEmail(teamMembersObj, val));
                 }
                 if (key == "points") {
                     labelVal.push(val);
@@ -234,7 +247,8 @@ function fillMembersDropdown() {
         },
     })
     .done(function(data) {
-        // console.log("success");
+        console.log("get team members success");
+        teamMembersObj = data;
         // append items into list
         $.each(data, function(index, val) {
             $.each(val, function(dtype, val) {

@@ -1,50 +1,74 @@
-<div class="row">
-    <div class="col-md-4">
-        <p id="assign-date-range">
-        </p>
+<span id="100pointassignhtml">
+    <div class="row">
+        <div class="col-md-4">
+            <p id="assign-date-range">
+            </p>
+        </div>
+        <div class="col-md-8">
+            <!-- <button class="btn btn-primary pull-right" type="button"> -->
+            <p>Available Points <span id="pointValue" class="badge">100</span></p>
+            <!-- </button> -->
+        </div>
     </div>
-    <div class="col-md-8">
-        <!-- <button class="btn btn-primary pull-right" type="button"> -->
-        <p>Available Points <span id="pointValue" class="badge">100</span></p>
-        <!-- </button> -->
+    <div class="row padding-md">
+        <h3>Allocation</h3>
+        <p>Points to be allocated below</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody id="user_list">
+                <!--                     generate fields -->
+            </tbody>
+        </table>
     </div>
-</div>
-<div class="row padding-md">
-    <h3>Allocation</h3>
-    <p>Points to be allocated below</p>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Points</th>
-            </tr>
-        </thead>
-        <tbody id="user_list">
+    <div class="row">
+        <div class="col-md-6">
+            <button type="button" id="validateButton" class="btn btn-primary btn-lg btn-block">Validate Week</button>
+        </div>
+        <div class="col-md-6">
+            <button type="button" id="submitButton" class="btn btn-info btn-lg btn-block">Submit Points</button>
+        </div>
+    </div>
+    <hr/>
+    <div>
+        <p id="assignResponseText"><br/></p>
+    </div>
+    <hr/>
+    <div class="row padding-md">
+    <span id="assignStatusHeaders"></span>
+<!--         <h3>Assign Status</h3>
+        <p>Points assigned by team members</p> -->
+        <table class="table table-striped">
+            <thead>
+               <tr id="assignStatusTableHead">
+                   <!--                     generate fields -->
+               </tr>
+           </thead>
+           <tbody id="assignStatusTableBody">
             <!--                     generate fields -->
         </tbody>
     </table>
 </div>
-<div class="row">
-    <div class="col-md-6">
-        <button type="button" id="validateButton" class="btn btn-primary btn-lg btn-block">Validate Week</button>
+</span>
+<span id="validatedHtml" style="display:none;">
+    <div class="row padding-md">
+        <h3>Points Already Validated</h3>
+        <p>Weekly Distribution:</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody id="user_list22">
+                <!--                     generate fields -->
+            </tbody>
+        </table>
+        <p id="nextPointDate"></p>
     </div>
-    <div class="col-md-6">
-        <button type="button" id="submitButton" class="btn btn-info btn-lg btn-block">Submit Points</button>
-    </div>
-</div>
-<hr/>
-<hr/>
-<div class="row padding-md">
-    <h3>Assign Status</h3>
-    <p>Points assigned by team members</p>
-    <table class="table table-striped">
-        <thead>
-        	<tr id="assignStatusTableHead">
-        	<!--                     generate fields -->
-        	</tr>
-        </thead>
-        <tbody id="assignStatusTableBody">
-            <!--                     generate fields -->
-        </tbody>
-    </table>
-</div>
+</span>
