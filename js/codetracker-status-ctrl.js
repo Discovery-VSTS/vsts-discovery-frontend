@@ -7,8 +7,7 @@
 var codeMetricEndpoint = "https://discovery-codemetrics.azurewebsites.net" // live
 // var codeMetricEndpoint = "http://127.0.0.1:8000"; // dev
 
-currentInstanceName = "vsts-discovery"; // dev
-currentUserEmail = "ucabyyl@ucl.ac.uk"; //dev
+
 var repoName = "discovery-frontend"; //dev
 var covRepoName = "codemetric";
 
