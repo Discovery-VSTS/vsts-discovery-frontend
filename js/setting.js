@@ -1,11 +1,11 @@
 //TO BE UPDATED WITH LIVE SERVER URL
-// settingsServerUrl = "http://127.0.0.1:7000";
+// settingsServerUrl = "http://127.0.0.1:7000"; //dev
 settingsServerUrl = "https://discovery-settingmanagement.azurewebsites.net";
 //MUST UPDATE WITH INSTANCE ID FROM VSTS
-// var instance_id = "vsts-discovery"; //dev
+// var instance_id = "f352ef29-9321-4588-85ba-e35ca23db41f"; //dev
 // var user_email = "yichen@gmail.com"; //dev
 var user_email = currentUserEmail;
-var instance_id = currentInstanceName;
+var instance_id = currentInstanceID;
 
 function loadSetting() {
     $('#setting-components').load('components/setting.html',function(response, status, xhr){

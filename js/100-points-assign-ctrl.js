@@ -4,15 +4,21 @@
 // Create Date: 01-Feb-2017
 // Update Date: 13-Mar-2017
 
-var serverURL = "https://discovery-100p.azurewebsites.net";   //live URL
-// serverURL = "http://127.0.0.1:8000" //testing URL
+//DEV
+// var serverURL = "http://127.0.0.1:8000";
+// var vsts_instance_id = "f352ef29-9321-4588-85ba-e35ca23db41f";
+// var vsts_instance_name = "vsts-discovery";
+// var currentUser = "ucabjm4@ucl.ac.uk";
 
-// var currentUser = "jason@jason.com"; //testing currentUser
-var currentUser = currentUserEmail //NEEDS UPDATED
+// var firstdayofweek = "2017-02-12";
 
-// var vsts_instance_id = "f352ef29-9321-4588-85ba-e35ca23db41f"; //REPLACE WITH VSTS GET INSTANCE ID
-var vsts_instance_id = currentInstanceID; //REPLACE WITH VSTS GET INSTANCE ID
+// //PROD
+var serverURL = "https://discovery-100p.azurewebsites.net";
+var vsts_instance_id = currentInstanceID;
+var vsts_instance_name = currentInstanceName;
+var currentUser = currentUserEmail;
 
+//gobal
 var firstdayofweek = firstDayOfWeek();
 
 var members;
@@ -59,7 +65,7 @@ function mainMethods() {
 }
 
 function validatedPointsView() {
-    jQuery.getJSON(serverURL + '/v1/members/', { instance_id: vsts_instance_id }, function (json, textStatus) {
+    jQuery.getJSON(serverURL + '/v1/members/', { instance_id: vsts_instance_id, instance_name: vsts_instance_name, user_email: currentUser }, function (json, textStatus) {
         $('#100pointassignhtml').empty();
         $('#validatedHtml').show();
         var user_list = $("#user_list22");
@@ -82,7 +88,7 @@ function validatedPointsView() {
 }
 
 function generateUserTableRows() {
-    jQuery.getJSON(serverURL + '/v1/members/', { instance_id: vsts_instance_id }, function (json, textStatus) {
+    jQuery.getJSON(serverURL + '/v1/members/', { instance_id: vsts_instance_id, instance_name: vsts_instance_name, user_email: currentUser }, function (json, textStatus) {
         if (json.length == 0) {
             $('#100pointassignhtml').text("Error: No members loaded!")
         } else {
@@ -173,15 +179,6 @@ function hasSent() {
     return false;
 }
 
-
-function getMembers() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", serverURL + "/v1/members/", false);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send();
-    return JSON.parse(xhr.responseText);
-}
-
 function createJSON() {
     jsonObj = [];
     $("#user_list_div input").each(function () {
@@ -261,15 +258,6 @@ function validatePoints() {
             $('#assignResponseText').html(JSON.parse(xhr.responseText).detail);
         }
     }
-}
-
-function getPointsForWeek() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", serverURL + "/v1/points/distribution/" + firstdayofweek + "/?instance_id=" + vsts_instance_id, false);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send();
-    console.log(xhr.status);
-    return JSON.parse(xhr.responseText);
 }
 
 //Return the first day of the current week (Monday)
