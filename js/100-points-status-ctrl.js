@@ -7,6 +7,13 @@
 var endpoint = "https://discovery-100p.azurewebsites.net/" // live
 // var endpoint = "http://127.0.0.1:8000/" // dev
 
+var ptInstanceId = "f352ef29-9321-4588-85ba-e35ca23db41f";
+var ptInstanceName = "vsts-discovery";
+var ptCurrentUser = "ucabyyl@ucl.ac.uk";
+// var ptInstanceId = currentInstanceID;
+// var ptInstanceName = currentInstanceName;
+// var ptCurrentUser = ptCurrentUserEmail;
+
 function randomColour(opacity) {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
@@ -49,6 +56,9 @@ var selectedMemberName;
 function load100PtStatus() {
     $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
         if (status == "success") {
+            $('#clearText').click(function(event) {
+                $('#no_valid_data').text('')
+            });
             console.log("start ajax");
             var today = moment().format("YYYY-MM-DD");
 
@@ -161,10 +171,10 @@ function memHistoryLineChartConfig() {
     });
 }
 
-function getNameByEmail(teamMembersObj, email) {
+function getNameByEmail(teamMembersObj, identifier) {
     var memName = "Unknown"
     $.each(teamMembersObj, function(index, obj) {
-        if (obj.email == email) {
+        if (obj.identifier == identifier) {
             memName = obj.name;
         }
     });
@@ -177,6 +187,9 @@ function getWeeklyDistribution(date) {
         url: endpoint+'/v1/points/distribution/'+date,
         type: 'GET',
         dataType: 'json',
+        data: {
+            instance_id: ptInstanceId
+        },
         // xhrFields: {
         //     // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
         //     // This can be used to set the 'withCredentials' property.
@@ -188,33 +201,43 @@ function getWeeklyDistribution(date) {
     })
     .done(function(data) {
         console.log("get weekly distribution successfully");
-        // clear label text
-        $('#lbl_week_data_status').text("");
-        chartLabels = [];
-        labelVal = [];
-        // read data
-        var content = data.given_points;
-        console.log("team members: ")
-        // console.log(teamMembersObj)
-        $.each(content, function(index, obj) {
-            $.each(obj, function(key, val) {
-                if (key == "to_member") {
-                    chartLabels.push(getNameByEmail(teamMembersObj, val));
-                }
-                if (key == "points") {
-                    labelVal.push(val);
-                }
-            });
-        });
+        console.log(data)
 
-        // distory current chart and reinitialize a new one with new data
-        thisWeekPieChart.destroy();
-        // setup colours
-        if (colorSet===undefined) {
-            colorSet = randomColourSet(chartLabels);
+        if (data.is_final=="true") {
+            // clear label text
+            $('#lbl_week_data_status').text("");
+            chartLabels = [];
+            labelVal = [];
+            // read data
+            var content = data.given_points;
+            console.log("team members: ")
+            console.log(teamMembersObj)
+            $.each(content, function(index, obj) {
+                // console.log(obj)
+                $.each(obj, function(key, val) {
+                    if (key == "to_member") {
+                        // console.log(val)
+                        chartLabels.push(getNameByEmail(teamMembersObj, val));
+                    }
+                    if (key == "points") {
+                        labelVal.push(val);
+                    }
+                });
+            });
+
+            // distory current chart and reinitialize a new one with new data
+            thisWeekPieChart.destroy();
+            // setup colours
+            if (colorSet===undefined) {
+                colorSet = randomColourSet(chartLabels);
+            }
+            // fill in data
+            teamWeekPieChartConfig()
+
+        }else{
+            $('#no_valid_data').text('Point distribution has not been validated yet.')
         }
-        // fill in data
-        teamWeekPieChartConfig()
+
     })
     .fail(function(obj, textStatus, errorThrown) {
         console.log("get weekly distribution error");
@@ -245,6 +268,11 @@ function fillMembersDropdown() {
             // 'Access-Control-Allow-Credentials: true'.
             withCredentials: false
         },
+        data:{
+            instance_id: ptInstanceId,
+            instance_name: ptInstanceName,
+            user_email: ptCurrentUser
+        }
     })
     .done(function(data) {
         console.log("get team members success");
