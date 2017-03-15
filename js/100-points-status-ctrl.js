@@ -7,22 +7,22 @@
 var endpoint = "https://discovery-100p.azurewebsites.net/" // live
 // var endpoint = "http://127.0.0.1:8000/" // dev
 
-function randomColors() {
+function randomColour(opacity) {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
-    return "rgba(" + r + "," + g + "," + b + ", 0.4)";
+    return "rgba(" + r + "," + g + "," + b + ", "+opacity+")";
 }
 
 function randomColourSet(labels) {
     var colorSet = [];
     if (labels===undefined) { // don't know how many colours needed
         for (var i = 10; i >= 0; i--) {
-            colorSet.push(randomColors());
+            colorSet.push(randomColour(0.4));
         }
     }else{ // known how many colours needed
         for (var i = labels.length - 1; i >= 0; i--) {
-            colorSet.push(randomColors());
+            colorSet.push(randomColour(0.4));
         }
     }
     return colorSet;
@@ -174,7 +174,7 @@ function getNameByEmail(teamMembersObj, email) {
 // get data for pie chart
 function getWeeklyDistribution(date) {
     $.ajax({
-        url: endpoint+'v1/points/distribution/'+date,
+        url: endpoint+'/v1/points/distribution/'+date,
         type: 'GET',
         dataType: 'json',
         // xhrFields: {
@@ -234,7 +234,7 @@ function getWeeklyDistribution(date) {
 
 function fillMembersDropdown() {
     $.ajax({
-        url: endpoint+'v1/members',
+        url: endpoint+'/v1/members',
         type: 'GET',
         dataType: 'json',
         xhrFields: {
@@ -280,7 +280,7 @@ function fillMembersDropdown() {
 
 function getHistoryDistribution(email) {
     $.ajax({
-        url: endpoint+'v1/member/history/'+email,
+        url: endpoint+'/v1/member/history/'+email,
         type: 'GET',
         dataType: 'json',
         xhrFields: {
