@@ -6,9 +6,9 @@
 
 //DEV
 // var serverURL = "http://127.0.0.1:8000";
-// var vsts_instance_id = "f352ef29-9321-4588-85ba-e35ca23db41f";
+// var vsts_instance_id = "egrgetjrtjrtj";
 // var vsts_instance_name = "vsts-discovery";
-// var currentUser = "ucabjm4@ucl.ac.uk";
+// var currentUser = "user@email.com";
 
 // var firstdayofweek = "2017-02-12";
 
