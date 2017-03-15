@@ -66,5 +66,30 @@ var currentInstanceName = currentAccount.name
 console.log("Current Account Name: "+currentInstanceName)
 var currentInstanceID = currentAccount.id;
 console.log("Current Account ID: "+currentInstanceID);
+var currentUserName = currentUser.name;
+console.log("Current User's Name: "+currentUserName);
 var currentUserEmail = currentUser.email;
 console.log("Current User's Email: "+currentUserEmail);
+
+function createMember() {
+    $.ajax({
+        url: 'http://discovery-100p.azurewebsites.net/v1/members/',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            name: currentUserName,
+            email: currentUserEmail,
+            instance_id: currentInstanceID
+        }
+    })
+    .done(function(data) {
+        console.log("Create member success");
+        console.log(data)
+    })
+    .fail(function(obj, textStatus, errorThrown) {
+        console.log("Create member error. "+errorThrown);
+    })
+    .always(function() {
+        console.log("complete");
+    });
+}

@@ -4,10 +4,8 @@
 // Create Date: 01-Feb-2017
 // Update Date: 7-Mar-2017
 
-// var endpoint = "https://138.68.147.100:8000/" // live
-var endpoint = "http://127.0.0.1:8000/" // dev
-// testing global variable for instance ID-->REMOVE in deployment
-console.log(currentAccountID);
+var endpoint = "https://discovery-100p.azurewebsites.net/" // live
+// var endpoint = "http://127.0.0.1:8000/" // dev
 
 function randomColors() {
     var r = Math.floor(Math.random() * 255);
@@ -179,14 +177,14 @@ function getWeeklyDistribution(date) {
         url: endpoint+'v1/points/distribution/'+date,
         type: 'GET',
         dataType: 'json',
-        xhrFields: {
-            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-            // This can be used to set the 'withCredentials' property.
-            // Set the value to 'true' if you'd like to pass cookies to the server.
-            // If this is enabled, your server must respond with the header
-            // 'Access-Control-Allow-Credentials: true'.
-            withCredentials: false
-        },
+        // xhrFields: {
+        //     // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+        //     // This can be used to set the 'withCredentials' property.
+        //     // Set the value to 'true' if you'd like to pass cookies to the server.
+        //     // If this is enabled, your server must respond with the header
+        //     // 'Access-Control-Allow-Credentials: true'.
+        //     withCredentials: false
+        // },
     })
     .done(function(data) {
         console.log("get weekly distribution successfully");

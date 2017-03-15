@@ -4,13 +4,14 @@
 // Create Date: 01-Feb-2017
 // Update Date: 13-Mar-2017
 
-serverURL = "http://127.0.0.1:8000" //testing URL
-// serverURL = "https://138.68.147.100:8000"   //live URL
+var serverURL = "https://discovery-100p.azurewebsites.net";   //live URL
+// serverURL = "http://127.0.0.1:8000" //testing URL
 
-var currentUser = "jason@jason.com"; //testing currentUser
-//var currentUser = vssWebContext.user.email //NEEDS UPDATED
+// var currentUser = "jason@jason.com"; //testing currentUser
+var currentUser = currentUserEmail //NEEDS UPDATED
 
-var vsts_instance_id = "666"; //REPLACE WITH VSTS GET INSTANCE ID
+// var vsts_instance_id = "f352ef29-9321-4588-85ba-e35ca23db41f"; //REPLACE WITH VSTS GET INSTANCE ID
+var vsts_instance_id = currentInstanceID; //REPLACE WITH VSTS GET INSTANCE ID
 
 var firstdayofweek = firstDayOfWeek();
 
