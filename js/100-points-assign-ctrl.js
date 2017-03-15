@@ -10,7 +10,7 @@ serverURL = "http://127.0.0.1:8000" //testing URL
 var currentUser = "jason@jason.com"; //testing currentUser
 //var currentUser = vssWebContext.user.email //NEEDS UPDATED
 
-var vsts_instance_id = "999999"; //REPLACE WITH VSTS GET INSTANCE ID
+var vsts_instance_id = "666"; //REPLACE WITH VSTS GET INSTANCE ID
 
 var firstdayofweek = firstDayOfWeek();
 
@@ -18,46 +18,43 @@ var members;
 var weekPointDistribution;
 
 function load100PtAssign() {
-    $('#100-points-components').load("components/100-points-assign.html", function(response, status, xhr) {
+    $('#100-points-components').load("components/100-points-assign.html", function (response, status, xhr) {
         if (status == "success") {
             $.ajax({
                 url: serverURL + '/v1/points/distribution/' + firstdayofweek + '/',
                 type: 'GET',
                 dataType: 'json',
-                data: {instance_id: vsts_instance_id},
+                data: { instance_id: vsts_instance_id },
             })
-            .done(function(data) {
-                weekPointDistribution = data;
-                if (data.is_final) {
-                    validatedPointsView();
-                } else {
-                    console.log("points not final display this stuff")
+                .done(function (data) {
+                    weekPointDistribution = data;
+                    if (data.is_final) {
+                        validatedPointsView();
+                    } else {
+                        mainMethods();
+                    }
+                })
+                .fail(function (data) {
                     mainMethods();
-                }
-            })
-            .fail(function(data) {
-                console.log("no points so display all")
-                mainMethods();
-            })
-            .always(function() {
-                console.log("complete");
-            });
+                })
+                .always(function () {
+                });
         }
     });
 }
 
 function mainMethods() {
-            displayFirstAndLastDate();
+    displayFirstAndLastDate();
 
-            generateUserTableRows();
+    generateUserTableRows();
 
-            $('#submitButton').click(function(event) {
-                 submitButton();
-            });
+    $('#submitButton').click(function (event) {
+        submitButton();
+    });
 
-            $('#validateButton').click(function(event) {
-                validatePoints();
-            });
+    $('#validateButton').click(function (event) {
+        validatePoints();
+    });
 }
 
 function validatedPointsView() {
@@ -76,7 +73,7 @@ function validatedPointsView() {
                 }
             }
         });
-        jQuery.each(pointDistribution.given_points, function(index, val) {
+        jQuery.each(pointDistribution.given_points, function (index, val) {
             user_list.append("<tr><td>" + pointDistribution.given_points[index].to_member + "</td><td>" + pointDistribution.given_points[index].points + "</td></tr>")
         });
         $('#nextPointDate').html("New points can be assigned next week")
@@ -84,36 +81,39 @@ function validatedPointsView() {
 }
 
 function generateUserTableRows() {
-    jQuery.getJSON(serverURL + '/v1/members/', {instance_id: vsts_instance_id}, function(json, textStatus) {
+    jQuery.getJSON(serverURL + '/v1/members/', { instance_id: vsts_instance_id }, function (json, textStatus) {
+        if (json.length == 0) {
+            $('#100pointassignhtml').text("Error: No members loaded!")
+        } else {
+            members = json;
+            if (typeof weekPointDistribution != "undefined") {
+                generateAssignStatusTable();
+            }
 
-        members = json;
-        if (typeof weekPointDistribution != "undefined"){
-            generateAssignStatusTable();
-        }
+            var user_list = $("#user_list");
 
-        var user_list = $("#user_list");
-
-        $.each(json, function(index, user) {
-            user_list.append("<tr id='user_list_div'>" +
-                "<td>" + user.name + "</td>" +
-                "<td> <input class='points-field' type='number' min='0' max='100' id='user_" + index + "' email = " + user.email + " />" +
-                "<td>" + "</tr>");
-        });
-
-        $('input.points-field').change(function(event) {
-            var usedPoints = 0;
-            $('.points-field').each(function(index, el) {
-                var fieldPoint;
-                if ($(el).val() == "") {
-                    fieldPoint = 0;
-                } else {
-                    fieldPoint = parseInt($(el).val());
-                }
-                usedPoints += fieldPoint;
-                console.log(usedPoints)
+            $.each(json, function (index, user) {
+                user_list.append("<tr id='user_list_div'>" +
+                    "<td>" + user.name + "</td>" +
+                    "<td> <input class='points-field' type='number' min='0' max='100' id='user_" + index + "' email = " + user.email + " />" +
+                    "<td>" + "</tr>");
             });
-            $('#pointValue').text(100 - usedPoints);
-        });
+
+            $('input.points-field').change(function (event) {
+                var usedPoints = 0;
+                $('.points-field').each(function (index, el) {
+                    var fieldPoint;
+                    if ($(el).val() == "") {
+                        fieldPoint = 0;
+                    } else {
+                        fieldPoint = parseInt($(el).val());
+                    }
+                    usedPoints += fieldPoint;
+                    console.log(usedPoints)
+                });
+                $('#pointValue').text(100 - usedPoints);
+            });
+        }
     });
 }
 
@@ -183,7 +183,7 @@ function getMembers() {
 
 function createJSON() {
     jsonObj = [];
-    $("#user_list_div input").each(function() {
+    $("#user_list_div input").each(function () {
 
         var id = $(this).attr("email");
         var points = $(this).val();
@@ -205,7 +205,7 @@ function createJSON() {
 
 function createJSONUPDATE() {
     jsonObj = [];
-    $("#user_list_div input").each(function() {
+    $("#user_list_div input").each(function () {
 
         var id = $(this).attr("email");
         var points = $(this).val();
@@ -251,10 +251,10 @@ function validatePoints() {
         "instance_id": vsts_instance_id
     }
     xhr.send(JSON.stringify(json));
-    xhr.onreadystatechange = function() {
-        if(xhr.readyState===4 && xhr.status===400) {
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 400) {
             $('#assignResponseText').html(JSON.parse(xhr.responseText).detail);
-        } else if (xhr.readyState===4 && xhr.status===200) {
+        } else if (xhr.readyState === 4 && xhr.status === 200) {
             $('#assignResponseText').html("Succes: Your points have been validated");
         } else {
             $('#assignResponseText').html(JSON.parse(xhr.responseText).detail);
@@ -275,11 +275,11 @@ function getPointsForWeek() {
 function firstDayOfWeek() {
     var curr = new Date;
     var firstday;
-    if(curr.getDay()!=0){
+    if (curr.getDay() != 0) {
         firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1));
     } else {
         firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() - 6));
-    }    
+    }
     return firstday.toISOString().substring(0, 10);
 }
 
@@ -287,7 +287,7 @@ function firstDayOfWeek() {
 function lastDayOfWeek() {
     var curr = new Date;
     var lastday;
-    if(curr.getDay()!=0){
+    if (curr.getDay() != 0) {
         lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 7));
     } else {
         lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
@@ -299,13 +299,13 @@ function lastDayOfWeek() {
 function displayFirstAndLastDate() {
     var firstDay = firstDayOfWeek();
     var lastDay = lastDayOfWeek();
-    $('#assign-date-range').text("Week: "+firstDay +" to "+ lastDay);
+    $('#assign-date-range').text("Week: " + firstDay + " to " + lastDay);
 }
 
 //assign status
 function getJSON() {
     var data = updateJSONForTable();
-    
+
     var result = [['From/To']];
 
     data.forEach(function (row, col) {
@@ -329,21 +329,21 @@ function updateJSONForTable() {
     var newPoints = pointsWeek.given_points;
 
     //replace identifier with name
-    jQuery.each(newPoints, function(index, val) {
+    jQuery.each(newPoints, function (index, val) {
         for (var i = members.length - 1; i >= 0; i--) {
-            if(newPoints[index].from_member == members[i].identifier) {
+            if (newPoints[index].from_member == members[i].identifier) {
                 newPoints[index].from_member = members[i].name;
             }
         }
         for (var i = members.length - 1; i >= 0; i--) {
-            if(newPoints[index].to_member == members[i].identifier) {
+            if (newPoints[index].to_member == members[i].identifier) {
                 newPoints[index].to_member = members[i].name;
             }
         }
     });
 
     //delete the week value
-    jQuery.each(newPoints, function(index, val) {
+    jQuery.each(newPoints, function (index, val) {
         delete newPoints[index].week;
     });
 
@@ -354,22 +354,22 @@ function generateAssignStatusTable() {
     $('#assignStatusHeaders').html("<h3>Assign Status</h3><p>Points assigned by team members</p>");
     var assignStatusJSON = getJSON();
     console.log(assignStatusJSON);
-    jQuery.each(assignStatusJSON, function(index, val) {
+    jQuery.each(assignStatusJSON, function (index, val) {
         console.log(assignStatusJSON[index]);
     });
-    jQuery.each(assignStatusJSON, function(index, val) {
-        $('#assignStatusTableHead').append('<th>' + assignStatusJSON[index][0] + '</th>'); 
+    jQuery.each(assignStatusJSON, function (index, val) {
+        $('#assignStatusTableHead').append('<th>' + assignStatusJSON[index][0] + '</th>');
     });
     for (var i = 1; i < assignStatusJSON[0].length; i++) {
-        $('#assignStatusTableBody').append('<tr id="tableRow_'+i+'"></tr>');
-        jQuery.each(assignStatusJSON, function(index, val) {
-            $('#tableRow_'+i).append('<td>'+assignStatusJSON[index][i]+'</td>');
+        $('#assignStatusTableBody').append('<tr id="tableRow_' + i + '"></tr>');
+        jQuery.each(assignStatusJSON, function (index, val) {
+            $('#tableRow_' + i).append('<td>' + assignStatusJSON[index][i] + '</td>');
         });
     }
 }
 
 function refreshAssignStatusTable() {
-    jQuery.get(serverURL + '/v1/points/distribution/' + firstdayofweek + '/', {instance_id: vsts_instance_id}, function(data, textStatus, xhr) {
+    jQuery.get(serverURL + '/v1/points/distribution/' + firstdayofweek + '/', { instance_id: vsts_instance_id }, function (data, textStatus, xhr) {
         weekPointDistribution = data;
 
         $('#assignStatusTableHead').empty();
