@@ -8,7 +8,9 @@ var endpoint = "http://discovery-codemetrics.azurewebsites.net" // live
 // var endpoint = "http://127.0.0.1:8000"; // dev
 
 currentInstanceName = "vsts-discovery"; // dev
-var repoName = "discovery-frontend";
+currentUserEmail = "ucabyyl@ucl.ac.uk"; //dev
+var repoName = "discovery-frontend"; //dev
+var covRepoName = "codemetric";
 
 
 var addChartSelector;
@@ -32,12 +34,14 @@ var delChartData = [];
 var delChartOptions;
 var delChart;
 
-var gpaChartSelector;
-var gpaChartConfigObj;
-var gpaChartLabels = [];
-var gpaChartData = [];
-var gpaChartOptions;
-var gpaChart;
+var currentGPA = 0;
+
+// var gpaChartSelector;
+// var gpaChartConfigObj;
+// var gpaChartLabels = [];
+// var gpaChartData = [];
+// var gpaChartOptions;
+// var gpaChart;
 
 var colorSet;
 
@@ -69,13 +73,14 @@ function loadCodetrackerStatus() {
 
             // get data from backend
             getCommitStats(repoName);
-            // getTestCoverage("codemetric");
+            getTestCoverage("minhlongdo", covRepoName);
+            getGPA("minhlongdo", "100-point-discovery-backend")
 
             // configuration functions for each chart
             addChartConfig();
             testCovChartConfig();
             delChartConfig();
-            gpaChartConfig();
+            // gpaChartConfig();
 
         }
 
@@ -138,7 +143,7 @@ function testCovChartConfig() {
 	    labels: testCovChartLabels,
 	    datasets: [
 	        {
-	            label: "History of points earned by "+selectedMemberName,
+	            label: "Code coverage changes over time. Repo: "+covRepoName,
 	            data: testCovChartData,
 	            fill: false,
 	            lineTension: 0.1,
@@ -218,45 +223,41 @@ function delChartConfig() {
 	});
 }
 
+
 function gpaChartConfig() {
-	gpaChartConfigObj = {
-	    labels: gpaChartLabels,
-	    datasets: [
-	        {
-	            label: "History of points earned by "+selectedMemberName,
-	            data: gpaChartData,
-	            fill: false,
-	            lineTension: 0.1,
-	            backgroundColor: "rgba(75,192,192,0.4)",
-	            borderColor: "rgba(75,192,192,1)",
-	            borderCapStyle: 'butt',
-	            borderDash: [],
-	            borderDashOffset: 0.0,
-	            borderJoinStyle: 'miter',
-	            pointBorderColor: "rgba(75,192,192,1)",
-	            pointBackgroundColor: "#fff",
-	            pointBorderWidth: 1,
-	            pointHoverRadius: 5,
-	            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-	            pointHoverBorderColor: "rgba(220,220,220,1)",
-	            pointHoverBorderWidth: 2,
-	            pointRadius: 1,
-	            pointHitRadius: 10,
-	            spanGaps: false,
-	        }
-	    ]
-	};
+    var bar = new ProgressBar.Circle(gpaChart, {
+        strokeWidth: 6,
+        color: '#DA375A',
+        trailColor: '#eee',
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        svgStyle: null,
+        text: {
+            value: '',
+            alignToBottom: false
+        },
+        from: { color: '#DA375A' },
+        to: { color: '#48D522' },
+        // Set default step function for all animate calls
+        step: (state, bar) => {
+            bar.path.setAttribute('stroke', state.color);
+            var value = Math.round(bar.value() * 100);
+            if (value === 0) {
+                bar.setText('');
+            } else {
+                bar.setText(value);
+            }
 
-	gpaChartOptions = {
+            bar.text.style.color = state.color;
+        }
+    });
+    bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+    bar.text.style.fontSize = '2rem';
 
-	};
-
-	gpaChart = new Chart(gpaChartSelector, {
-	    type: 'line',
-	    data: gpaChartConfigObj,
-	    options: gpaChartOptions
-	});
+    bar.animate(1.0); // Number from 0.0 to 1.0
 }
+
 
 function getCommitStats(repoName) {
 	$.ajax({
@@ -270,10 +271,11 @@ function getCommitStats(repoName) {
 	})
 	.done(function(data) {
 		console.log("commit stats success");
-		console.log(data);
 		$.each(data, function(epoch, obj) {
+			// convert epoch time to human readable date
 			var convertDate = moment(epoch*1000).format("DD/MMM/YYYY");
 			var labelItem = convertDate;
+			// add lable items for addChart and delChart
 			addChartLabels.push(labelItem);
 			delChartLabels.push(labelItem);
 			var addLoc = 0;
@@ -295,30 +297,65 @@ function getCommitStats(repoName) {
 }
 
 
-function getTestCoverage(repoName) {
+function getTestCoverage(userName, repoName) {
 	$.ajax({
 		url: endpoint+'/code-score/test_coverage',
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			github_user: $('#github_user').val(),
-			github_repo: repoName
-		},
-		headers: {
-        "Authorization": "Basic "+$('#github_key').val(),
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type':'text/plain'
-    	},
+			github_user: userName,
+			github_repo: repoName,
+			instance_id: currentInstanceName,
+			user_email: currentUserEmail
+		}
 	})
 	.done(function(data) {
 		console.log("test coverage success");
 		console.log(data)
+		$.each(data, function(index, obj) {
+			if (index == "coverage-history") {
+				$.each(obj.data, function(index, obj) {
+					var prettyDate = moment(obj.attributes.committed_at).format("DD/MMM/YYYY HH:mm")
+					testCovChartLabels.push(prettyDate);
+					testCovChartData.push(obj.attributes.covered_percent)
+				});
+			}
+		});
+		console.log(testCovChartLabels)
 	})
 	.fail(function() {
 		console.log("test coverage error");
 	})
 	.always(function() {
 		console.log("complete");
+	});
+
+}
+
+
+function getGPA(userName, repoName) {
+	$.ajax({
+		url: endpoint+'/code-score/gpa',
+		type: 'GET',
+		dataType: 'json',
+		data: {
+			github_user: userName,
+			github_repo: repoName,
+			instance_id: currentInstanceName,
+			user_email: currentUserEmail
+		},
+	})
+	.done(function(data) {
+		console.log("GPA success");
+		var JSONObj = $.parseJSON(data);
+		// currentGPA =
+		$('#gpaText').text(JSONObj.gpa)
+	})
+	.fail(function() {
+		console.log("GPA error");
+	})
+	.always(function() {
+		console.log("GPA complete");
 	});
 
 }
