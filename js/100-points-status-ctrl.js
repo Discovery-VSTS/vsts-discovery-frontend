@@ -56,9 +56,6 @@ var selectedMemberName;
 function load100PtStatus() {
     $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
         if (status == "success") {
-            $('#clearText').click(function(event) {
-                $('#no_valid_data').text('')
-            });
             console.log("start ajax");
             var today = moment().format("YYYY-MM-DD");
 
@@ -82,6 +79,9 @@ function load100PtStatus() {
 
             $('#weekdatepicker').val(moment(today).format("DD/MMM/YYYY"));
 
+            //fill members into dropdown list
+            fillMembersDropdown();
+
             if (colorSet===undefined) {
                 colorSet = randomColourSet(chartLabels);
             }
@@ -92,9 +92,6 @@ function load100PtStatus() {
             teamWeekPieChartConfig();
             // display current week's distribution in pie chart
             getWeeklyDistribution(today);
-
-            //fill members into dropdown list
-            fillMembersDropdown();
 
             // configure line chart
             lineChartSelector = $('#lineChart');
