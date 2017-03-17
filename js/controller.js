@@ -6,8 +6,8 @@
 
 jQuery(document).ready(function() {
     // activate 100pt-status component when page loaded by default
-    load100PtStatus();
-    loadSetting();
+    // load100PtStatus();
+    // loadSetting();
     // loadCodetrackerStatus();
 });
 

@@ -198,6 +198,7 @@ function getWeeklyDistribution(date) {
     .done(function(data) {
         console.log("get weekly distribution successfully");
         console.log(data)
+        $('#no_valid_data').text('')
 
         if (data.is_final=="true") {
             // clear label text
@@ -229,7 +230,6 @@ function getWeeklyDistribution(date) {
             }
             // fill in data
             teamWeekPieChartConfig()
-            $('#no_valid_data').text('')
         }else{
             $('#no_valid_data').text('Point distribution has not been validated yet.')
         }
