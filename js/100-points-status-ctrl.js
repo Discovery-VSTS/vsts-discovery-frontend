@@ -7,12 +7,12 @@
 var endpoint = "https://discovery-100p.azurewebsites.net/" // live
 // var endpoint = "http://127.0.0.1:8000/" // dev
 
-var ptInstanceId = "f352ef29-9321-4588-85ba-e35ca23db41f";
-var ptInstanceName = "vsts-discovery";
-var ptCurrentUser = "ucabyyl@ucl.ac.uk";
-// var ptInstanceId = currentInstanceID;
-// var ptInstanceName = currentInstanceName;
-// var ptCurrentUser = ptCurrentUserEmail;
+// var ptInstanceId = "f352ef29-9321-4588-85ba-e35ca23db41f";
+// var ptInstanceName = "vsts-discovery";
+// var ptCurrentUser = "";
+var ptInstanceId = currentInstanceID;
+var ptInstanceName = currentInstanceName;
+var ptCurrentUser = currentUserEmail;
 
 function randomColour(opacity) {
     var r = Math.floor(Math.random() * 255);
@@ -179,6 +179,7 @@ function getNameByEmail(teamMembersObj, identifier) {
 
 // get data for pie chart
 function getWeeklyDistribution(date) {
+    $('#no_valid_data').empty();
     $.ajax({
         url: endpoint+'/v1/points/distribution/'+date,
         type: 'GET',
@@ -229,7 +230,6 @@ function getWeeklyDistribution(date) {
             }
             // fill in data
             teamWeekPieChartConfig()
-            $('#no_valid_data').text('')
         }else{
             $('#no_valid_data').text('Point distribution has not been validated yet.')
         }
@@ -295,7 +295,7 @@ function fillMembersDropdown() {
         });
     })
     .fail(function() {
-        console.log("error");
+        console.log("get team members error");
     })
     .always(function() {
         console.log("complete");
