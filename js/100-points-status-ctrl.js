@@ -56,7 +56,6 @@ var selectedMemberName;
 function load100PtStatus() {
     $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
         if (status == "success") {
-            console.log("start ajax");
             var today = moment().format("YYYY-MM-DD");
 
             $('#weekdatepicker').datetimepicker({
@@ -230,7 +229,7 @@ function getWeeklyDistribution(date) {
             }
             // fill in data
             teamWeekPieChartConfig()
-
+            $('#no_valid_data').text('')
         }else{
             $('#no_valid_data').text('Point distribution has not been validated yet.')
         }
