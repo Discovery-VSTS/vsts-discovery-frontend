@@ -21,7 +21,31 @@
 
 <body>
     <script type="text/javascript">
-        VSS.init();
+        VSS.init({
+            usePlatformScripts: true,
+            usePlatformStyles: false
+        });
+        VSS.ready(function () {
+            // Global variables retrieved from VSS SDK
+            var vssWebContext = VSS.getWebContext();
+            console.log(vssWebContext);
+
+            var currentAccount = vssWebContext.account;
+            console.log(currentAccount);
+            var currentAccountName = currentAccount.name
+            console.log(currentAccountName)
+            var currentUser = vssWebContext.user;
+            console.log(currentUser);
+
+            var currentInstanceName = currentAccount.name
+            console.log("Current Account Name: "+currentInstanceName)
+            var currentInstanceID = currentAccount.id;
+            console.log("Current Account ID: "+currentInstanceID);
+            var currentUserName = currentUser.name;
+            console.log("Current User's Name: "+currentUserName);
+            var currentUserEmail = currentUser.email;
+            console.log("Current User's Email: "+currentUserEmail);
+        });
     </script>
 
     <nav class="navbar navbar-fixed-top">
