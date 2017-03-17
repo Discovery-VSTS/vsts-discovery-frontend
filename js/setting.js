@@ -20,6 +20,8 @@ function loadSetting() {
 
 function tokenSubmitButton() {
     var github_token = $('#githubTokenID').val();
+    var github_org = $('#githubOrg').val()
+    var github_user = $('#github_user').val()
     var slack_token = $('#slackTokenID').val();
     var slack_channel = $('#slackChannelID').val();
     var vsts_token = $('#vstsToken').val();
@@ -34,7 +36,9 @@ function tokenSubmitButton() {
             "github_token": github_token,
             "slack_token": slack_token,
             "vsts_token": vsts_token,
-            "slack_channel": slack_channel
+            "slack_channel": slack_channel,
+            "github_user": github_user,
+            "github_org": github_org
         }
     })
     .done(function(data) {
@@ -86,6 +90,16 @@ function getTokens() {
             $('#statusVSTSAccessToken').show();
         }else{
             $('#statusVSTSAccessToken').hide();
+        }
+        if (data.github_org != "") {
+            $('#statusGitHubOrg').show();
+        } else {
+            $('#statusGitHubOrg').show();
+        }
+        if (data.github_user != "") {
+            $('#statusGitHubUser').show();
+        } else {
+            $('#statusGitHubUser').show();
         }
         console.log(data.vsts_token)
     })
