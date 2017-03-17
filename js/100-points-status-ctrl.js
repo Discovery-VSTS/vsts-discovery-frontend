@@ -198,7 +198,7 @@ function getWeeklyDistribution(date) {
     .done(function(data) {
         console.log("get weekly distribution successfully");
         console.log(data)
-        $('#no_valid_data').text('')
+        $('#no_valid_data').empty();
 
         if (data.is_final=="true") {
             // clear label text
