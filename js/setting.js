@@ -21,7 +21,7 @@ function loadSetting() {
 function tokenSubmitButton() {
     var github_token = $('#githubTokenID').val();
     var github_org = $('#githubOrg').val()
-    var github_user = $('#github_user').val()
+    var github_user = $('#githubUser').val()
     var slack_token = $('#slackTokenID').val();
     var slack_channel = $('#slackChannelID').val();
     var vsts_token = $('#vstsToken').val();
@@ -41,7 +41,6 @@ function tokenSubmitButton() {
                 "github_user": github_user,
                 "github_org": github_org,
                 "codeclimate_token": codeclimate_token
-
             }
         })
         .done(function(data) {
@@ -76,31 +75,37 @@ function getTokens() {
             console.log("GET Tokens success");
             if (data.github_token != "") {
                 $('#statusGitHubToken').show();
+                $('#githubTokenID').val(data.github_token);
             } else {
                 $('#statusGitHubToken').hide();
             }
             if (data.slack_token != "") {
                 $('#statusSlackToken').show();
+                $('#slackTokenID').val(data.slack_token);
             } else {
                 $('#statusSlackToken').hide();
             }
             if (data.slack_channel != "") {
                 $('#statusSlackChannel').show();
+                $('#slackChannelID').val(data.slack_channel);
             } else {
                 $('#statusSlackChannel').hide();
             }
             if (data.vsts_token != "") {
                 $('#statusVSTSAccessToken').show();
+                $('#vstsToken').val(data.vsts_token);
             } else {
                 $('#statusVSTSAccessToken').hide();
             }
             if (data.github_org != "") {
                 $('#statusGitHubOrg').show();
+                $('#githubOrg').val(data.github_org);
             } else {
                 $('#statusGitHubOrg').show();
             }
             if (data.github_user != "") {
                 $('#statusGitHubUser').show();
+                $('#githubUser').val(data.github_user);
             } else {
                 $('#statusGitHubUser').show();
             }
