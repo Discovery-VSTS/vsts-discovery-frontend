@@ -25,6 +25,7 @@ function tokenSubmitButton() {
     var slack_token = $('#slackTokenID').val();
     var slack_channel = $('#slackChannelID').val();
     var vsts_token = $('#vstsToken').val();
+    var codeclimate_token = $('#codeclimateToken').val();
 
     $.ajax({
             url: settingsServerUrl + "/v1/tokenstorage/",
@@ -38,7 +39,8 @@ function tokenSubmitButton() {
                 "vsts_token": vsts_token,
                 "slack_channel": slack_channel,
                 "github_user": github_user,
-                "github_org": github_org
+                "github_org": github_org,
+                "codeclimate_token": codeclimate_token
             }
         })
         .done(function(data) {
@@ -106,6 +108,12 @@ function getTokens() {
                 $('#githubUser').val(data.github_user);
             } else {
                 $('#statusGitHubUser').show();
+            }
+            if (data.codeclimate_token != "") {
+                $('#statusCodeclimateToken').show();
+                $('#codeclimateToken').val(data.codeclimate_token);
+            } else {
+                $('#statusCodeclimateToken').hide();
             }
             console.log(data.vsts_token)
         })
