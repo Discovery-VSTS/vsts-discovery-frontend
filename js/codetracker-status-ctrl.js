@@ -8,8 +8,9 @@ var codeMetricEndpoint = "https://discovery-codemetrics.azurewebsites.net" // li
 // var codeMetricEndpoint = "http://127.0.0.1:8000"; // dev
 
 
-var repoName = "discovery-frontend"; //dev
-var covRepoName = "codemetric";
+// var repoName = "discovery-frontend"; //dev
+var repoName = currentProject;
+var covRepoName = currentProject;
 
 
 var addChartSelector;
@@ -72,8 +73,8 @@ function loadCodetrackerStatus() {
 
             // get data from backend
             getCommitStats(repoName);
-            getTestCoverage("minhlongdo", covRepoName);
-            getGPA("minhlongdo", "100-point-discovery-backend")
+            getTestCoverage();
+            getGPA()
 
             // configuration functions for each chart
             addChartConfig();
@@ -296,15 +297,14 @@ function getCommitStats(repoName) {
 }
 
 
-function getTestCoverage(userName, repoName) {
+function getTestCoverage() {
 	$.ajax({
 		url: codeMetricEndpoint+'/code-score/test_coverage',
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			github_user: userName,
-			github_repo: repoName,
 			instance_id: currentInstanceName,
+            github_repo: repoName,
 			user_email: currentUserEmail
 		}
 	})
@@ -332,15 +332,14 @@ function getTestCoverage(userName, repoName) {
 }
 
 
-function getGPA(userName, repoName) {
+function getGPA() {
 	$.ajax({
 		url: codeMetricEndpoint+'/code-score/gpa',
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			github_user: userName,
-			github_repo: repoName,
 			instance_id: currentInstanceName,
+            github_repo: repoName,
 			user_email: currentUserEmail
 		},
 	})

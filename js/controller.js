@@ -53,14 +53,14 @@ $('#tab_setting').click(function(event) {
 
 
 // Global variables retrieved from VSS SDK
-var vssWebContext = VSS.getWebContext();
-console.log(vssWebContext);
+var webContext = VSS.getWebContext();
+console.log(webContext);
 
-var currentAccount = vssWebContext.account;
+var currentAccount = webContext.account;
 console.log(currentAccount);
 var currentAccountName = currentAccount.name
 console.log(currentAccountName)
-var currentUser = vssWebContext.user;
+var currentUser = webContext.user;
 console.log(currentUser);
 
 var currentInstanceName = currentAccount.name
@@ -71,6 +71,8 @@ var currentUserName = currentUser.name;
 console.log("Current User's Name: "+currentUserName);
 var currentUserEmail = currentUser.email;
 console.log("Current User's Email: "+currentUserEmail);
+var currentProject - webContext.project.name
+console.log("Current Project Name: "+currentProject)
 
 
 
