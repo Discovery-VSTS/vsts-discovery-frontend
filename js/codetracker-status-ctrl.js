@@ -265,7 +265,7 @@ function getCommitStats(repoName) {
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			instance_name: currentInstanceID,
+			instance_name: currentInstanceName,
 			repo_name: repoName
 		},
 	})
