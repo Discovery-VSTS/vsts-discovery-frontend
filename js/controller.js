@@ -71,7 +71,7 @@ var currentUserName = currentUser.name;
 console.log("Current User's Name: "+currentUserName);
 var currentUserEmail = currentUser.email;
 console.log("Current User's Email: "+currentUserEmail);
-var currentProject - webContext.project.name
+var currentProject = webContext.project.name
 console.log("Current Project Name: "+currentProject)
 
 

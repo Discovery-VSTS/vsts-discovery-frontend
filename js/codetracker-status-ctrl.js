@@ -265,7 +265,7 @@ function getCommitStats(repoName) {
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			instance_name: currentInstanceName,
+			instance_name: currentInstanceID,
 			repo_name: repoName
 		},
 	})
@@ -303,7 +303,7 @@ function getTestCoverage() {
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			instance_id: currentInstanceName,
+			instance_id: currentInstanceID,
             github_repo: repoName,
 			user_email: currentUserEmail
 		}
@@ -338,7 +338,7 @@ function getGPA() {
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			instance_id: currentInstanceName,
+			instance_id: currentInstanceID,
             github_repo: repoName,
 			user_email: currentUserEmail
 		},
