@@ -200,7 +200,7 @@ function getWeeklyDistribution(date) {
         console.log("get weekly distribution successfully");
         console.log(data.is_final)
 
-        if (data.is_final=="true") {
+        if (data.is_final==true) {
             // clear label text
             $('#lbl_week_data_status').text("");
             chartLabels = [];
