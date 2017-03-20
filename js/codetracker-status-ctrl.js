@@ -370,13 +370,24 @@ function getGPA() {
 	})
 	.done(function(data) {
 		console.log("GPA success");
-		// currentGPA =
-        var gpa = data.gpa;
-        console.log(typeof(gpa))
-        if (gpa<0) {
+        var gpa = parseInt(data.gpa);
+        if (data.gpa=="-1" || data.gpa=="null") {
             $('#gpaText').text("N/A")
         }else{
             $('#gpaText').text(data.gpa)
+        }
+        // text colour
+        if(gpa>=0 && gpa<=1){
+            $('#gpaText').css('color', '#D51B47');
+        }
+        if(gpa>1 && gpa<=2){
+            $('#gpaText').css('color', '#EE7E1A');
+        }
+        if (gpa>2 && gpa<=3) {
+            $('#gpaText').css('color', '#8DD51B');
+        }
+        if (gpa>3) {
+            $('#gpaText').css('color', '##4CD21D');
         }
 
 	})
