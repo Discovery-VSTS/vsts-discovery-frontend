@@ -1,7 +1,18 @@
 <div class="row">
-    <h2>Current GPA Score: <span id="gpaText"></span></h2>
+    <h4>Current GPA Score: <span id="gpaText"></span></h4>
     <div id="gpaChart"></div>
 </div>
+<div class="row charts-container">
+    <div class="col-sm-6">
+        <canvas id="addChart"></canvas>
+    </div>
+    <div class="col-sm-6">
+        <canvas id="delChart"></canvas>
+    </div>
+</div>
+
+<hr>
+
 <div class="row charts-container">
     <div class="row padding-lg">
         <canvas id="testCovChart"></canvas>
@@ -11,13 +22,4 @@
         <input type="text" id="github_repo" placeholder="GitHub Repo">
         <button type="button" id="btn_testcov">Fire</button>
     </div> -->
-</div>
-<hr>
-<div class="row charts-container">
-    <div class="col-sm-6">
-        <canvas id="addChart"></canvas>
-    </div>
-    <div class="col-sm-6">
-        <canvas id="delChart"></canvas>
-    </div>
 </div>
