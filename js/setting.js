@@ -11,6 +11,7 @@ function loadSetting() {
     $('#setting-components').load('components/setting.html', function(response, status, xhr) {
         user_email = currentUserEmail;
         instance_id = currentInstanceID;
+
         getTokens();
         $('#tokenSubmitButton').click(function(event) {
             tokenSubmitButton();

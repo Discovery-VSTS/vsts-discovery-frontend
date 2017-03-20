@@ -14,5 +14,6 @@ Each item in top navigation menu is corresponding to a module. All modules are u
 |        |-- 100-points-status.html
 |        |-- 100-points-assign.html
 |-- #codetracker-module
+|-- #setting-module
 ```
 When nav bar is clicked, corresponding module section will be shown. By default the plug in will load 100-points-module on page load.

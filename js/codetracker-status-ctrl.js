@@ -7,7 +7,6 @@
 var codeMetricEndpoint = "https://discovery-codemetrics.azurewebsites.net" // live
 // var codeMetricEndpoint = "http://127.0.0.1:8000"; // dev
 
-
 // var repoName = "discovery-frontend"; //dev
 var repoName;
 var covRepoName;

@@ -14,6 +14,7 @@ var ptInstanceId;
 var ptInstanceName;
 var ptCurrentUser;
 
+
 function randomColour(opacity) {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);

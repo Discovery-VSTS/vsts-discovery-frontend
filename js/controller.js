@@ -109,10 +109,6 @@ $('#tab_setting').click(function(event) {
 
 
 
-
-
-
-
 // if (webContext===undefined) {
 //     VSS.init();
 //     VSS.ready(function(){
@@ -123,6 +119,9 @@ $('#tab_setting').click(function(event) {
 //     var webContext = VSS.getWebContext();
 //     console.log(webContext);
 // }
+
+
+
 
 
 // function createMember() {
