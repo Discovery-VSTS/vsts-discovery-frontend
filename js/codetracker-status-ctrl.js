@@ -10,6 +10,9 @@ var codeMetricEndpoint = "https://discovery-codemetrics.azurewebsites.net" // li
 // var repoName = "discovery-frontend"; //dev
 var repoName;
 var covRepoName;
+var ctCurrentInstanceID;
+var ctCurrentInstanceName;
+var ctCurrentUserEmail;
 
 var addChartSelector;
 var addChartConfigObj;
@@ -57,6 +60,9 @@ function loadCodetrackerStatus() {
     $('#codetracker-components').load("components/codetracker-status.html", function(response, status, xhr){
         repoName = VSS.getWebContext().project.name;
         covRepoName = VSS.getWebContext().project.name;
+        ctCurrentInstanceID = VSS.getWebContext().project.id;
+        ctCurrentInstanceName = VSS.getWebContext().project.name;
+        ctCurrentUserEmail = VSS.getWebContext().user.email;
 
         if (status == "success") {
             // set up all charts
@@ -266,7 +272,7 @@ function getCommitStats(repoName) {
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			instance_name: currentInstanceName,
+			instance_name: ctCurrentInstanceName,
 			repo_name: repoName
 		},
 	})
@@ -304,9 +310,9 @@ function getTestCoverage() {
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			instance_id: currentInstanceID,
+			instance_id: ctCurrentInstanceID,
             github_repo: repoName,
-			user_email: currentUserEmail
+			user_email: ctCurrentUserEmail
 		}
 	})
 	.done(function(data) {
@@ -339,9 +345,9 @@ function getGPA() {
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			instance_id: currentInstanceID,
+			instance_id: ctCurrentInstanceID,
             github_repo: repoName,
-			user_email: currentUserEmail
+			user_email: ctCurrentUserEmail
 		},
 	})
 	.done(function(data) {
