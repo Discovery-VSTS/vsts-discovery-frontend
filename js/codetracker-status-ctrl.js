@@ -9,7 +9,8 @@ var codeMetricEndpoint = "https://discovery-codemetrics.azurewebsites.net" // li
 
 
 // var repoName = "discovery-frontend"; //dev
-
+var repoName;
+var covRepoName;
 
 var addChartSelector;
 var addChartConfigObj;
@@ -57,6 +58,7 @@ function loadCodetrackerStatus() {
     $('#codetracker-components').load("components/codetracker-status.html", function(response, status, xhr){
         repoName = VSS.getWebContext().project.name;
         covRepoName = VSS.getWebContext().project.name;
+
         if (status == "success") {
             // set up all charts
             addChartSelector = $("#addChart");

@@ -4,11 +4,13 @@ settingsServerUrl = "https://discovery-settingmanagement.azurewebsites.net";
 //MUST UPDATE WITH INSTANCE ID FROM VSTS
 // var instance_id = "f352ef29-9321-4588-85ba-e35ca23db41f"; //dev
 // var user_email = "yichen@gmail.com"; //dev
-var user_email = currentUserEmail;
-var instance_id = currentInstanceID;
+var user_email;
+var instance_id;
 
 function loadSetting() {
     $('#setting-components').load('components/setting.html', function(response, status, xhr) {
+        user_email = currentUserEmail;
+        instance_id = currentInstanceID;
         getTokens();
         $('#tokenSubmitButton').click(function(event) {
             tokenSubmitButton();
