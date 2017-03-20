@@ -84,8 +84,8 @@ function loadCodetrackerStatus() {
             getGPA()
 
             // configuration functions for each chart
-            addChartConfig();
-            delChartConfig();
+            // addChartConfig();
+            // delChartConfig();
             testCovChartConfig();
             // gpaChartConfig();
 
@@ -278,6 +278,10 @@ function getCommitStats(repoName) {
 	})
 	.done(function(data) {
 		console.log("commit stats success");
+        addChartLabels = [];
+        delChartLabels = [];
+        addChartData = [];
+        delChartData = [];
 		$.each(data, function(epoch, obj) {
 			// convert epoch time to human readable date
 			var convertDate = moment(epoch*1000).format("DD/MMM/YYYY");
@@ -294,6 +298,12 @@ function getCommitStats(repoName) {
 			addChartData.push(addLoc);
 			delChartData.push(delLoc);
 		});
+        console.log("Printing chart labels...")
+        console.log(addChartLabels);
+        console.log(addChartData);
+
+        addChartConfig();
+        delChartConfig();
 	})
 	.fail(function() {
 		console.log("error");
