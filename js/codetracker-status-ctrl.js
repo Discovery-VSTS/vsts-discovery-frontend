@@ -85,8 +85,8 @@ function loadCodetrackerStatus() {
 
             // configuration functions for each chart
             addChartConfig();
-            testCovChartConfig();
             delChartConfig();
+            testCovChartConfig();
             // gpaChartConfig();
 
         }

@@ -324,6 +324,9 @@ function getHistoryDistribution(email) {
             // 'Access-Control-Allow-Credentials: true'.
             withCredentials: false
         },
+        data: {
+            instance_id: ptInstanceId
+        }
     })
     .done(function(data) {
         // console.log("success");
