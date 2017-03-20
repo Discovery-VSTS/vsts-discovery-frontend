@@ -14,9 +14,9 @@
 
 //PROD
 var serverURL = "https://discovery-100p.azurewebsites.net";
-var vsts_instance_id = VSS.getWebContext().account.id;
-var vsts_instance_name = VSS.getWebContext().account.name;
-var currentUser = VSS.getWebContext().user.email;
+var vsts_instance_id;
+var vsts_instance_name;
+var currentUser;
 
 var firstdayofweek = firstDayOfWeek();
 
@@ -24,6 +24,9 @@ var members;
 var weekPointDistribution;
 
 function load100PtAssign() {
+	vsts_instance_id = VSS.getWebContext().account.id;
+	vsts_instance_name = VSS.getWebContext().account.name;
+	currentUser = VSS.getWebContext().user.email;
     $('#100-points-components').load("components/100-points-assign.html", function (response, status, xhr) {
         if (status == "success") {
             $.ajax({
