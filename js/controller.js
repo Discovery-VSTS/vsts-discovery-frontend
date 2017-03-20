@@ -85,6 +85,15 @@ $('#tab_setting').click(function(event) {
 var webContext = VSS.getWebContext();
 console.log(webContext);
 
+if (webContext===undefined) {
+    VSS.init();
+    VSS.ready(function(){
+        load100PtStatus();
+        is100ptStatusLoaded = true;
+    });
+    VSS.notifyLoadSucceeded();
+}
+
 var currentAccount = webContext.account;
 console.log(currentAccount);
 var currentAccountName = currentAccount.name
