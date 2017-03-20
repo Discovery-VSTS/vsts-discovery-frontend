@@ -347,6 +347,8 @@ function getTestCoverage() {
 	})
 	.fail(function() {
 		console.log("test coverage error");
+        // display empty chart
+        testCovChartConfig();
 	})
 	.always(function() {
 		console.log("complete");
