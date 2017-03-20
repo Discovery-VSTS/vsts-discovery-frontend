@@ -79,7 +79,9 @@ function load100PtStatus() {
             $('#weekdatepicker').val(moment(today).format("DD/MMM/YYYY"));
 
             //fill members into dropdown list
-            fillMembersDropdown();
+            if (!is100ptStatusLoaded) {
+                fillMembersDropdown();
+            }
 
             if (colorSet===undefined) {
                 colorSet = randomColourSet(chartLabels);

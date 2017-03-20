@@ -4,6 +4,16 @@
 // Create Date: 31-Jan-2017
 // Update Date: 01-Feb-2017
 
+var webContext;
+var currentAccount;
+var currentAccountName;
+var currentUser;
+var currentInstanceName;
+var currentInstanceID;
+var currentUserName;
+var currentUserEmail;
+var currentProject;
+
 var is100ptStatusLoaded = false;
 var is100ptAssignLoaded = false;
 var isCodeTrackerLoaded = false;
@@ -14,9 +24,33 @@ jQuery(document).ready(function() {
     // load100PtStatus();
     // loadSetting();
     // loadCodetrackerStatus();
-    VSS.init();
+    VSS.init({
+        explicitNotifyLoaded: true
+    });
     // console.log(is100ptStatusLoaded);
     VSS.ready(function(){
+        // Global variables retrieved from VSS SDK
+        webContext = VSS.getWebContext();
+        console.log(webContext);
+
+        currentAccount = webContext.account;
+        console.log(currentAccount);
+        currentAccountName = currentAccount.name
+        console.log(currentAccountName)
+        currentUser = webContext.user;
+        console.log(currentUser);
+
+        currentInstanceName = currentAccount.name
+        console.log("Current Account Name: "+currentInstanceName)
+        currentInstanceID = currentAccount.id;
+        console.log("Current Account ID: "+currentInstanceID);
+        currentUserName = currentUser.name;
+        console.log("Current User's Name: "+currentUserName);
+        currentUserEmail = currentUser.email;
+        console.log("Current User's Email: "+currentUserEmail);
+        currentProject = webContext.project.name
+        console.log("Current Project Name: "+currentProject)
+
         load100PtStatus();
         is100ptStatusLoaded = true;
     });
@@ -38,10 +72,8 @@ $('#100pt-status').click(function(event) {
     $("#100-points-menu li").removeClass('active');
     $(this).addClass('active');
     // console.log(is100ptStatusLoaded)
-    if (!is100ptStatusLoaded) {
-        load100PtStatus();
-        is100ptStatusLoaded = true;
-    }
+    load100PtStatus();
+    is100ptStatusLoaded = true;
 });
 
 
@@ -49,11 +81,8 @@ $('#100pt-assign').click(function(event) {
     event.preventDefault();
     $("#100-points-menu li").removeClass('active');
     $(this).addClass('active');
-    // console.log(is100ptAssignLoaded)
-    if (!is100ptAssignLoaded) {
-        load100PtAssign();
-        is100ptAssignLoaded = true;
-    }
+    load100PtAssign();
+    is100ptAssignLoaded = true;
 });
 
 $('#tab_code_tracker').click(function(event) {
@@ -81,38 +110,20 @@ $('#tab_setting').click(function(event) {
 
 
 
-// Global variables retrieved from VSS SDK
-var webContext = VSS.getWebContext();
-console.log(webContext);
-
-if (webContext===undefined) {
-    VSS.init();
-    VSS.ready(function(){
-        load100PtStatus();
-        is100ptStatusLoaded = true;
-    });
-    VSS.notifyLoadSucceeded();
-}
-
-var currentAccount = webContext.account;
-console.log(currentAccount);
-var currentAccountName = currentAccount.name
-console.log(currentAccountName)
-var currentUser = webContext.user;
-console.log(currentUser);
-
-var currentInstanceName = currentAccount.name
-console.log("Current Account Name: "+currentInstanceName)
-var currentInstanceID = currentAccount.id;
-console.log("Current Account ID: "+currentInstanceID);
-var currentUserName = currentUser.name;
-console.log("Current User's Name: "+currentUserName);
-var currentUserEmail = currentUser.email;
-console.log("Current User's Email: "+currentUserEmail);
-var currentProject = webContext.project.name
-console.log("Current Project Name: "+currentProject)
 
 
+
+
+// if (webContext===undefined) {
+//     VSS.init();
+//     VSS.ready(function(){
+//         load100PtStatus();
+//         is100ptStatusLoaded = true;
+//     });
+//     VSS.notifyLoadSucceeded();
+//     var webContext = VSS.getWebContext();
+//     console.log(webContext);
+// }
 
 
 // function createMember() {

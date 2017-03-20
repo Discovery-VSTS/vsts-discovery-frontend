@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "vsts-discovery-extension",
-    "version": "0.1.8.7",
+    "version": "0.1.8.9",
     "name": "Descovery extension",
     "description": "A Visual Studio Services extension for the Discovery phase",
     "publisher": "yichen-lu",
