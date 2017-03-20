@@ -7,10 +7,9 @@
 var codeMetricEndpoint = "https://discovery-codemetrics.azurewebsites.net" // live
 // var codeMetricEndpoint = "http://127.0.0.1:8000"; // dev
 
-
-var repoName = currentProject;
-var covRepoName = currentProject;
-
+// var repoName = "discovery-frontend"; //dev
+var repoName;
+var covRepoName;
 
 var addChartSelector;
 var addChartConfigObj;
@@ -56,6 +55,9 @@ function randomTwoColour() {
 
 function loadCodetrackerStatus() {
     $('#codetracker-components').load("components/codetracker-status.html", function(response, status, xhr){
+        repoName = VSS.getWebContext().project.name;
+        covRepoName = VSS.getWebContext().project.name;
+
         if (status == "success") {
             // set up all charts
             addChartSelector = $("#addChart");
@@ -72,8 +74,8 @@ function loadCodetrackerStatus() {
 
             // get data from backend
             getCommitStats(repoName);
-            getTestCoverage("minhlongdo", covRepoName);
-            getGPA("minhlongdo", "100-point-discovery-backend")
+            getTestCoverage();
+            getGPA()
 
             // configuration functions for each chart
             addChartConfig();
@@ -296,15 +298,14 @@ function getCommitStats(repoName) {
 }
 
 
-function getTestCoverage(userName, repoName) {
+function getTestCoverage() {
 	$.ajax({
 		url: codeMetricEndpoint+'/code-score/test_coverage',
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			github_user: userName,
-			github_repo: repoName,
-			instance_id: currentInstanceName,
+			instance_id: currentInstanceID,
+            github_repo: repoName,
 			user_email: currentUserEmail
 		}
 	})
@@ -332,23 +333,21 @@ function getTestCoverage(userName, repoName) {
 }
 
 
-function getGPA(userName, repoName) {
+function getGPA() {
 	$.ajax({
 		url: codeMetricEndpoint+'/code-score/gpa',
 		type: 'GET',
 		dataType: 'json',
 		data: {
-			github_user: userName,
-			github_repo: repoName,
-			instance_id: currentInstanceName,
+			instance_id: currentInstanceID,
+            github_repo: repoName,
 			user_email: currentUserEmail
 		},
 	})
 	.done(function(data) {
 		console.log("GPA success");
-		var JSONObj = $.parseJSON(data);
 		// currentGPA =
-		$('#gpaText').text(JSONObj.gpa)
+		$('#gpaText').text(data.gpa)
 	})
 	.fail(function() {
 		console.log("GPA error");

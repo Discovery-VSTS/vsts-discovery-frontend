@@ -10,9 +10,10 @@ var endpoint = "https://discovery-100p.azurewebsites.net/" // live
 // var ptInstanceId = "f352ef29-9321-4588-85ba-e35ca23db41f";
 // var ptInstanceName = "vsts-discovery";
 // var ptCurrentUser = "";
-var ptInstanceId = currentInstanceID;
-var ptInstanceName = currentInstanceName;
-var ptCurrentUser = currentUserEmail;
+var ptInstanceId;
+var ptInstanceName;
+var ptCurrentUser;
+
 
 function randomColour(opacity) {
     var r = Math.floor(Math.random() * 255);
@@ -55,6 +56,10 @@ var selectedMemberName;
 
 function load100PtStatus() {
     $('#100-points-components').load("components/100-points-status.html", function(response, status, xhr){
+        ptInstanceId = VSS.getWebContext().account.id;
+        ptInstanceName = VSS.getWebContext().account.name;
+        ptCurrentUser = VSS.getWebContext().user.email;
+
         if (status == "success") {
             var today = moment().format("YYYY-MM-DD");
 
@@ -80,6 +85,10 @@ function load100PtStatus() {
 
             //fill members into dropdown list
             fillMembersDropdown();
+            // if (!is100ptStatusLoaded) {
+            //     fillMembersDropdown();
+            //     is100ptStatusLoaded = true;
+            // }
 
             if (colorSet===undefined) {
                 colorSet = randomColourSet(chartLabels);
@@ -198,9 +207,9 @@ function getWeeklyDistribution(date) {
     })
     .done(function(data) {
         console.log("get weekly distribution successfully");
-        console.log(data)
+        console.log(data.is_final)
 
-        if (data.is_final=="true") {
+        if (data.is_final==true) {
             // clear label text
             $('#lbl_week_data_status').text("");
             chartLabels = [];
