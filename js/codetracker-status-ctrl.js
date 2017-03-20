@@ -16,22 +16,22 @@ var ctCurrentUserEmail;
 
 var addChartSelector;
 var addChartConfigObj;
-var addChartLabels = [];
-var addChartData = [];
+var addChartLabels;
+var addChartData;
 var addChartOptions;
 var addChart;
 
 var testCovChartSelector;
 var testCovChartConfigObj;
-var testCovChartLabels = [];
-var testCovChartData = [];
+var testCovChartLabels;
+var testCovChartData;
 var testCovChartOptions;
 var testCovChart;
 
 var delChartSelector;
 var delChartConfigObj;
-var delChartLabels = [];
-var delChartData = [];
+var delChartLabels;
+var delChartData;
 var delChartOptions;
 var delChart;
 
@@ -86,7 +86,7 @@ function loadCodetrackerStatus() {
             // configuration functions for each chart
             // addChartConfig();
             // delChartConfig();
-            testCovChartConfig();
+            // testCovChartConfig();
             // gpaChartConfig();
 
         }
@@ -300,8 +300,9 @@ function getCommitStats(repoName) {
 		});
         console.log("Printing chart labels...")
         console.log(addChartLabels);
-        console.log(addChartData);
+        console.log(delChartLabels);
 
+        // display chart
         addChartConfig();
         delChartConfig();
 	})
@@ -328,6 +329,8 @@ function getTestCoverage() {
 	.done(function(data) {
 		console.log("test coverage success");
 		console.log(data)
+        testCovChartLabels = [];
+        testCovChartData = [];
 		$.each(data, function(index, obj) {
 			if (index == "coverage-history") {
 				$.each(obj.data, function(index, obj) {
@@ -338,6 +341,9 @@ function getTestCoverage() {
 			}
 		});
 		console.log(testCovChartLabels)
+
+        // display chart
+        testCovChartConfig();
 	})
 	.fail(function() {
 		console.log("test coverage error");
@@ -363,7 +369,14 @@ function getGPA() {
 	.done(function(data) {
 		console.log("GPA success");
 		// currentGPA =
-		$('#gpaText').text(data.gpa)
+        var gpa = data.gpa;
+        console.log(typeof(gpa))
+        if (gpa<0) {
+            $('#gpaText').text("N/A")
+        }else{
+            $('#gpaText').text(data.gpa)
+        }
+
 	})
 	.fail(function() {
 		console.log("GPA error");
