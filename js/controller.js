@@ -29,31 +29,32 @@ jQuery(document).ready(function() {
     });
     // console.log(is100ptStatusLoaded);
     VSS.ready(function(){
-        // Global variables retrieved from VSS SDK
-        webContext = VSS.getWebContext();
-        console.log(webContext);
+        // // Global variables retrieved from VSS SDK
+        // webContext = VSS.getWebContext();
+        // console.log(webContext);
 
-        currentAccount = webContext.account;
-        console.log(currentAccount);
-        currentAccountName = currentAccount.name
-        console.log(currentAccountName)
-        currentUser = webContext.user;
-        console.log(currentUser);
+        // currentAccount = webContext.account;
+        // console.log(currentAccount);
+        // currentAccountName = currentAccount.name
+        // console.log(currentAccountName)
+        // currentUser = webContext.user;
+        // console.log(currentUser);
 
-        currentInstanceName = currentAccount.name
-        console.log("Current Account Name: "+currentInstanceName)
-        currentInstanceID = currentAccount.id;
-        console.log("Current Account ID: "+currentInstanceID);
-        currentUserName = currentUser.name;
-        console.log("Current User's Name: "+currentUserName);
-        currentUserEmail = currentUser.email;
-        console.log("Current User's Email: "+currentUserEmail);
-        currentProject = webContext.project.name
-        console.log("Current Project Name: "+currentProject)
+        // currentInstanceName = currentAccount.name
+        // console.log("Current Account Name: "+currentInstanceName)
+        // currentInstanceID = currentAccount.id;
+        // console.log("Current Account ID: "+currentInstanceID);
+        // currentUserName = currentUser.name;
+        // console.log("Current User's Name: "+currentUserName);
+        // currentUserEmail = currentUser.email;
+        // console.log("Current User's Email: "+currentUserEmail);
+        // currentProject = webContext.project.name
+        // console.log("Current Project Name: "+currentProject)
 
-        load100PtStatus();
-        is100ptStatusLoaded = true;
+        // load100PtStatus();
+
     });
+    load100PtStatus();
     VSS.notifyLoadSucceeded();
 
 });
@@ -73,7 +74,6 @@ $('#100pt-status').click(function(event) {
     $(this).addClass('active');
     // console.log(is100ptStatusLoaded)
     load100PtStatus();
-    is100ptStatusLoaded = true;
 });
 
 
@@ -82,7 +82,6 @@ $('#100pt-assign').click(function(event) {
     $("#100-points-menu li").removeClass('active');
     $(this).addClass('active');
     load100PtAssign();
-    is100ptAssignLoaded = true;
 });
 
 $('#tab_code_tracker').click(function(event) {
