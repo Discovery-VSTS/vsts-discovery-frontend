@@ -14,9 +14,9 @@
 
 //PROD
 var serverURL = "https://discovery-100p.azurewebsites.net";
-var vsts_instance_id = currentInstanceID;
-var vsts_instance_name = currentInstanceName;
-var currentUser = currentUserEmail;
+var vsts_instance_id = VSS.getWebContext().account.id;
+var vsts_instance_name = VSS.getWebContext().account.name;
+var currentUser = VSS.getWebContext().user.email;
 
 var firstdayofweek = firstDayOfWeek();
 
