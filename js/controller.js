@@ -9,6 +9,12 @@ jQuery(document).ready(function() {
     // load100PtStatus();
     // loadSetting();
     // loadCodetrackerStatus();
+    VSS.init();
+    VSS.ready(function(){
+        load100PtStatus();
+    });
+    VSS.notifyLoadSucceeded();
+
 });
 
 
