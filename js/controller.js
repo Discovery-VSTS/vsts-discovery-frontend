@@ -4,14 +4,21 @@
 // Create Date: 31-Jan-2017
 // Update Date: 01-Feb-2017
 
+var is100ptStatusLoaded = false;
+var is100ptAssignLoaded = false;
+var isCodeTrackerLoaded = false;
+var isSettingLoaded = false;
+
 jQuery(document).ready(function() {
     // activate 100pt-status component when page loaded by default
     // load100PtStatus();
     // loadSetting();
     // loadCodetrackerStatus();
     VSS.init();
+    // console.log(is100ptStatusLoaded);
     VSS.ready(function(){
         load100PtStatus();
+        is100ptStatusLoaded = true;
     });
     VSS.notifyLoadSucceeded();
 
@@ -30,7 +37,11 @@ $('#100pt-status').click(function(event) {
     event.preventDefault();
     $("#100-points-menu li").removeClass('active');
     $(this).addClass('active');
-    load100PtStatus();
+    // console.log(is100ptStatusLoaded)
+    if (!is100ptStatusLoaded) {
+        load100PtStatus();
+        is100ptStatusLoaded = true;
+    }
 });
 
 
@@ -38,14 +49,22 @@ $('#100pt-assign').click(function(event) {
     event.preventDefault();
     $("#100-points-menu li").removeClass('active');
     $(this).addClass('active');
-    load100PtAssign();
+    // console.log(is100ptAssignLoaded)
+    if (!is100ptAssignLoaded) {
+        load100PtAssign();
+        is100ptAssignLoaded = true;
+    }
 });
 
 $('#tab_code_tracker').click(function(event) {
     // event.preventDefault();
     // $("#codetracker-menu li").removeClass('active');
     // $(this).addClass('active');
-    loadCodetrackerStatus();
+    // console.log(isCodeTrackerLoaded)
+    if (!isCodeTrackerLoaded) {
+        loadCodetrackerStatus();
+        isCodeTrackerLoaded = true;
+    }
 });
 
 
@@ -53,7 +72,11 @@ $('#tab_setting').click(function(event) {
     // event.preventDefault();
     // $("#codetracker-menu li").removeClass('active');
     // $(this).addClass('active');
-    loadSetting();
+    // console.log(isSettingLoaded)
+    if (!isSettingLoaded) {
+        loadSetting();
+        isSettingLoaded = true;
+    }
 });
 
 
