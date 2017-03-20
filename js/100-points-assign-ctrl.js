@@ -6,19 +6,18 @@
 
 //DEV
 // var serverURL = "http://127.0.0.1:8000";
-// var vsts_instance_id = "egrgetjrtjrtj";
+// var vsts_instance_id = "555555";
 // var vsts_instance_name = "vsts-discovery";
-// var currentUser = "user@email.com";
+// var currentUser = "jason@jason.com";
 
-// var firstdayofweek = "2017-02-12";
+// var firstdayofweek = "2017-03-20";
 
-// //PROD
+//PROD
 var serverURL = "https://discovery-100p.azurewebsites.net";
 var vsts_instance_id = currentInstanceID;
 var vsts_instance_name = currentInstanceName;
 var currentUser = currentUserEmail;
 
-//gobal
 var firstdayofweek = firstDayOfWeek();
 
 var members;
@@ -66,6 +65,7 @@ function mainMethods() {
 
 function validatedPointsView() {
     jQuery.getJSON(serverURL + '/v1/members/', { instance_id: vsts_instance_id, instance_name: vsts_instance_name, user_email: currentUser }, function (json, textStatus) {
+        $('#loadingtext').empty();
         $('#100pointassignhtml').empty();
         $('#validatedHtml').show();
         var user_list = $("#user_list22");
@@ -89,9 +89,11 @@ function validatedPointsView() {
 
 function generateUserTableRows() {
     jQuery.getJSON(serverURL + '/v1/members/', { instance_id: vsts_instance_id, instance_name: vsts_instance_name, user_email: currentUser }, function (json, textStatus) {
+        $('#loadingtext').empty()
         if (json.length == 0) {
             $('#100pointassignhtml').text("Error: No members loaded!")
         } else {
+            $('#100pointassignhtml').show();
             members = json;
             if (typeof weekPointDistribution != "undefined") {
                 generateAssignStatusTable();
@@ -142,11 +144,11 @@ function submitButton() {
                 if (hasSent()) {
                     var jsonString = createJSONUPDATE();
                     sendPoints("PUT", jsonString);
-                    $('#assignResponseText').html("Success: Your points have been updated");
+                    //$('#assignResponseText').html("Success: Your points have been updated");
                 } else if (!hasSent()) {
                     var jsonString = createJSON();
                     sendPoints("POST", jsonString);
-                    $('#assignResponseText').html("Success: Your points have been added");
+                    //$('#assignResponseText').html("Success: Your points have been added");
                 } else {
                     $('#assignResponseText').html("Error: There was an error processing the request " + this.status);
                 }
@@ -154,7 +156,7 @@ function submitButton() {
             .fail(function () {
                 var jsonString = createJSON();
                 sendPoints("POST", jsonString);
-                $('#assignResponseText').html("Success: Your points have been added");
+                //$('#assignResponseText').html("Success: Your points have been added");
             })
             .always(function () {
                 console.log("complete");
@@ -228,6 +230,18 @@ function createJSONUPDATE() {
 }
 
 //req POST for initial distribution or PUT to update
+// function sendPoints(REQ, jsonString) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.open(REQ, serverURL + "/v1/points/distribution/send/");
+//     xhr.setRequestHeader("Content-Type", "application/json");
+    // var json = {
+    //     "given_points": jsonString,
+    //     "date": firstdayofweek,
+    //     "instance_id": vsts_instance_id
+    // }
+//     xhr.send(JSON.stringify(json));
+// }
+
 function sendPoints(REQ, jsonString) {
     var xhr = new XMLHttpRequest();
     xhr.open(REQ, serverURL + "/v1/points/distribution/send/");
@@ -237,6 +251,14 @@ function sendPoints(REQ, jsonString) {
         "date": firstdayofweek,
         "instance_id": vsts_instance_id
     }
+    xhr.onload = function () {
+        if (this.status == 200) {
+            $('#assignResponseText').html("Success: Your points have been allocated");
+            refreshAssignStatusTable();
+        } else {
+            $('#assignResponseText').html("Error: Please check your point distribution");
+        }
+    };
     xhr.send(JSON.stringify(json));
 }
 
@@ -360,8 +382,8 @@ function generateAssignStatusTable() {
 function refreshAssignStatusTable() {
     jQuery.get(serverURL + '/v1/points/distribution/' + firstdayofweek + '/', { instance_id: vsts_instance_id }, function (data, textStatus, xhr) {
         weekPointDistribution = data;
-
         $('#assignStatusTableHead').empty();
         $('#assignStatusTableBody').empty();
+        generateAssignStatusTable();
     });
 }
