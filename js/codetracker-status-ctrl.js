@@ -345,9 +345,8 @@ function getGPA() {
 	})
 	.done(function(data) {
 		console.log("GPA success");
-		var JSONObj = $.parseJSON(data);
 		// currentGPA =
-		$('#gpaText').text(JSONObj.gpa)
+		$('#gpaText').text(data.gpa)
 	})
 	.fail(function() {
 		console.log("GPA error");
