@@ -60,8 +60,8 @@ function loadCodetrackerStatus() {
     $('#codetracker-components').load("components/codetracker-status.html", function(response, status, xhr){
         repoName = VSS.getWebContext().project.name;
         covRepoName = VSS.getWebContext().project.name;
-        ctCurrentInstanceID = VSS.getWebContext().project.id;
-        ctCurrentInstanceName = VSS.getWebContext().project.name;
+        ctCurrentInstanceID = VSS.getWebContext().account.id;
+        ctCurrentInstanceName = VSS.getWebContext().account.name;
         ctCurrentUserEmail = VSS.getWebContext().user.email;
 
         if (status == "success") {
