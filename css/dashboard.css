@@ -105,8 +105,15 @@ body {
   border-radius: 50%;
 }
 
+/*style for charts*/
+
 div#charts-container {
   padding-top: 30px;
+}
+
+.testcov-chart-wrapper {
+  max-width: 960px;
+  display: block;
 }
 
 /*padding hacks*/
