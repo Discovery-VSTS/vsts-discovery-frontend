@@ -107,7 +107,7 @@ function addChartConfig() {
 	        {
 	            label: "Line of code added over time",
 	            data: addChartData,
-	            fill: false,
+	            fill: true,
 	            lineTension: 0.1,
 	            backgroundColor: lowColour,
 	            borderColor: highColour,
@@ -152,7 +152,7 @@ function testCovChartConfig() {
 	        {
 	            label: "Code coverage changes over time. Repo: "+covRepoName,
 	            data: testCovChartData,
-	            fill: false,
+	            fill: true,
 	            lineTension: 0.1,
 	            backgroundColor: lowColour,
 	            borderColor: highColour,
@@ -197,7 +197,7 @@ function delChartConfig() {
 	        {
 	            label: "Line of code deleted over time",
 	            data: delChartData,
-	            fill: false,
+	            fill: true,
 	            lineTension: 0.1,
 	            backgroundColor: lowColour,
 	            borderColor: highColour,
