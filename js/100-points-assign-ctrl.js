@@ -246,6 +246,7 @@ function createJSONUPDATE() {
 // }
 
 function sendPoints(REQ, jsonString) {
+	$('#assignResponseText').html("Sending points..");
     var xhr = new XMLHttpRequest();
     xhr.open(REQ, serverURL + "/v1/points/distribution/send/");
     xhr.setRequestHeader("Content-Type", "application/json");
