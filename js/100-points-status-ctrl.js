@@ -82,7 +82,7 @@ function load100PtStatus() {
             });
 
             // $('#weekdatepicker').val(moment(today).format("DD/MMM/YYYY"));
-            $('#weekdatepicker').val(moment("20/Mar/2017"));
+            $('#weekdatepicker').val(moment("20/Mar/2017").format("DD/MMM/YYYY"));
 
             //fill members into dropdown list
             fillMembersDropdown();
