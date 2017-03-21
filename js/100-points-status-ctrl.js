@@ -71,7 +71,8 @@ function load100PtStatus() {
                 minView: "month",
                 maxView: "month",
                 todayBtn: "linked",
-                todayHighlight: true
+                todayHighlight: true,
+                autoclose: true
             });
 
             $('#weekdatepicker').datetimepicker()
@@ -82,6 +83,7 @@ function load100PtStatus() {
             });
 
             $('#weekdatepicker').val(moment(today).format("DD/MMM/YYYY"));
+            // $('#weekdatepicker').val(moment("20/Mar/2017").format("DD/MMM/YYYY"));
 
             //fill members into dropdown list
             fillMembersDropdown();
@@ -143,7 +145,7 @@ function memHistoryLineChartConfig() {
             {
                 label: "History of points earned by "+selectedMemberName,
                 data: memHistoryChartData,
-                fill: false,
+                fill: true,
                 lineTension: 0.1,
                 backgroundColor: "rgba(75,192,192,0.4)",
                 borderColor: "rgba(75,192,192,1)",
@@ -166,7 +168,14 @@ function memHistoryLineChartConfig() {
     };
 
     memHistoryChartOptions = {
-
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    stepSize: 10
+                }
+            }]
+        }
     };
 
     memHistoryChart = new Chart(lineChartSelector, {
@@ -241,6 +250,12 @@ function getWeeklyDistribution(date) {
             teamWeekPieChartConfig()
         }else{
             $('#no_valid_data').text('Point distribution has not been validated yet.')
+            // remove current chart and display error message
+            thisWeekPieChart.destroy();
+            // display empty chart
+            chartLabels = ['Unknown'];
+            labelVal = ['100'];
+            teamWeekPieChartConfig()
         }
 
     })
@@ -248,7 +263,8 @@ function getWeeklyDistribution(date) {
         console.log("get weekly distribution error");
         // remove current chart and display error message
         thisWeekPieChart.destroy();
-        $('#lbl_week_data_status').text(errorThrown);
+        // $('#lbl_week_data_status').text(errorThrown);
+        $('#no_valid_data').text('Please select another date.')
         // display empty chart
         chartLabels = ['Unknown'];
         labelVal = ['100'];
@@ -281,6 +297,8 @@ function fillMembersDropdown() {
     })
     .done(function(data) {
         console.log("get team members success");
+        $('#100pt_loading_text').hide();
+        $('#charts-container').show();
         teamMembersObj = data;
         // append items into list
         $.each(data, function(index, val) {
@@ -305,6 +323,9 @@ function fillMembersDropdown() {
     })
     .fail(function() {
         console.log("get team members error");
+        // $('#100pt_loading_text').show();
+        // $('#charts-container').hide();
+        $('#100pt_loading_text').text("There is an error of loading team member data.");
     })
     .always(function() {
         console.log("complete");
@@ -324,6 +345,10 @@ function getHistoryDistribution(email) {
             // 'Access-Control-Allow-Credentials: true'.
             withCredentials: false
         },
+        data: {
+            instance_id: ptInstanceId,
+            filtered: true
+        }
     })
     .done(function(data) {
         // console.log("success");

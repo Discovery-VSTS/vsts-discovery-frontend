@@ -29,33 +29,12 @@ jQuery(document).ready(function() {
     });
     // console.log(is100ptStatusLoaded);
     VSS.ready(function(){
-        // // Global variables retrieved from VSS SDK
-        // webContext = VSS.getWebContext();
-        // console.log(webContext);
-
-        // currentAccount = webContext.account;
-        // console.log(currentAccount);
-        // currentAccountName = currentAccount.name
-        // console.log(currentAccountName)
-        // currentUser = webContext.user;
-        // console.log(currentUser);
-
-        // currentInstanceName = currentAccount.name
-        // console.log("Current Account Name: "+currentInstanceName)
-        // currentInstanceID = currentAccount.id;
-        // console.log("Current Account ID: "+currentInstanceID);
-        // currentUserName = currentUser.name;
-        // console.log("Current User's Name: "+currentUserName);
-        // currentUserEmail = currentUser.email;
-        // console.log("Current User's Email: "+currentUserEmail);
-        // currentProject = webContext.project.name
-        // console.log("Current Project Name: "+currentProject)
-
-        // load100PtStatus();
-
+        load100PtStatus();
     });
-    load100PtStatus();
+    // load100PtStatus();
     VSS.notifyLoadSucceeded();
+    // $('#100pt_loading_text').show();
+    // $('#charts-container').hide();
 
 });
 

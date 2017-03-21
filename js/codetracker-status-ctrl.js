@@ -16,22 +16,22 @@ var ctCurrentUserEmail;
 
 var addChartSelector;
 var addChartConfigObj;
-var addChartLabels = [];
-var addChartData = [];
+var addChartLabels;
+var addChartData;
 var addChartOptions;
 var addChart;
 
 var testCovChartSelector;
 var testCovChartConfigObj;
-var testCovChartLabels = [];
-var testCovChartData = [];
+var testCovChartLabels;
+var testCovChartData;
 var testCovChartOptions;
 var testCovChart;
 
 var delChartSelector;
 var delChartConfigObj;
-var delChartLabels = [];
-var delChartData = [];
+var delChartLabels;
+var delChartData;
 var delChartOptions;
 var delChart;
 
@@ -84,9 +84,9 @@ function loadCodetrackerStatus() {
             getGPA()
 
             // configuration functions for each chart
-            addChartConfig();
-            testCovChartConfig();
-            delChartConfig();
+            // addChartConfig();
+            // delChartConfig();
+            // testCovChartConfig();
             // gpaChartConfig();
 
         }
@@ -107,7 +107,7 @@ function addChartConfig() {
 	        {
 	            label: "Line of code added over time",
 	            data: addChartData,
-	            fill: false,
+	            fill: true,
 	            lineTension: 0.1,
 	            backgroundColor: lowColour,
 	            borderColor: highColour,
@@ -130,7 +130,14 @@ function addChartConfig() {
 	};
 
 	addChartOptions = {
-
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    stepSize: 10
+                }
+            }]
+        }
 	};
 
 	addChart = new Chart(addChartSelector, {
@@ -139,6 +146,60 @@ function addChartConfig() {
 	    options: addChartOptions
 	});
 }
+
+
+function delChartConfig() {
+    // generage random colours
+    var colourPair = randomTwoColour();
+    var lowColour = colourPair.low;
+    var highColour = colourPair.high;
+
+    delChartConfigObj = {
+        labels: delChartLabels,
+        datasets: [
+            {
+                label: "Line of code deleted over time",
+                data: delChartData,
+                fill: true,
+                lineTension: 0.1,
+                backgroundColor: lowColour,
+                borderColor: highColour,
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: highColour,
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: highColour,
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                spanGaps: false,
+            }
+        ]
+    };
+
+    delChartOptions = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    stepSize: 10
+                }
+            }]
+        }
+    };
+
+    delChart = new Chart(delChartSelector, {
+        type: 'line',
+        data: delChartConfigObj,
+        options: delChartOptions
+    });
+}
+
 
 function testCovChartConfig() {
 	// generage random colours
@@ -152,7 +213,7 @@ function testCovChartConfig() {
 	        {
 	            label: "Code coverage changes over time. Repo: "+covRepoName,
 	            data: testCovChartData,
-	            fill: false,
+	            fill: true,
 	            lineTension: 0.1,
 	            backgroundColor: lowColour,
 	            borderColor: highColour,
@@ -175,58 +236,21 @@ function testCovChartConfig() {
 	};
 
 	testCovChartOptions = {
-
+        scales: {
+            yAxes: [{
+                ticks: {
+                    max: 100,
+                    min: 0,
+                    stepSize: 10
+                }
+            }]
+        }
 	};
 
 	testCovChart = new Chart(testCovChartSelector, {
 	    type: 'line',
 	    data: testCovChartConfigObj,
 	    options: testCovChartOptions
-	});
-}
-
-function delChartConfig() {
-	// generage random colours
-	var colourPair = randomTwoColour();
-	var lowColour = colourPair.low;
-	var highColour = colourPair.high;
-
-	delChartConfigObj = {
-	    labels: delChartLabels,
-	    datasets: [
-	        {
-	            label: "Line of code deleted over time",
-	            data: delChartData,
-	            fill: false,
-	            lineTension: 0.1,
-	            backgroundColor: lowColour,
-	            borderColor: highColour,
-	            borderCapStyle: 'butt',
-	            borderDash: [],
-	            borderDashOffset: 0.0,
-	            borderJoinStyle: 'miter',
-	            pointBorderColor: highColour,
-	            pointBackgroundColor: "#fff",
-	            pointBorderWidth: 1,
-	            pointHoverRadius: 5,
-	            pointHoverBackgroundColor: highColour,
-	            pointHoverBorderColor: "rgba(220,220,220,1)",
-	            pointHoverBorderWidth: 2,
-	            pointRadius: 1,
-	            pointHitRadius: 10,
-	            spanGaps: false,
-	        }
-	    ]
-	};
-
-	delChartOptions = {
-
-	};
-
-	delChart = new Chart(delChartSelector, {
-	    type: 'line',
-	    data: delChartConfigObj,
-	    options: delChartOptions
 	});
 }
 
@@ -278,6 +302,13 @@ function getCommitStats(repoName) {
 	})
 	.done(function(data) {
 		console.log("commit stats success");
+        $('#ct_loading_text').hide();
+        $('#codetracker_container').show();
+
+        addChartLabels = [];
+        delChartLabels = [];
+        addChartData = [];
+        delChartData = [];
 		$.each(data, function(epoch, obj) {
 			// convert epoch time to human readable date
 			var convertDate = moment(epoch*1000).format("DD/MMM/YYYY");
@@ -294,9 +325,18 @@ function getCommitStats(repoName) {
 			addChartData.push(addLoc);
 			delChartData.push(delLoc);
 		});
+        console.log("Printing chart labels...")
+        console.log(addChartLabels);
+        console.log(delChartLabels);
+
+        // display chart
+        addChartConfig();
+        delChartConfig();
 	})
 	.fail(function() {
 		console.log("error");
+        $('#ct_loading_text').text("There is a problem of loading commit statistics.");
+        // $('#codetracker_container').show();
 	})
 	.always(function() {
 		console.log("complete");
@@ -318,6 +358,8 @@ function getTestCoverage() {
 	.done(function(data) {
 		console.log("test coverage success");
 		console.log(data)
+        testCovChartLabels = [];
+        testCovChartData = [];
 		$.each(data, function(index, obj) {
 			if (index == "coverage-history") {
 				$.each(obj.data, function(index, obj) {
@@ -328,9 +370,14 @@ function getTestCoverage() {
 			}
 		});
 		console.log(testCovChartLabels)
+
+        // display chart
+        testCovChartConfig();
 	})
 	.fail(function() {
 		console.log("test coverage error");
+        // display empty chart
+        testCovChartConfig();
 	})
 	.always(function() {
 		console.log("complete");
@@ -352,8 +399,27 @@ function getGPA() {
 	})
 	.done(function(data) {
 		console.log("GPA success");
-		// currentGPA =
-		$('#gpaText').text(data.gpa)
+        var gpa = parseInt(data.gpa);
+        console.log(data.gpa)
+        if (data.gpa=="-1" || data.gpa==null) {
+            $('#gpaText').text("N/A")
+        }else{
+            $('#gpaText').text(data.gpa)
+        }
+        // text colour
+        if(gpa>=0 && gpa<=1){
+            $('#gpaText').css('color', '#D51B47');
+        }
+        if(gpa>1 && gpa<=2){
+            $('#gpaText').css('color', '#EE7E1A');
+        }
+        if (gpa>2 && gpa<=3) {
+            $('#gpaText').css('color', '#8DD51B');
+        }
+        if (gpa>3) {
+            $('#gpaText').css('color', '##4CD21D');
+        }
+
 	})
 	.fail(function() {
 		console.log("GPA error");

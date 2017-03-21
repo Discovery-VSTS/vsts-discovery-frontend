@@ -105,8 +105,22 @@ body {
   border-radius: 50%;
 }
 
+/*style for charts*/
+
 div#charts-container {
   padding-top: 30px;
+}
+
+.testcov-chart-wrapper {
+  max-width: 960px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.testcov-chart-wrapper canvas {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*padding hacks*/
@@ -129,4 +143,8 @@ div#charts-container {
 .padding-lg {
    padding: 10px !important;
    margin: 10px !important;
+}
+
+#no_valid_data {
+  text-align: center;
 }

@@ -9,8 +9,8 @@ var instance_id;
 
 function loadSetting() {
     $('#setting-components').load('components/setting.html', function(response, status, xhr) {
-        user_email = currentUserEmail;
-        instance_id = currentInstanceID;
+        user_email = VSS.getWebContext().user.email;
+        instance_id = VSS.getWebContext().account.id;
 
         getTokens();
         $('#tokenSubmitButton').click(function(event) {

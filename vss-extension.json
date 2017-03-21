@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vsts-discovery-extension",
 
-    "version": "0.1.8.17",
+    "version": "0.1.9.19",
 
     "name": "Descovery extension",
     "description": "A Visual Studio Services extension for the Discovery phase",
