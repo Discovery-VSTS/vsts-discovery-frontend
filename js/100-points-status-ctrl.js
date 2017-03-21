@@ -282,6 +282,8 @@ function fillMembersDropdown() {
     })
     .done(function(data) {
         console.log("get team members success");
+        $('#100pt_loading_text').hide();
+        $('#charts-container').show();
         teamMembersObj = data;
         // append items into list
         $.each(data, function(index, val) {
@@ -306,6 +308,9 @@ function fillMembersDropdown() {
     })
     .fail(function() {
         console.log("get team members error");
+        $('#100pt_loading_text').show();
+        $('#charts-container').hide();
+        $('#100pt_loading_text').text("There is an error of loading team member data.");
     })
     .always(function() {
         console.log("complete");
