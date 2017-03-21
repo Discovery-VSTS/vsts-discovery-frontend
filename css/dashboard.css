@@ -144,3 +144,7 @@ div#charts-container {
    padding: 10px !important;
    margin: 10px !important;
 }
+
+#no_valid_data {
+  text-align: center;
+}

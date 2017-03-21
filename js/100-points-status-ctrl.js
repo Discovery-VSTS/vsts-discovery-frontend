@@ -243,6 +243,12 @@ function getWeeklyDistribution(date) {
             teamWeekPieChartConfig()
         }else{
             $('#no_valid_data').text('Point distribution has not been validated yet.')
+            // remove current chart and display error message
+            thisWeekPieChart.destroy();
+            // display empty chart
+            chartLabels = ['Unknown'];
+            labelVal = ['100'];
+            teamWeekPieChartConfig()
         }
 
     })
@@ -250,7 +256,8 @@ function getWeeklyDistribution(date) {
         console.log("get weekly distribution error");
         // remove current chart and display error message
         thisWeekPieChart.destroy();
-        $('#lbl_week_data_status').text(errorThrown);
+        // $('#lbl_week_data_status').text(errorThrown);
+        $('#no_valid_data').text('Please select another date.')
         // display empty chart
         chartLabels = ['Unknown'];
         labelVal = ['100'];
@@ -333,7 +340,7 @@ function getHistoryDistribution(email) {
         },
         data: {
             instance_id: ptInstanceId,
-            filter: true
+            filtered: true
         }
     })
     .done(function(data) {
