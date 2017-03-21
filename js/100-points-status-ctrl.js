@@ -71,7 +71,8 @@ function load100PtStatus() {
                 minView: "month",
                 maxView: "month",
                 todayBtn: "linked",
-                todayHighlight: true
+                todayHighlight: true,
+                autoclose: true
             });
 
             $('#weekdatepicker').datetimepicker()
@@ -81,8 +82,8 @@ function load100PtStatus() {
                 getWeeklyDistribution(selectedDate);
             });
 
-            // $('#weekdatepicker').val(moment(today).format("DD/MMM/YYYY"));
-            $('#weekdatepicker').val(moment("20/Mar/2017").format("DD/MMM/YYYY"));
+            $('#weekdatepicker').val(moment(today).format("DD/MMM/YYYY"));
+            // $('#weekdatepicker').val(moment("20/Mar/2017").format("DD/MMM/YYYY"));
 
             //fill members into dropdown list
             fillMembersDropdown();
