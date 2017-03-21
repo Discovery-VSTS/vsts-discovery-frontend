@@ -267,6 +267,7 @@ function sendPoints(REQ, jsonString) {
 }
 
 function validatePoints() {
+	$('#assignResponseText').html("Validating points..");
     var xhr = new XMLHttpRequest();
     xhr.open("PUT", serverURL + "/v1/points/distribution/validate/");
     xhr.setRequestHeader("Content-Type", "application/json");
