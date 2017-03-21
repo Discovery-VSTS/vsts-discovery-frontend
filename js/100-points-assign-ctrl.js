@@ -246,6 +246,7 @@ function createJSONUPDATE() {
 // }
 
 function sendPoints(REQ, jsonString) {
+	$('#assignResponseText').html("Sending points..");
     var xhr = new XMLHttpRequest();
     xhr.open(REQ, serverURL + "/v1/points/distribution/send/");
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -266,6 +267,7 @@ function sendPoints(REQ, jsonString) {
 }
 
 function validatePoints() {
+	$('#assignResponseText').html("Validating points..");
     var xhr = new XMLHttpRequest();
     xhr.open("PUT", serverURL + "/v1/points/distribution/validate/");
     xhr.setRequestHeader("Content-Type", "application/json");
