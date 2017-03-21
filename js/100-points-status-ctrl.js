@@ -81,7 +81,8 @@ function load100PtStatus() {
                 getWeeklyDistribution(selectedDate);
             });
 
-            $('#weekdatepicker').val(moment(today).format("DD/MMM/YYYY"));
+            // $('#weekdatepicker').val(moment(today).format("DD/MMM/YYYY"));
+            $('#weekdatepicker').val();
 
             //fill members into dropdown list
             fillMembersDropdown();
@@ -325,7 +326,8 @@ function getHistoryDistribution(email) {
             withCredentials: false
         },
         data: {
-            instance_id: ptInstanceId
+            instance_id: ptInstanceId,
+            filter: true
         }
     })
     .done(function(data) {
