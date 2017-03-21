@@ -118,6 +118,11 @@ div#charts-container {
   margin-right: auto;
 }
 
+.testcov-chart-wrapper canvas {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /*padding hacks*/
 
 .padding-0 {
