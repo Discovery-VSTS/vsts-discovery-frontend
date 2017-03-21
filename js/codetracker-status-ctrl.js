@@ -239,6 +239,7 @@ function testCovChartConfig() {
         scales: {
             yAxes: [{
                 ticks: {
+                    max: 100,
                     min: 0,
                     stepSize: 10
                 }
