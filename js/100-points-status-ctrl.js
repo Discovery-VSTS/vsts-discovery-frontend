@@ -168,7 +168,14 @@ function memHistoryLineChartConfig() {
     };
 
     memHistoryChartOptions = {
-
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    stepSize: 10
+                }
+            }]
+        }
     };
 
     memHistoryChart = new Chart(lineChartSelector, {
