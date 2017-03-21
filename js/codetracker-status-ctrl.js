@@ -372,7 +372,7 @@ function getGPA() {
 		console.log("GPA success");
         var gpa = parseInt(data.gpa);
         console.log(data.gpa)
-        if (data.gpa=="-1" || data.gpa=="null") {
+        if (data.gpa=="-1" || data.gpa==null) {
             $('#gpaText').text("N/A")
         }else{
             $('#gpaText').text(data.gpa)
