@@ -82,7 +82,7 @@ function load100PtStatus() {
             });
 
             // $('#weekdatepicker').val(moment(today).format("DD/MMM/YYYY"));
-            $('#weekdatepicker').val();
+            $('#weekdatepicker').val(moment("20/Mar/2017"));
 
             //fill members into dropdown list
             fillMembersDropdown();
@@ -308,8 +308,8 @@ function fillMembersDropdown() {
     })
     .fail(function() {
         console.log("get team members error");
-        $('#100pt_loading_text').show();
-        $('#charts-container').hide();
+        // $('#100pt_loading_text').show();
+        // $('#charts-container').hide();
         $('#100pt_loading_text').text("There is an error of loading team member data.");
     })
     .always(function() {

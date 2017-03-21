@@ -33,8 +33,8 @@ jQuery(document).ready(function() {
     });
     // load100PtStatus();
     VSS.notifyLoadSucceeded();
-    $('#100pt_loading_text').show();
-    $('#charts-container').hide();
+    // $('#100pt_loading_text').show();
+    // $('#charts-container').hide();
 
 });
 

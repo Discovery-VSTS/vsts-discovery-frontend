@@ -278,6 +278,9 @@ function getCommitStats(repoName) {
 	})
 	.done(function(data) {
 		console.log("commit stats success");
+        $('#100pt_loading_text').hide();
+        $('#codetracker_container').show();
+
         addChartLabels = [];
         delChartLabels = [];
         addChartData = [];
@@ -308,6 +311,8 @@ function getCommitStats(repoName) {
 	})
 	.fail(function() {
 		console.log("error");
+        $('#100pt_loading_text').text("There is a problem of loading commit statistics.");
+        // $('#codetracker_container').show();
 	})
 	.always(function() {
 		console.log("complete");
